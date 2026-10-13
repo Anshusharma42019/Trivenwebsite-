@@ -15,9 +15,11 @@ import {
   ExternalLink,
   UploadCloud,
   Image as ImageIcon,
-  Trash2,
   Star,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  Camera,
 } from 'lucide-react';
 
 export default function AdminProductsPage() {
@@ -214,6 +216,20 @@ export default function AdminProductsPage() {
       const target = prev.images[indexToPrimary];
       const others = prev.images.filter((_, idx) => idx !== indexToPrimary);
       const updated = [target, ...others];
+      return {
+        ...prev,
+        images: updated,
+        imagesText: updated.join('\n'),
+      };
+    });
+  };
+
+  const handleMoveImage = (fromIdx, toIdx) => {
+    if (toIdx < 0 || toIdx >= formData.images.length) return;
+    setFormData((prev) => {
+      const updated = [...prev.images];
+      const item = updated.splice(fromIdx, 1)[0];
+      updated.splice(toIdx, 0, item);
       return {
         ...prev,
         images: updated,
@@ -683,69 +699,127 @@ export default function AdminProductsPage() {
                     </div>
                   )}
 
-                  {/* Uploaded Images Gallery Grid */}
+                  {/* Uploaded Images Gallery Grid (Amazon Multiple Angle Photos) */}
                   {formData.images && formData.images.length > 0 && (
-                    <div className="space-y-2 pt-1">
-                      <div className="text-xs font-semibold text-stone-600 flex items-center justify-between">
-                        <span>Uploaded Photos ({formData.images.length})</span>
-                        <span className="text-[11px] text-stone-400">Drag or click 'Set as Primary' to reorder</span>
+                    <div className="space-y-2.5 pt-1">
+                      <div className="text-xs font-semibold text-stone-700 flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-stone-800">
+                          <Camera className="w-4 h-4 text-[#1B4332]" />
+                          <span>Product Angle Photos ({formData.images.length})</span>
+                        </span>
+                        <span className="text-[11px] text-stone-500">Angle #1 is used as Primary Amazon Hero view</span>
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        {formData.images.map((imgUrl, idx) => (
-                          <div
-                            key={idx}
-                            className={`relative group rounded-xl overflow-hidden border bg-white shadow-xs ${
-                              idx === 0
-                                ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/30'
-                                : 'border-stone-200'
-                            }`}
-                          >
-                            <img
-                              src={imgUrl}
-                              alt={`Product upload ${idx + 1}`}
-                              className="w-full h-28 object-cover object-center"
-                            />
-                            {/* Primary Badge */}
-                            {idx === 0 ? (
-                              <div className="absolute top-1.5 left-1.5 bg-[#1B4332] text-[#D4AF37] text-[10px] font-bold px-2 py-0.5 rounded shadow-xs flex items-center gap-1">
-                                <Star className="w-3 h-3 fill-[#D4AF37]" />
-                                <span>Primary Hero</span>
-                              </div>
-                            ) : (
-                              <div className="absolute top-1.5 left-1.5 bg-black/60 text-white text-[10px] font-medium px-1.5 py-0.5 rounded">
-                                #{idx + 1}
-                              </div>
-                            )}
 
-                            {/* Hover Actions */}
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-2">
-                              {idx !== 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {formData.images.map((imgUrl, idx) => {
+                          const angleName =
+                            idx === 0
+                              ? 'Main Hero (Front)'
+                              : idx === 1
+                              ? 'Back View'
+                              : idx === 2
+                              ? 'Ingredients / Label'
+                              : idx === 3
+                              ? 'Cap / Texture'
+                              : `Angle ${idx + 1}`;
+
+                          return (
+                            <div
+                              key={idx}
+                              className={`relative rounded-xl overflow-hidden border bg-white shadow-xs flex flex-col justify-between ${
+                                idx === 0
+                                  ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/40'
+                                  : 'border-stone-200'
+                              }`}
+                            >
+                              <div className="relative aspect-square bg-stone-100 overflow-hidden">
+                                <img
+                                  src={imgUrl}
+                                  alt={`Product angle ${idx + 1}`}
+                                  className="w-full h-full object-cover object-center"
+                                />
+
+                                {/* Angle Tag Badge */}
+                                <div className="absolute top-1.5 left-1.5">
+                                  {idx === 0 ? (
+                                    <span className="bg-[#1B4332] text-[#D4AF37] text-[10px] font-bold px-2 py-0.5 rounded shadow-xs flex items-center gap-1">
+                                      <Star className="w-3 h-3 fill-[#D4AF37]" />
+                                      <span>#1 Main Hero</span>
+                                    </span>
+                                  ) : (
+                                    <span className="bg-stone-900/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
+                                      #{idx + 1} {angleName}
+                                    </span>
+                                  )}
+                                </div>
+
+                                {/* Delete Button */}
                                 <button
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleSetPrimaryImage(idx);
+                                    handleRemoveImage(idx);
                                   }}
-                                  title="Make Primary Image"
-                                  className="bg-white/90 hover:bg-white text-stone-800 text-[10px] font-semibold px-2 py-1 rounded shadow-xs"
+                                  title="Delete this angle photo"
+                                  className="absolute top-1.5 right-1.5 bg-red-600/90 hover:bg-red-700 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-xs transition-colors"
                                 >
-                                  Make Primary
+                                  ✕
                                 </button>
-                              )}
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleRemoveImage(idx);
-                                }}
-                                title="Delete Image"
-                                className="bg-red-600 hover:bg-red-700 text-white p-1.5 rounded shadow-xs"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
+                              </div>
+
+                              {/* Card Actions Footer */}
+                              <div className="p-2 bg-stone-50 border-t border-stone-100 flex items-center justify-between text-[11px]">
+                                {idx !== 0 ? (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleSetPrimaryImage(idx)}
+                                    className="text-[#1B4332] hover:underline font-bold"
+                                  >
+                                    Set as #1 Main
+                                  </button>
+                                ) : (
+                                  <span className="text-[#B8860B] font-bold">★ Active Hero</span>
+                                )}
+
+                                <div className="flex items-center gap-1">
+                                  <button
+                                    type="button"
+                                    disabled={idx === 0}
+                                    onClick={() => handleMoveImage(idx, idx - 1)}
+                                    title="Move left"
+                                    className="p-1 rounded hover:bg-stone-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                                  >
+                                    <ChevronLeft className="w-3.5 h-3.5" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    disabled={idx === formData.images.length - 1}
+                                    onClick={() => handleMoveImage(idx, idx + 1)}
+                                    title="Move right"
+                                    className="p-1 rounded hover:bg-stone-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                                  >
+                                    <ChevronRight className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </div>
                             </div>
+                          );
+                        })}
+
+                        {/* Add More Angle Photo Card */}
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="aspect-square rounded-xl border-2 border-dashed border-stone-300 hover:border-[#1B4332] bg-stone-50/50 hover:bg-emerald-50/40 transition-colors flex flex-col items-center justify-center p-3 text-center group cursor-pointer"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-white border border-stone-200 group-hover:border-[#1B4332] flex items-center justify-center text-[#1B4332] mb-1.5 shadow-2xs">
+                            <Plus className="w-5 h-5" />
                           </div>
-                        ))}
+                          <span className="text-xs font-bold text-stone-700 group-hover:text-[#1B4332]">
+                            Add Another Angle
+                          </span>
+                          <span className="text-[10px] text-stone-400 mt-0.5">Click to browse files</span>
+                        </button>
                       </div>
                     </div>
                   )}
