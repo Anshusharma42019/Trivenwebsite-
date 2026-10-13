@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
@@ -27,6 +27,16 @@ import {
   HelpCircle,
   ThumbsUp,
   CheckCircle2,
+  ZoomIn,
+  Maximize2,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Share2,
+  Play,
+  Award,
+  Banknote,
+  PackageCheck,
 } from 'lucide-react';
 import ProductImage from '@/components/store/ProductImage';
 
@@ -36,9 +46,103 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
   const { user } = useAuth();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
-  const [activeImage, setActiveImage] = useState(
-    product.images && product.images[0] ? product.images[0] : ''
-  );
+  const productImages = useMemo(() => {
+    let list = [];
+    if (Array.isArray(product?.images) && product.images.length > 0) {
+      list = product.images.filter(Boolean);
+    } else if (product?.image) {
+      list = [product.image];
+    }
+
+    // If only 1 image exists, automatically derive multi-angle perspectives so the Amazon left rail always has angles to show
+    if (list.length === 1 && typeof list[0] === 'string') {
+      const base = list[0];
+      if (base.includes('cloudinary.com')) {
+        return [
+          base,
+          base.replace('/upload/', '/upload/c_crop,w_0.6,h_1.0,g_west/'),
+          base.replace('/upload/', '/upload/c_crop,w_0.6,h_1.0,g_east/'),
+          base.replace('/upload/', '/upload/c_crop,w_0.5,h_0.6,g_center/'),
+          base.replace('/upload/', '/upload/c_crop,w_0.8,h_0.5,g_north/'),
+        ];
+      }
+      return [base];
+    }
+    return list;
+  }, [product?.images, product?.image]);
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const activeImage = productImages[activeImageIndex] || '';
+
+  // Amazon rollover zoom & fullscreen lightbox states
+  const [isZooming, setIsZooming] = useState(false);
+  const [zoomCoords, setZoomCoords] = useState({ x: 50, y: 50 });
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
+
+  const handleShare = async () => {
+    if (typeof window === 'undefined') return;
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: product.name,
+          text: `Check out ${product.name} on Triven Pure Heritage`,
+          url: url,
+        });
+        return;
+      } catch (err) {
+        // Fallback to clipboard
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2500);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const formatPricePerUnit = (prod) => {
+    if (!prod || !prod.sellingPrice) return '₹19.80 /100 g';
+    const net = String(prod.netQuantity || '');
+    const numMatch = net.match(/\d+/);
+    if (numMatch && Number(numMatch[0]) > 0) {
+      const grams = Number(numMatch[0]);
+      const per100g = ((prod.sellingPrice / grams) * 100).toFixed(2);
+      return `₹${per100g} /100 g`;
+    }
+    return `₹${(prod.sellingPrice / 1.5).toFixed(2)} /100 g`;
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+    setZoomCoords({ x, y });
+  };
+
+  const handlePrevImage = (e) => {
+    if (e) e.stopPropagation();
+    setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : Math.max(0, productImages.length - 1)));
+  };
+
+  const handleNextImage = (e) => {
+    if (e) e.stopPropagation();
+    setActiveImageIndex((prev) => (prev < productImages.length - 1 ? prev + 1 : 0));
+  };
+
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setIsLightboxOpen(false);
+      if (e.key === 'ArrowLeft') handlePrevImage();
+      if (e.key === 'ArrowRight') handleNextImage();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLightboxOpen, productImages.length]);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [bundleChecked, setBundleChecked] = useState({ item1: true, item2: true, item3: true });
@@ -174,132 +278,321 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
       <div className="bg-white rounded-xl border border-stone-200 p-3.5 sm:p-6 lg:p-8 shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           
-          {/* COLUMN 1: Image Gallery (5 Cols) */}
-          <div className="lg:col-span-5 flex flex-col-reverse sm:flex-row gap-3 sm:gap-4">
-            {/* Vertical/Horizontal Thumbnail Track */}
-            {product.images && product.images.length > 1 && (
-              <div className="flex sm:flex-col gap-2 shrink-0 overflow-x-auto touch-scroll sm:overflow-visible pb-1 sm:pb-0">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setActiveImage(img)}
-                    className={`w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg overflow-hidden border-2 transition-all p-0.5 bg-stone-50 min-h-[44px] min-w-[44px] ${
-                      activeImage === img
-                        ? 'border-[#1B4332] shadow-xs'
-                        : 'border-stone-200 hover:border-stone-400'
-                    }`}
-                    aria-label={`View product image ${idx + 1}`}
-                  >
-                    <img src={img} alt="" className="w-full h-full object-cover rounded-md" />
-                  </button>
-                ))}
+          {/* COLUMN 1: Image Gallery (5 Cols) - Exact Amazon Reference Layout */}
+          <div className="lg:col-span-5 flex flex-col sm:flex-row gap-2.5 sm:gap-3.5 items-start">
+            {/* Amazon Left Rail: Vertical Thumbnails (as in reference screenshot) */}
+            {productImages.length > 0 && (
+              <div className="order-2 sm:order-1 flex sm:flex-col gap-2 shrink-0 overflow-x-auto sm:overflow-y-auto max-h-[520px] touch-scroll pb-1 sm:pb-0 scrollbar-thin">
+                {productImages.map((img, idx) => {
+                  const isActive = activeImageIndex === idx;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onMouseEnter={() => setActiveImageIndex(idx)}
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`relative w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-[4px] overflow-hidden p-0.5 bg-white min-h-[40px] min-w-[40px] cursor-pointer transition-all ${
+                        isActive
+                          ? 'border border-[#e77600] ring-1 ring-[#e77600] shadow-[0_0_3px_2px_rgba(228,121,17,0.45)]'
+                          : 'border border-stone-300 hover:border-stone-600 hover:shadow-xs'
+                      }`}
+                      aria-label={`View angle ${idx + 1}`}
+                    >
+                      <img
+                        src={img}
+                        alt={`Angle ${idx + 1}`}
+                        className="w-full h-full object-contain sm:object-cover rounded-[2px]"
+                      />
+                    </button>
+                  );
+                })}
+
+                {/* Optional Simulated Video Angle Tile (matching Amazon's 2 VIDEOS tile in screenshot) */}
+                <button
+                  type="button"
+                  onClick={() => setIsLightboxOpen(true)}
+                  className="relative w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-[4px] overflow-hidden border border-stone-300 p-0.5 bg-stone-900 text-white min-h-[40px] min-w-[40px] cursor-pointer hover:border-stone-600 flex flex-col items-center justify-center transition-all group"
+                  title="Watch Product Video / 360 View"
+                >
+                  <div className="w-5 h-5 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center">
+                    <Play className="w-2.5 h-2.5 fill-white text-white translate-x-0.5" />
+                  </div>
+                  <span className="text-[7px] font-bold tracking-tight text-stone-200 mt-0.5">VIDEO</span>
+                </button>
               </div>
             )}
 
-            {/* Large Primary Image with Zoom Look */}
-            <div className="flex-1 aspect-square rounded-xl bg-stone-50 border border-stone-200 overflow-hidden relative group max-h-[480px]">
-              <ProductImage
-                src={activeImage}
-                alt={product.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute top-3 left-3 bg-[#D4AF37] text-[#1B4332] text-xs font-bold px-2 py-0.5 rounded shadow-xs">
-                {discountPercent}% OFF
+            {/* Amazon Main Stage Image with Rollover Zoom & Fullscreen Lightbox */}
+            <div className="order-1 sm:order-2 flex-1 w-full flex flex-col">
+              <div
+                className="relative aspect-square w-full rounded-lg bg-white border border-stone-200 overflow-hidden group select-none cursor-crosshair shadow-2xs"
+                onMouseEnter={() => setIsZooming(true)}
+                onMouseLeave={() => setIsZooming(false)}
+                onMouseMove={handleMouseMove}
+                onClick={() => setIsLightboxOpen(true)}
+              >
+                {/* Zoomable Image Container */}
+                <div
+                  className="w-full h-full flex items-center justify-center transition-transform"
+                  style={{
+                    transformOrigin: `${zoomCoords.x}% ${zoomCoords.y}%`,
+                    transform: isZooming ? 'scale(2.2)' : 'scale(1)',
+                    transition: isZooming ? 'none' : 'transform 0.25s ease-out',
+                  }}
+                >
+                  <ProductImage
+                    src={activeImage}
+                    alt={product.name}
+                    className="w-full h-full object-contain pointer-events-none"
+                  />
+                </div>
+
+                {/* Top Right: Amazon Share Button */}
+                <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5">
+                  {shareCopied && (
+                    <span className="bg-stone-900 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow">
+                      Link copied!
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleShare();
+                    }}
+                    className="w-8 h-8 rounded-full bg-white/95 hover:bg-white border border-stone-200 shadow-xs flex items-center justify-center text-stone-700 hover:text-stone-900 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                    title="Share this product"
+                    aria-label="Share product"
+                  >
+                    <Share2 className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Previous / Next Angle Arrow Overlays */}
+                {productImages.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={handlePrevImage}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:scale-105 active:scale-95 cursor-pointer"
+                      aria-label="Previous angle"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextImage}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:scale-105 active:scale-95 cursor-pointer"
+                      aria-label="Next angle"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
+
+                {/* Amazon "Roll over to zoom" hint */}
+                <div
+                  className={`absolute bottom-2.5 right-2.5 bg-stone-900/80 backdrop-blur-xs text-white text-[10px] font-medium px-2 py-1 rounded shadow-xs flex items-center gap-1 pointer-events-none transition-opacity duration-200 z-10 ${
+                    isZooming ? 'opacity-0' : 'opacity-85'
+                  }`}
+                >
+                  <ZoomIn className="w-3 h-3 text-[#FFA41C]" />
+                  <span className="hidden sm:inline">Roll over image to zoom in</span>
+                  <span className="sm:hidden">Tap to enlarge</span>
+                </div>
               </div>
-              <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-xs text-stone-700 text-[11px] sm:text-xs font-semibold px-2 sm:px-2.5 py-1 rounded-md border border-stone-200 shadow-xs flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
-                <span className="truncate">AYUSH Licensed Formulation</span>
-              </div>
+
+              {/* Centered Amazon Link directly below image: "Click to see full view" */}
+              <button
+                type="button"
+                onClick={() => setIsLightboxOpen(true)}
+                className="w-full text-center mt-2.5 text-xs text-[#007185] hover:text-[#C7511F] hover:underline cursor-pointer font-normal block transition-colors"
+              >
+                Click to see full view
+              </button>
             </div>
           </div>
 
-          {/* COLUMN 2: Center Details & Offers (4 Cols) */}
-          <div className="lg:col-span-4 space-y-4">
-            {/* Brand Link */}
+          {/* COLUMN 2: Center Details & Offers (4 Cols) - Exact Amazon Reference */}
+          <div className="lg:col-span-4 space-y-3.5">
+            {/* Title & Brand Store Link */}
             <div>
+              <h1 className="text-lg sm:text-2xl font-medium text-stone-900 leading-snug">
+                {product.name} ({product.netQuantity || 'Standard Pack'})
+              </h1>
               <Link
                 href="/products"
-                className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline"
+                className="text-xs text-[#007185] hover:text-[#C7511F] hover:underline font-normal inline-block mt-1"
               >
                 Visit the {product.brand?.name || 'Triven Pure Heritage'} Store
               </Link>
-              <h1 className="font-serif font-bold text-stone-900 text-lg sm:text-2xl leading-snug mt-1">
-                {product.name} ({product.netQuantity || 'Standard Pack'})
-              </h1>
             </div>
 
-            {/* Ratings & Amazon Social Proof */}
-            <div className="flex items-center gap-2 text-xs">
+            {/* Ratings & Social Proof */}
+            <div className="flex items-center gap-2 text-xs flex-wrap">
               <div className="flex items-center text-amber-500 font-semibold gap-1">
-                <span>{product.rating || 4.9}</span>
+                <span className="text-stone-800 font-medium">{product.rating || 4.8}</span>
                 <div className="flex">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="w-3.5 h-3.5 fill-current" />
                   ))}
                 </div>
+                <ChevronDown className="w-3 h-3 text-stone-500" />
               </div>
               <span className="text-stone-300">|</span>
-              <span className="text-[#1B4332] font-medium hover:underline cursor-pointer">
-                {product.numReviews || 24} ratings
+              <span className="text-[#007185] hover:text-[#C7511F] hover:underline cursor-pointer">
+                {(product.numReviews || 24).toLocaleString()} ratings
               </span>
-              <span className="text-stone-300">|</span>
-              <span className="text-stone-500">8 answered questions</span>
             </div>
 
             {/* Amazon's Choice Tag */}
             <div className="flex items-center gap-2">
-              <div className="bg-stone-900 text-white text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
-                <span>Overall Pick</span>
+              <div className="bg-[#232F3E] text-white text-[11px] font-bold px-2 py-0.5 rounded-[2px] flex items-center gap-1">
+                <span>Amazon's</span>
+                <span className="text-[#FFA41C]">Choice</span>
               </div>
-              <span className="text-xs text-stone-600 font-medium">in Ayurvedic Rasayanas</span>
+              <span className="text-xs text-stone-600">in Ayurvedic Rasayanas</span>
             </div>
 
-            <div className="text-xs text-stone-600">
-              <strong className="text-stone-800">500+ bought</strong> in past month
+            <div className="text-xs text-stone-700">
+              <strong>20K+ bought</strong> in past month
             </div>
 
-            <hr className="border-stone-100" />
+            <hr className="border-stone-200" />
 
-            {/* Price Box */}
+            {/* Mega Festival Deal Badge & Amazon Price Block */}
             <div className="space-y-1">
-              <div className="flex items-baseline gap-2">
-                <span className="text-red-700 font-normal text-2xl font-serif">-{discountPercent}%</span>
-                <span className="text-3xl font-bold text-stone-900">₹{product.sellingPrice}</span>
+              <div className="inline-block bg-[#CC0C39] text-white text-[11px] font-bold px-2 py-0.5 rounded-[2px]">
+                Mega Festival Deal
               </div>
-              <div className="text-xs text-stone-500 flex items-center gap-2">
-                <span>M.R.P.: <span className="line-through">₹{product.mrp}</span></span>
-                <span>• Inclusive of all taxes</span>
+
+              <div className="flex items-baseline gap-2 pt-0.5">
+                <span className="text-[#CC0C39] font-light text-3xl font-sans">-{discountPercent}%</span>
+                <span className="text-3xl font-medium text-stone-900">₹{product.sellingPrice}</span>
+                <span className="text-xs text-stone-500 font-normal">
+                  ({formatPricePerUnit(product)})
+                </span>
               </div>
-              <div className="text-xs text-stone-700 pt-0.5">
-                <span>EMI starts at ₹166. No Cost EMI available</span>
+
+              <div className="text-xs text-stone-500">
+                M.R.P.: <span className="line-through">₹{product.mrp}</span>
+              </div>
+
+              <div className="flex items-center gap-2 pt-0.5">
+                <span className="inline-flex items-center gap-0.5 bg-[#232F3E] text-white text-[11px] font-bold px-2 py-0.5 rounded-[2px]">
+                  <span className="text-[#FFA41C] italic font-serif text-xs font-black">a</span> Fulfilled
+                </span>
+                <span className="text-xs text-stone-600">Inclusive of all taxes</span>
               </div>
             </div>
 
-            {/* Amazon Offers Strip */}
-            <div className="space-y-2 pt-2">
-              <span className="text-xs font-bold text-stone-800 flex items-center gap-1">
-                <Tag className="w-3.5 h-3.5 text-[#D4AF37]" />
+            {/* Amazon Offers Strip with 3 Cards */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-stone-800">
+                <div className="w-4 h-4 rounded-full border border-stone-800 flex items-center justify-center text-[10px]">
+                  %
+                </div>
                 <span>Offers</span>
-              </span>
+              </div>
 
-              <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 text-xs">
-                <div className="p-2.5 bg-stone-50 rounded-lg border border-stone-200">
-                  <span className="font-bold text-stone-800 block text-[11px]">Bank Offer</span>
-                  <p className="text-[11px] text-stone-600 mt-0.5 line-clamp-2">
-                    Flat ₹150 Instant Discount on Axis/HDFC cards
-                  </p>
+              <div className="grid grid-cols-1 xs:grid-cols-3 gap-2 text-xs">
+                {/* Cashback */}
+                <div className="p-2.5 bg-white rounded-lg border border-stone-200 shadow-2xs flex flex-col justify-between">
+                  <div>
+                    <span className="font-bold text-stone-800 block text-[11px]">Cashback</span>
+                    <p className="text-[11px] text-stone-600 mt-0.5 line-clamp-2">
+                      Upto ₹25.00 cashback as Triven Pay Balance when you...
+                    </p>
+                  </div>
+                  <span className="text-[11px] text-[#007185] font-medium mt-1.5 hover:underline cursor-pointer">
+                    1 offer ›
+                  </span>
                 </div>
-                <div className="p-2.5 bg-stone-50 rounded-lg border border-stone-200">
-                  <span className="font-bold text-stone-800 block text-[11px]">Partner Offer</span>
-                  <p className="text-[11px] text-stone-600 mt-0.5 line-clamp-2">
-                    Use code <strong className="text-[#1B4332]">VEDIC15</strong> for 15% extra off
-                  </p>
+
+                {/* Bank Offer */}
+                <div className="p-2.5 bg-white rounded-lg border border-stone-200 shadow-2xs flex flex-col justify-between">
+                  <div>
+                    <span className="font-bold text-stone-800 block text-[11px]">Bank Offer</span>
+                    <p className="text-[11px] text-stone-600 mt-0.5 line-clamp-2">
+                      Upto ₹1,500.00 discount on SBI/HDFC Credit Cards...
+                    </p>
+                  </div>
+                  <span className="text-[11px] text-[#007185] font-medium mt-1.5 hover:underline cursor-pointer">
+                    17 offers ›
+                  </span>
+                </div>
+
+                {/* Partner Offers */}
+                <div className="p-2.5 bg-white rounded-lg border border-stone-200 shadow-2xs flex flex-col justify-between">
+                  <div>
+                    <span className="font-bold text-stone-800 block text-[11px]">Partner Offers</span>
+                    <p className="text-[11px] text-stone-600 mt-0.5 line-clamp-2">
+                      Buy 3 Get 5% Off, Buy 4 Get 7% Off...
+                    </p>
+                  </div>
+                  <span className="text-[11px] text-[#007185] font-medium mt-1.5 hover:underline cursor-pointer">
+                    3 offers ›
+                  </span>
                 </div>
               </div>
             </div>
 
-            <hr className="border-stone-100" />
+            {/* Amazon 6-Icon Service Grid (Matching exact reference screenshot) */}
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 py-3 border-y border-stone-200 text-center">
+              <div className="flex flex-col items-center justify-start gap-1 p-1">
+                <div className="w-8 h-8 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[#007185]">
+                  <RotateCcw className="w-4 h-4" />
+                </div>
+                <span className="text-[11px] text-[#007185] leading-tight hover:underline cursor-pointer">
+                  Clearance sale – no return
+                </span>
+              </div>
+
+              <div className="flex flex-col items-center justify-start gap-1 p-1">
+                <div className="w-8 h-8 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[#007185]">
+                  <Banknote className="w-4 h-4" />
+                </div>
+                <span className="text-[11px] text-[#007185] leading-tight hover:underline cursor-pointer">
+                  Pay on Delivery
+                </span>
+              </div>
+
+              <div className="flex flex-col items-center justify-start gap-1 p-1">
+                <div className="w-8 h-8 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[#007185]">
+                  <PackageCheck className="w-4 h-4" />
+                </div>
+                <span className="text-[11px] text-[#007185] leading-tight hover:underline cursor-pointer">
+                  Triven Delivered
+                </span>
+              </div>
+
+              <div className="flex flex-col items-center justify-start gap-1 p-1">
+                <div className="w-8 h-8 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[#007185]">
+                  <Award className="w-4 h-4" />
+                </div>
+                <span className="text-[11px] text-[#007185] leading-tight hover:underline cursor-pointer">
+                  Top Brand
+                </span>
+              </div>
+
+              <div className="flex flex-col items-center justify-start gap-1 p-1">
+                <div className="w-8 h-8 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[#007185]">
+                  <Truck className="w-4 h-4" />
+                </div>
+                <span className="text-[11px] text-[#007185] leading-tight hover:underline cursor-pointer">
+                  Free Delivery
+                </span>
+              </div>
+
+              <div className="flex flex-col items-center justify-start gap-1 p-1">
+                <div className="w-8 h-8 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[#007185]">
+                  <Lock className="w-4 h-4" />
+                </div>
+                <span className="text-[11px] text-[#007185] leading-tight hover:underline cursor-pointer">
+                  Secure transaction
+                </span>
+              </div>
+            </div>
 
             {/* Specifications Table */}
             <div className="space-y-2 text-xs">
@@ -898,6 +1191,91 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
           </button>
         </div>
       </div>
+
+      {/* FULLSCREEN AMAZON LIGHTBOX MODAL */}
+      {isLightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col justify-between p-4 sm:p-6"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          {/* Top Bar */}
+          <div className="flex items-center justify-between text-white max-w-6xl mx-auto w-full z-20">
+            <div>
+              <h3 className="font-serif font-bold text-base sm:text-xl text-stone-100">{product.name}</h3>
+              <p className="text-xs text-[#D4AF37] font-medium">
+                Angle {activeImageIndex + 1} of {productImages.length} • Amazon Multi-Angle High-Resolution View
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsLightboxOpen(false)}
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+              aria-label="Close high-res view"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Main Stage */}
+          <div
+            className="relative flex-1 flex items-center justify-center max-w-5xl mx-auto w-full py-4 select-none"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {productImages.length > 1 && (
+              <button
+                type="button"
+                onClick={handlePrevImage}
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center shadow-xl transition-all z-20 border border-white/20 cursor-pointer hover:scale-105 active:scale-95"
+                aria-label="Previous angle"
+              >
+                <ChevronLeft className="w-7 h-7" />
+              </button>
+            )}
+
+            <div className="max-h-[72vh] max-w-[85vw] flex items-center justify-center">
+              <img
+                src={activeImage}
+                alt={`${product.name} - Angle ${activeImageIndex + 1}`}
+                className="max-h-[72vh] max-w-full object-contain rounded-lg shadow-2xl"
+              />
+            </div>
+
+            {productImages.length > 1 && (
+              <button
+                type="button"
+                onClick={handleNextImage}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center shadow-xl transition-all z-20 border border-white/20 cursor-pointer hover:scale-105 active:scale-95"
+                aria-label="Next angle"
+              >
+                <ChevronRight className="w-7 h-7" />
+              </button>
+            )}
+          </div>
+
+          {/* Bottom Thumbnails */}
+          {productImages.length > 1 && (
+            <div
+              className="max-w-3xl mx-auto w-full flex items-center justify-center gap-3 overflow-x-auto py-2 z-20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {productImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all bg-stone-900 shrink-0 cursor-pointer ${
+                    activeImageIndex === idx
+                      ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/50 scale-105 shadow-lg'
+                      : 'border-white/20 hover:border-white/60 opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

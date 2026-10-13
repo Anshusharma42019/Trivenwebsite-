@@ -78,22 +78,22 @@ export default async function ProductDetailPage({ params }) {
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-stone-500 mb-6">
-          <Link href="/" className="hover:text-stone-800">
+        {/* Breadcrumb - Amazon Style */}
+        <div className="flex items-center gap-1.5 text-xs text-stone-600 mb-6 flex-wrap">
+          <Link href="/" className="hover:text-[#007185] hover:underline">
             Home
           </Link>
-          <span>/</span>
-          <Link href="/products" className="hover:text-stone-800">
-            Medicines
+          <span className="text-stone-400">›</span>
+          <Link href="/products" className="hover:text-[#007185] hover:underline">
+            Ayurveda & Herbal
           </Link>
-          <span>/</span>
+          <span className="text-stone-400">›</span>
           {product.category && (
             <>
-              <Link href={`/products?category=${product.category.slug}`} className="hover:text-stone-800">
+              <Link href={`/products?category=${product.category.slug}`} className="hover:text-[#007185] hover:underline">
                 {product.category.name}
               </Link>
-              <span>/</span>
+              <span className="text-stone-400">›</span>
             </>
           )}
           <span className="text-stone-800 font-medium truncate max-w-xs">{product.name}</span>

@@ -38,6 +38,7 @@ export default function AdminProductsPage() {
   const [uploadError, setUploadError] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [showUrlFallback, setShowUrlFallback] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
   const fileInputRef = useRef(null);
 
   // Form State
@@ -158,7 +159,7 @@ export default function AdminProductsPage() {
     setModalOpen(true);
   };
 
-  const handleFilesUpload = async (fileList) => {
+  const handleFilesUpload = async (fileList, targetSlotIndex = null) => {
     const files = Array.from(fileList || []).filter((f) => f.type && f.type.startsWith('image/'));
     if (files.length === 0) return;
 
@@ -177,13 +178,28 @@ export default function AdminProductsPage() {
 
       const json = await res.json();
       if (!res.ok) {
-        throw new Error(json.message || 'Image upload failed');
+        throw new Error(json.error || json.message || 'Image upload failed');
       }
 
       const newUrls = json.data?.urls || [];
       if (newUrls.length > 0) {
         setFormData((prev) => {
-          const updated = [...prev.images, ...newUrls];
+          let updated = [...prev.images];
+          const slotToUse = targetSlotIndex !== null && targetSlotIndex !== undefined ? targetSlotIndex : selectedSlot;
+
+          if (slotToUse !== null && slotToUse !== undefined) {
+            if (slotToUse < updated.length) {
+              updated[slotToUse] = newUrls[0];
+              if (newUrls.length > 1) {
+                updated.push(...newUrls.slice(1));
+              }
+            } else {
+              updated.push(...newUrls);
+            }
+          } else {
+            updated = [...updated, ...newUrls];
+          }
+
           return {
             ...prev,
             images: updated,
@@ -196,6 +212,7 @@ export default function AdminProductsPage() {
       setUploadError(err.message || 'Failed to upload product images.');
     } finally {
       setUploadingImages(false);
+      setSelectedSlot(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
@@ -244,13 +261,12 @@ export default function AdminProductsPage() {
     setActionMsg(null);
 
     try {
-      let images = Array.isArray(formData.images) ? [...formData.images] : [];
-      if (images.length === 0 && formData.imagesText) {
-        images = formData.imagesText
-          .split('\n')
-          .map((s) => s.trim())
-          .filter(Boolean);
-      }
+      const textImgs = (formData.imagesText || '')
+        .split('\n')
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const combined = [...(Array.isArray(formData.images) ? formData.images : []), ...textImgs];
+      const images = Array.from(new Set(combined.filter(Boolean)));
 
 
 
@@ -417,7 +433,12 @@ export default function AdminProductsPage() {
                         </div>
                         <div>
                           <p className="font-bold text-stone-900">{p.name}</p>
-                          <p className="text-stone-400 font-mono text-[10px]">SKU: {p.sku}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-stone-400 font-mono text-[10px]">SKU: {p.sku}</span>
+                            <span className="text-[10px] bg-stone-100 text-stone-600 px-1.5 py-0.2 rounded font-medium">
+                              {p.images?.length || 0} {p.images?.length === 1 ? 'angle' : 'angles'}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -622,24 +643,37 @@ export default function AdminProductsPage() {
                   />
                 </div>
 
-                {/* Product Images Upload Section */}
+                {/* Product Images Upload Section (Amazon 4-Angle Studio) */}
                 <div className="sm:col-span-2 space-y-3 bg-stone-50/80 p-4 rounded-2xl border border-stone-200">
                   <div className="flex items-center justify-between">
                     <div>
-                      <label className="block text-stone-800 font-bold text-sm">
-                        Product Images (Direct File Upload)
+                      <label className="block text-stone-800 font-bold text-sm flex items-center gap-1.5">
+                        <Camera className="w-4 h-4 text-[#1B4332]" />
+                        <span>Amazon Product Multi-Angle Studio ({formData.images.length} added)</span>
                       </label>
                       <p className="text-xs text-stone-500">
-                        Upload real product photos from your computer or phone. First image is used as the Primary Amazon Hero.
+                        Upload different angles (Front, Back, Label, Seal) so customers can view all sides on Amazon!
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setShowUrlFallback(!showUrlFallback)}
-                      className="text-xs text-[#1B4332] hover:underline font-medium"
-                    >
-                      {showUrlFallback ? 'Hide URL input' : 'Or paste URL'}
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedSlot(null);
+                          fileInputRef.current?.click();
+                        }}
+                        className="text-xs bg-[#1B4332] text-[#D4AF37] hover:bg-[#153427] px-2.5 py-1 rounded-lg font-bold shadow-xs transition-colors cursor-pointer"
+                      >
+                        + Upload Photos
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowUrlFallback(!showUrlFallback)}
+                        className="text-xs text-stone-500 hover:text-stone-800 underline font-medium"
+                      >
+                        {showUrlFallback ? 'Hide URL' : 'Paste URL'}
+                      </button>
+                    </div>
                   </div>
 
                   {/* Hidden file input */}
@@ -648,49 +682,54 @@ export default function AdminProductsPage() {
                     ref={fileInputRef}
                     accept="image/*"
                     multiple
-                    onChange={(e) => handleFilesUpload(e.target.files)}
+                    onChange={(e) => handleFilesUpload(e.target.files, selectedSlot)}
                     className="hidden"
                   />
 
-                  {/* Drag and Drop Zone */}
-                  <div
-                    onDragOver={(e) => {
-                      e.preventDefault();
-                      setIsDragging(true);
-                    }}
-                    onDragLeave={() => setIsDragging(false)}
-                    onDrop={(e) => {
-                      e.preventDefault();
-                      setIsDragging(false);
-                      handleFilesUpload(e.dataTransfer.files);
-                    }}
-                    onClick={() => fileInputRef.current?.click()}
-                    className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
-                      isDragging
-                        ? 'border-[#1B4332] bg-emerald-50/60'
-                        : 'border-stone-300 hover:border-[#1B4332] bg-white hover:bg-stone-50/50'
-                    }`}
-                  >
-                    {uploadingImages ? (
-                      <div className="flex flex-col items-center justify-center gap-2 py-2">
-                        <Loader2 className="w-8 h-8 text-[#1B4332] animate-spin" />
-                        <span className="text-sm font-semibold text-stone-700">Uploading image(s) to server...</span>
-                        <span className="text-xs text-stone-400">Saving securely in high resolution</span>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center gap-2">
-                        <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#1B4332] flex items-center justify-center border border-emerald-100 shadow-xs">
-                          <UploadCloud className="w-6 h-6" />
+                  {/* Drag and Drop Zone if no images uploaded */}
+                  {formData.images.length === 0 && (
+                    <div
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        setIsDragging(true);
+                      }}
+                      onDragLeave={() => setIsDragging(false)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setIsDragging(false);
+                        handleFilesUpload(e.dataTransfer.files, null);
+                      }}
+                      onClick={() => {
+                        setSelectedSlot(null);
+                        fileInputRef.current?.click();
+                      }}
+                      className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
+                        isDragging
+                          ? 'border-[#1B4332] bg-emerald-50/60'
+                          : 'border-stone-300 hover:border-[#1B4332] bg-white hover:bg-stone-50/50'
+                      }`}
+                    >
+                      {uploadingImages ? (
+                        <div className="flex flex-col items-center justify-center gap-2 py-2">
+                          <Loader2 className="w-8 h-8 text-[#1B4332] animate-spin" />
+                          <span className="text-sm font-semibold text-stone-700">Uploading photos to Cloudinary...</span>
+                          <span className="text-xs text-stone-400">Saving securely in high resolution</span>
                         </div>
-                        <div className="text-sm font-semibold text-stone-700">
-                          <span className="text-[#1B4332] underline decoration-[#D4AF37] decoration-2">Click to select product photos</span> or drag & drop here
+                      ) : (
+                        <div className="flex flex-col items-center justify-center gap-2">
+                          <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#1B4332] flex items-center justify-center border border-emerald-100 shadow-xs">
+                            <UploadCloud className="w-6 h-6" />
+                          </div>
+                          <div className="text-sm font-semibold text-stone-700">
+                            <span className="text-[#1B4332] underline decoration-[#D4AF37] decoration-2">Click to select photos</span> or drag & drop all angles here
+                          </div>
+                          <div className="text-xs text-stone-400">
+                            Select multiple images (Front, Back, Label, Cap) • PNG, JPG, WEBP up to 10MB
+                          </div>
                         </div>
-                        <div className="text-xs text-stone-400">
-                          Supports PNG, JPG, WEBP, AVIF up to 10MB each • Select multiple files
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
 
                   {uploadError && (
                     <div className="flex items-center gap-2 text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200">
@@ -699,130 +738,188 @@ export default function AdminProductsPage() {
                     </div>
                   )}
 
-                  {/* Uploaded Images Gallery Grid (Amazon Multiple Angle Photos) */}
-                  {formData.images && formData.images.length > 0 && (
-                    <div className="space-y-2.5 pt-1">
-                      <div className="text-xs font-semibold text-stone-700 flex items-center justify-between">
-                        <span className="flex items-center gap-1.5 text-stone-800">
-                          <Camera className="w-4 h-4 text-[#1B4332]" />
-                          <span>Product Angle Photos ({formData.images.length})</span>
-                        </span>
-                        <span className="text-[11px] text-stone-500">Angle #1 is used as Primary Amazon Hero view</span>
-                      </div>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        {formData.images.map((imgUrl, idx) => {
-                          const angleName =
-                            idx === 0
-                              ? 'Main Hero (Front)'
-                              : idx === 1
-                              ? 'Back View'
-                              : idx === 2
-                              ? 'Ingredients / Label'
-                              : idx === 3
-                              ? 'Cap / Texture'
-                              : `Angle ${idx + 1}`;
-
-                          return (
-                            <div
-                              key={idx}
-                              className={`relative rounded-xl overflow-hidden border bg-white shadow-xs flex flex-col justify-between ${
-                                idx === 0
-                                  ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/40'
-                                  : 'border-stone-200'
-                              }`}
-                            >
-                              <div className="relative aspect-square bg-stone-100 overflow-hidden">
+                  {/* 4 Standard Angle Slots + Extra Angles Grid */}
+                  <div className="space-y-2 pt-1">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {[
+                        { label: 'Angle 1: Front / Hero', desc: 'Main product view' },
+                        { label: 'Angle 2: Back View', desc: 'Back angle' },
+                        { label: 'Angle 3: Ingredients', desc: 'Label close-up' },
+                        { label: 'Angle 4: Cap & Seal', desc: 'Packaging / seal' },
+                      ].map((slot, sIdx) => {
+                        const imgUrl = formData.images[sIdx];
+                        return (
+                          <div
+                            key={sIdx}
+                            className={`relative rounded-xl border bg-white flex flex-col justify-between overflow-hidden transition-all aspect-square ${
+                              imgUrl
+                                ? sIdx === 0
+                                  ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/50 shadow-xs'
+                                  : 'border-stone-200 shadow-xs'
+                                : 'border-2 border-dashed border-stone-300 hover:border-[#1B4332] bg-stone-50/60'
+                            }`}
+                          >
+                            {imgUrl ? (
+                              <>
                                 <img
                                   src={imgUrl}
-                                  alt={`Product angle ${idx + 1}`}
-                                  className="w-full h-full object-cover object-center"
+                                  alt={slot.label}
+                                  className="w-full h-full object-cover"
                                 />
-
-                                {/* Angle Tag Badge */}
-                                <div className="absolute top-1.5 left-1.5">
-                                  {idx === 0 ? (
-                                    <span className="bg-[#1B4332] text-[#D4AF37] text-[10px] font-bold px-2 py-0.5 rounded shadow-xs flex items-center gap-1">
-                                      <Star className="w-3 h-3 fill-[#D4AF37]" />
-                                      <span>#1 Main Hero</span>
-                                    </span>
-                                  ) : (
-                                    <span className="bg-stone-900/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
-                                      #{idx + 1} {angleName}
-                                    </span>
-                                  )}
+                                <div className="absolute top-1.5 left-1.5 z-10">
+                                  <span
+                                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs ${
+                                      sIdx === 0
+                                        ? 'bg-[#1B4332] text-[#D4AF37]'
+                                        : 'bg-stone-900/80 text-white'
+                                    }`}
+                                  >
+                                    #{sIdx + 1} {sIdx === 0 ? 'Main Hero' : slot.label.split(':')[1]?.trim() || `Angle ${sIdx + 1}`}
+                                  </span>
                                 </div>
+                                <div className="absolute top-1.5 right-1.5 z-10 flex items-center gap-1">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleRemoveImage(sIdx);
+                                    }}
+                                    title="Delete photo"
+                                    className="w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] shadow cursor-pointer hover:bg-red-700"
+                                  >
+                                    ✕
+                                  </button>
+                                </div>
+                                <div className="absolute bottom-0 inset-x-0 bg-stone-900/80 backdrop-blur-2xs text-white p-1 text-[10px] flex items-center justify-between z-10">
+                                  {sIdx !== 0 ? (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleSetPrimaryImage(sIdx)}
+                                      className="text-[#D4AF37] hover:underline font-bold cursor-pointer"
+                                    >
+                                      Set Hero
+                                    </button>
+                                  ) : (
+                                    <span className="text-[#D4AF37] font-bold">★ Hero</span>
+                                  )}
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      disabled={sIdx === 0}
+                                      onClick={() => handleMoveImage(sIdx, sIdx - 1)}
+                                      className="hover:text-amber-400 disabled:opacity-30 cursor-pointer"
+                                      title="Move left"
+                                    >
+                                      ‹
+                                    </button>
+                                    <button
+                                      type="button"
+                                      disabled={sIdx === formData.images.length - 1}
+                                      onClick={() => handleMoveImage(sIdx, sIdx + 1)}
+                                      className="hover:text-amber-400 disabled:opacity-30 cursor-pointer"
+                                      title="Move right"
+                                    >
+                                      ›
+                                    </button>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSelectedSlot(sIdx);
+                                  fileInputRef.current?.click();
+                                }}
+                                className="w-full h-full flex flex-col items-center justify-center p-2 text-center group cursor-pointer"
+                              >
+                                <div className="w-8 h-8 rounded-full bg-white border border-stone-200 group-hover:border-[#1B4332] flex items-center justify-center text-stone-500 group-hover:text-[#1B4332] mb-1 shadow-2xs">
+                                  <Plus className="w-4 h-4" />
+                                </div>
+                                <span className="text-[11px] font-bold text-stone-700 group-hover:text-[#1B4332] leading-tight">
+                                  {slot.label}
+                                </span>
+                                <span className="text-[9px] text-stone-400 mt-0.5 leading-tight">
+                                  Click to upload
+                                </span>
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
 
-                                {/* Delete Button */}
+                      {/* Any extra images beyond 4 */}
+                      {formData.images.slice(4).map((imgUrl, extraIdx) => {
+                        const actualIdx = 4 + extraIdx;
+                        return (
+                          <div
+                            key={actualIdx}
+                            className="relative rounded-xl border border-stone-200 bg-white aspect-square overflow-hidden shadow-xs"
+                          >
+                            <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                            <div className="absolute top-1.5 left-1.5 z-10">
+                              <span className="bg-stone-900/80 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs">
+                                #{actualIdx + 1} Extra Angle
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveImage(actualIdx)}
+                              className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] shadow cursor-pointer"
+                            >
+                              ✕
+                            </button>
+                            <div className="absolute bottom-0 inset-x-0 bg-stone-900/80 backdrop-blur-2xs text-white p-1 text-[10px] flex items-center justify-between z-10">
+                              <button
+                                type="button"
+                                onClick={() => handleSetPrimaryImage(actualIdx)}
+                                className="text-[#D4AF37] hover:underline font-bold cursor-pointer"
+                              >
+                                Set Hero
+                              </button>
+                              <div className="flex items-center gap-1">
                                 <button
                                   type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleRemoveImage(idx);
-                                  }}
-                                  title="Delete this angle photo"
-                                  className="absolute top-1.5 right-1.5 bg-red-600/90 hover:bg-red-700 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-xs transition-colors"
+                                  onClick={() => handleMoveImage(actualIdx, actualIdx - 1)}
+                                  className="hover:text-amber-400 cursor-pointer"
                                 >
-                                  ✕
+                                  ‹
+                                </button>
+                                <button
+                                  type="button"
+                                  disabled={actualIdx === formData.images.length - 1}
+                                  onClick={() => handleMoveImage(actualIdx, actualIdx + 1)}
+                                  className="hover:text-amber-400 disabled:opacity-30 cursor-pointer"
+                                >
+                                  ›
                                 </button>
                               </div>
-
-                              {/* Card Actions Footer */}
-                              <div className="p-2 bg-stone-50 border-t border-stone-100 flex items-center justify-between text-[11px]">
-                                {idx !== 0 ? (
-                                  <button
-                                    type="button"
-                                    onClick={() => handleSetPrimaryImage(idx)}
-                                    className="text-[#1B4332] hover:underline font-bold"
-                                  >
-                                    Set as #1 Main
-                                  </button>
-                                ) : (
-                                  <span className="text-[#B8860B] font-bold">★ Active Hero</span>
-                                )}
-
-                                <div className="flex items-center gap-1">
-                                  <button
-                                    type="button"
-                                    disabled={idx === 0}
-                                    onClick={() => handleMoveImage(idx, idx - 1)}
-                                    title="Move left"
-                                    className="p-1 rounded hover:bg-stone-200 disabled:opacity-30 disabled:cursor-not-allowed"
-                                  >
-                                    <ChevronLeft className="w-3.5 h-3.5" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    disabled={idx === formData.images.length - 1}
-                                    onClick={() => handleMoveImage(idx, idx + 1)}
-                                    title="Move right"
-                                    className="p-1 rounded hover:bg-stone-200 disabled:opacity-30 disabled:cursor-not-allowed"
-                                  >
-                                    <ChevronRight className="w-3.5 h-3.5" />
-                                  </button>
-                                </div>
-                              </div>
                             </div>
-                          );
-                        })}
+                          </div>
+                        );
+                      })}
 
-                        {/* Add More Angle Photo Card */}
+                      {/* + Add Another Angle Button if >= 4 */}
+                      {formData.images.length >= 4 && (
                         <button
                           type="button"
-                          onClick={() => fileInputRef.current?.click()}
-                          className="aspect-square rounded-xl border-2 border-dashed border-stone-300 hover:border-[#1B4332] bg-stone-50/50 hover:bg-emerald-50/40 transition-colors flex flex-col items-center justify-center p-3 text-center group cursor-pointer"
+                          onClick={() => {
+                            setSelectedSlot(null);
+                            fileInputRef.current?.click();
+                          }}
+                          className="aspect-square rounded-xl border-2 border-dashed border-stone-300 hover:border-[#1B4332] bg-stone-50/50 hover:bg-emerald-50/40 transition-colors flex flex-col items-center justify-center p-2 text-center group cursor-pointer"
                         >
-                          <div className="w-10 h-10 rounded-full bg-white border border-stone-200 group-hover:border-[#1B4332] flex items-center justify-center text-[#1B4332] mb-1.5 shadow-2xs">
-                            <Plus className="w-5 h-5" />
+                          <div className="w-8 h-8 rounded-full bg-white border border-stone-200 group-hover:border-[#1B4332] flex items-center justify-center text-[#1B4332] mb-1 shadow-2xs">
+                            <Plus className="w-4 h-4" />
                           </div>
-                          <span className="text-xs font-bold text-stone-700 group-hover:text-[#1B4332]">
-                            Add Another Angle
+                          <span className="text-[11px] font-bold text-stone-700 group-hover:text-[#1B4332]">
+                            Add More
                           </span>
-                          <span className="text-[10px] text-stone-400 mt-0.5">Click to browse files</span>
+                          <span className="text-[9px] text-stone-400">Extra angle</span>
                         </button>
-                      </div>
+                      )}
                     </div>
-                  )}
+                  </div>
 
                   {/* Fallback URL textarea if needed */}
                   {showUrlFallback && (
