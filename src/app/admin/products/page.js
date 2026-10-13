@@ -236,9 +236,7 @@ export default function AdminProductsPage() {
           .filter(Boolean);
       }
 
-      if (images.length === 0) {
-        images = ['https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=800'];
-      }
+
 
       const ingredients = formData.ingredientsText
         .split('\n')
@@ -259,7 +257,7 @@ export default function AdminProductsPage() {
         netQuantity: formData.netQuantity,
         description: formData.description,
         shortDescription: formData.shortDescription,
-        images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=800'],
+        images: images,
         ayushLicenseNumber: formData.ayushLicenseNumber,
         batchNumber: formData.batchNumber,
         ingredients: ingredients.length > 0 ? ingredients : [{ name: 'Herb Extract' }],
@@ -390,11 +388,17 @@ export default function AdminProductsPage() {
                   <tr key={p._id} className="hover:bg-stone-50/80 transition-colors">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        <img
-                          src={p.images?.[0] || 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=200'}
-                          alt={p.name}
-                          className="w-10 h-10 rounded-lg object-cover border border-stone-200"
-                        />
+                        <div className="w-10 h-10 rounded-lg overflow-hidden border border-stone-200 bg-stone-100 shrink-0 flex items-center justify-center">
+                          {p.images && p.images[0] ? (
+                            <img
+                              src={p.images[0]}
+                              alt={p.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                          )}
+                        </div>
                         <div>
                           <p className="font-bold text-stone-900">{p.name}</p>
                           <p className="text-stone-400 font-mono text-[10px]">SKU: {p.sku}</p>

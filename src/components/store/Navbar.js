@@ -322,12 +322,16 @@ export default function Navbar() {
                         onClick={() => setShowSuggestions(false)}
                         className="flex items-center gap-3 p-3 hover:bg-emerald-50/60 transition-colors group"
                       >
-                        <div className="w-10 h-10 rounded-lg bg-stone-100 overflow-hidden shrink-0 border border-stone-200">
-                          <img
-                            src={p.images && p.images[0] ? p.images[0] : 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=200'}
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
+                        <div className="w-10 h-10 rounded-lg bg-stone-100 overflow-hidden shrink-0 border border-stone-200 flex items-center justify-center">
+                          {p.images && p.images[0] ? (
+                            <img
+                              src={p.images[0]}
+                              alt=""
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-bold text-stone-900 group-hover:text-[#1B4332] truncate">
@@ -539,12 +543,16 @@ export default function Navbar() {
                   onClick={() => setShowSuggestions(false)}
                   className="flex items-center gap-3 p-2.5 hover:bg-emerald-50/60 transition-colors"
                 >
-                  <div className="w-9 h-9 rounded-md bg-stone-100 overflow-hidden shrink-0 border border-stone-200">
-                    <img
-                      src={p.images && p.images[0] ? p.images[0] : 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=200'}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="w-9 h-9 rounded-md bg-stone-100 overflow-hidden shrink-0 border border-stone-200 flex items-center justify-center">
+                    {p.images && p.images[0] ? (
+                      <img
+                        src={p.images[0]}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-stone-900 truncate">{p.name}</p>

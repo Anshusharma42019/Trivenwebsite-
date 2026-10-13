@@ -22,6 +22,7 @@ import {
   Star,
   Sparkles,
 } from 'lucide-react';
+import ProductImage from '@/components/store/ProductImage';
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -306,14 +307,13 @@ export default function OrdersPage() {
                         className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
                       >
                         <div className="flex items-center gap-4 flex-1">
-                          <img
-                            src={
-                              item.image ||
-                              'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=200'
-                            }
-                            alt={item.name}
-                            className="w-16 h-16 rounded-lg object-cover border border-stone-200 shrink-0"
-                          />
+                          <div className="w-16 h-16 rounded-lg overflow-hidden border border-stone-200 shrink-0">
+                            <ProductImage
+                              src={item.image || null}
+                              alt={item.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                           <div className="space-y-1">
                             <h5 className="font-semibold text-xs sm:text-sm text-stone-900 line-clamp-1">
                               {item.name}

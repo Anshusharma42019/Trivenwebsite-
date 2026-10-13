@@ -32,6 +32,12 @@ export async function connectDB() {
   }
 
   if (!cached.promise) {
+    try {
+      dns.setServers(['8.8.8.8', '1.1.1.1']);
+    } catch {
+      // Ignore if in restricted runtime or active query
+    }
+
     const opts = {
       bufferCommands: false,
       maxPoolSize: 10,

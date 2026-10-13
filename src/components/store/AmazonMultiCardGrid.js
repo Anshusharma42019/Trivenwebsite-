@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sparkles, Clock, ShieldCheck, ArrowRight, Star } from 'lucide-react';
+import { Sparkles, Clock, ShieldCheck, ArrowRight } from 'lucide-react';
+import ProductImage from './ProductImage';
 
-export default function AmazonMultiCardGrid() {
+export default function AmazonMultiCardGrid({ products = [] }) {
   // Lightning deal countdown timer
   const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 28, seconds: 45 });
 
@@ -20,6 +21,10 @@ export default function AmazonMultiCardGrid() {
     return () => clearInterval(timer);
   }, []);
 
+  const card1Products = products.slice(0, 4);
+  const card2Products = products.slice(4, 8);
+  const dealProduct = products[0] || null;
+
   return (
     <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-20 md:-mt-28 lg:-mt-32 mb-8 sm:mb-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
@@ -32,135 +37,87 @@ export default function AmazonMultiCardGrid() {
             </h2>
             <p className="text-xs text-stone-500 mb-4">Daily classical wellness essentials</p>
 
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <Link href="/products/organic-ashwagandha-ksm-66-churna" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=400"
-                    alt="Ashwagandha Churna"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Ashwagandha</p>
-                <span className="text-[11px] text-emerald-700 font-semibold">Stress & Energy</span>
-              </Link>
-
-              <Link href="/products/triphala-gut-detox-vati" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&q=80&w=400"
-                    alt="Triphala Gut Vati"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Triphala Vati</p>
-                <span className="text-[11px] text-emerald-700 font-semibold">Gut Detox</span>
-              </Link>
-
-              <Link href="/products/himalayan-shilajit-gold-resin" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=400"
-                    alt="Shilajit Gold Resin"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Pure Shilajit</p>
-                <span className="text-[11px] text-emerald-700 font-semibold">75% Fulvic Acid</span>
-              </Link>
-
-              <Link href="/products/brahmi-medhya-rasayana-churna" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=400"
-                    alt="Brahmi Churna"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Brahmi Churna</p>
-                <span className="text-[11px] text-emerald-700 font-semibold">Memory & Focus</span>
-              </Link>
-            </div>
+            {card1Products.length > 0 ? (
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {card1Products.map((p) => (
+                  <Link key={p._id} href={`/products/${p.slug}`} className="group">
+                    <div className="aspect-square bg-stone-50 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
+                      <ProductImage
+                        src={p.images && p.images[0] ? p.images[0] : null}
+                        alt={p.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      />
+                    </div>
+                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">
+                      {p.name}
+                    </p>
+                    <span className="text-[11px] text-emerald-700 font-semibold">
+                      ₹{p.sellingPrice}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="p-6 text-center text-xs text-stone-400 bg-stone-50 rounded-lg mb-4">
+                Products will appear once added by admin
+              </div>
+            )}
           </div>
 
           <Link
-            href="/products?category=herbal-supplements"
+            href="/products"
             className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
           >
-            <span>See all classical supplements</span>
+            <span>See all classical remedies</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        {/* CARD 2: 4-Quadrant Classical Tailas & Oils */}
+        {/* CARD 2: 4-Quadrant Classical Formulations */}
         <div className="bg-white rounded-xl shadow-md border border-stone-200 p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg transition-shadow">
           <div>
             <h2 className="font-serif font-bold text-stone-900 text-lg leading-tight mb-1">
-              Classical Ayurvedic Oils
+              Classical Samhita Remedies
             </h2>
-            <p className="text-xs text-stone-500 mb-4">72-Hour slow wood-fired infusions</p>
+            <p className="text-xs text-stone-500 mb-4">Time-honored Vedic preparations</p>
 
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <Link href="/products/classical-maha-bhringraj-taila" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=400"
-                    alt="Maha Bhringraj Taila"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Maha Bhringraj</p>
-                <span className="text-[11px] text-[#B8860B] font-semibold">Scalp & Growth</span>
-              </Link>
-
-              <Link href="/products/kumkumadi-miraculous-beauty-oil" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=400"
-                    alt="Kumkumadi Saffron Oil"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Kumkumadi Tailam</p>
-                <span className="text-[11px] text-[#B8860B] font-semibold">Kashmiri Saffron</span>
-              </Link>
-
-              <Link href="/products?category=ayurvedic-oils" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1519735777090-ec97162dc266?auto=format&fit=crop&q=80&w=400"
-                    alt="Joint Pain Oil"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Mahanarayan Taila</p>
-                <span className="text-[11px] text-[#B8860B] font-semibold">Joint & Muscle</span>
-              </Link>
-
-              <Link href="/products?category=ayurvedic-oils" className="group">
-                <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
-                  <img
-                    src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=400"
-                    alt="Nalpamaradi Skin Oil"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">Nalpamaradi Taila</p>
-                <span className="text-[11px] text-[#B8860B] font-semibold">De-Tan & Radiance</span>
-              </Link>
-            </div>
+            {card2Products.length > 0 ? (
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {card2Products.map((p) => (
+                  <Link key={p._id} href={`/products/${p.slug}`} className="group">
+                    <div className="aspect-square bg-stone-50 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
+                      <ProductImage
+                        src={p.images && p.images[0] ? p.images[0] : null}
+                        alt={p.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      />
+                    </div>
+                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">
+                      {p.name}
+                    </p>
+                    <span className="text-[11px] text-[#B8860B] font-semibold">
+                      ₹{p.sellingPrice}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="p-6 text-center text-xs text-stone-400 bg-stone-50 rounded-lg mb-4">
+                More formulations will appear once added by admin
+              </div>
+            )}
           </div>
 
           <Link
-            href="/products?category=ayurvedic-oils"
+            href="/products"
             className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
           >
-            <span>Explore all herbal tailas</span>
+            <span>Explore all formulations</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        {/* CARD 3: Amazon-style Lightning Deal Feature */}
+        {/* CARD 3: Lightning Deal Feature (Using real deal product) */}
         <div className="bg-white rounded-xl shadow-md border border-stone-200 p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg transition-shadow">
           <div>
             <div className="flex items-center justify-between gap-2 mb-1">
@@ -175,50 +132,48 @@ export default function AmazonMultiCardGrid() {
               </div>
             </div>
 
-            <h2 className="font-serif font-bold text-stone-900 text-lg leading-tight mt-1 mb-2">
-              Himalayan Shilajit Gold
-            </h2>
+            {dealProduct ? (
+              <>
+                <h2 className="font-serif font-bold text-stone-900 text-lg leading-tight mt-1 mb-2 line-clamp-1">
+                  {dealProduct.name}
+                </h2>
 
-            {/* Featured Image */}
-            <Link href="/products/himalayan-shilajit-gold-resin" className="block group mb-3">
-              <div className="relative aspect-4/3 bg-stone-100 rounded-lg overflow-hidden border border-stone-200">
-                <img
-                  src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=600"
-                  alt="Himalayan Shilajit Gold Resin"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                />
-                <span className="absolute top-2 left-2 bg-[#D4AF37] text-[#1B4332] text-xs font-bold px-2 py-0.5 rounded shadow-xs">
-                  24% OFF
-                </span>
-              </div>
-            </Link>
+                <Link href={`/products/${dealProduct.slug}`} className="block group mb-3">
+                  <div className="relative aspect-4/3 bg-stone-50 rounded-lg overflow-hidden border border-stone-200">
+                    <ProductImage
+                      src={dealProduct.images && dealProduct.images[0] ? dealProduct.images[0] : null}
+                      alt={dealProduct.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    />
+                    {dealProduct.mrp > dealProduct.sellingPrice && (
+                      <span className="absolute top-2 left-2 bg-[#D4AF37] text-[#1B4332] text-xs font-bold px-2 py-0.5 rounded shadow-xs">
+                        {Math.round(((dealProduct.mrp - dealProduct.sellingPrice) / dealProduct.mrp) * 100)}% OFF
+                      </span>
+                    )}
+                  </div>
+                </Link>
 
-            {/* Pricing Details */}
-            <div className="space-y-1">
-              <div className="flex items-baseline gap-2">
-                <span className="text-xl font-bold text-[#1B4332]">₹1,449</span>
-                <span className="text-xs text-stone-400 line-through">₹1,899</span>
-                <span className="text-xs text-red-600 font-bold">Save ₹450</span>
-              </div>
-              <p className="text-xs text-stone-600 line-clamp-1">
-                20g Pure Resin with Swarna Bhasma (Gold)
-              </p>
-
-              {/* Amazon-style Claim Progress Bar */}
-              <div className="pt-2">
-                <div className="flex items-center justify-between text-[11px] text-stone-500 mb-1">
-                  <span>78% Claimed</span>
-                  <span className="text-red-700 font-medium">Only 12 left</span>
+                <div className="space-y-1">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xl font-bold text-[#1B4332]">₹{dealProduct.sellingPrice}</span>
+                    {dealProduct.mrp > dealProduct.sellingPrice && (
+                      <span className="text-xs text-stone-400 line-through">₹{dealProduct.mrp}</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-stone-600 line-clamp-1">
+                    {dealProduct.dosageForm || 'Classical Formulations'}
+                  </p>
                 </div>
-                <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden border border-stone-200">
-                  <div className="bg-gradient-to-r from-amber-500 to-red-600 h-full rounded-full" style={{ width: '78%' }} />
-                </div>
+              </>
+            ) : (
+              <div className="p-6 text-center text-xs text-stone-400 bg-stone-50 rounded-lg my-4">
+                Deals will update with newly uploaded medicines
               </div>
-            </div>
+            )}
           </div>
 
           <Link
-            href="/products/himalayan-shilajit-gold-resin"
+            href={dealProduct ? `/products/${dealProduct.slug}` : '/products'}
             className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100 mt-3"
           >
             <span>Claim this lightning deal</span>
@@ -257,10 +212,10 @@ export default function AmazonMultiCardGrid() {
             </div>
 
             <Link
-              href="/products?category=immunity-rasayana"
+              href="/products"
               className="block w-full text-center bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold py-2.5 px-4 rounded-lg text-xs transition-colors shadow-md"
             >
-              Start Free 2-Min Dosha Quiz
+              Explore Certified Formulations
             </Link>
           </div>
 

@@ -20,28 +20,7 @@ import {
   UploadCloud,
 } from 'lucide-react';
 
-const PRESET_BANNER_IMAGES = [
-  {
-    name: 'Vedic Herbs & Churna',
-    url: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=1600',
-  },
-  {
-    name: 'Classical Wood-Fired Taila Oil',
-    url: 'https://images.unsplash.com/photo-1608248597359-54a7c866b8fb?auto=format&fit=crop&q=80&w=1600',
-  },
-  {
-    name: 'Himalayan Shilajit & Pure Resins',
-    url: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=1600',
-  },
-  {
-    name: 'Haridwar Botanical Sanctuary',
-    url: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=1600',
-  },
-  {
-    name: 'Fresh Ayurvedic Leaves & Mortar',
-    url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=1600',
-  },
-];
+
 
 export default function AdminBannersPage() {
   const [banners, setBanners] = useState([]);
@@ -602,26 +581,7 @@ export default function AdminBannersPage() {
                   </div>
                 )}
 
-                {/* 1-Click Verified Presets */}
-                <div className="space-y-1 pt-1">
-                  <span className="text-[11px] text-stone-500 font-semibold">Or choose from Vedic Presets:</span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {PRESET_BANNER_IMAGES.map((preset, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, imageUrl: preset.url })}
-                        className={`text-[10px] px-2.5 py-1 border rounded-md transition-colors ${
-                          formData.imageUrl === preset.url
-                            ? 'bg-[#1B4332] text-white border-[#1B4332]'
-                            : 'bg-white hover:bg-stone-100 text-stone-700 border-stone-200'
-                        }`}
-                      >
-                        {preset.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+
 
                 {/* Fallback URL Input */}
                 {showUrlFallback && (
@@ -631,7 +591,7 @@ export default function AdminBannersPage() {
                     </label>
                     <input
                       type="url"
-                      placeholder="https://images.unsplash.com/photo-..."
+                      placeholder="https://... or /uploads/..."
                       value={formData.imageUrl}
                       onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                       className="w-full p-2 border border-stone-300 rounded-lg outline-none text-xs font-mono"

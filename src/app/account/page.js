@@ -31,6 +31,7 @@ import {
   Navigation,
 } from 'lucide-react';
 import AddressMapPicker from '@/components/store/AddressMapPicker';
+import ProductImage from '@/components/store/ProductImage';
 
 export default function AccountPage() {
   const router = useRouter();
@@ -856,13 +857,13 @@ export default function AccountPage() {
                           {order.items?.map((item, idx) => (
                             <div key={idx} className="flex items-center gap-3">
                               <div className="w-14 h-14 rounded-lg bg-stone-50 border border-stone-200 overflow-hidden shrink-0">
-                                <img
+                                <ProductImage
                                   src={
                                     item.product?.images && item.product?.images[0]
                                       ? item.product.images[0]
-                                      : 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=200'
+                                      : (item.image || null)
                                   }
-                                  alt=""
+                                  alt={item.name}
                                   className="w-full h-full object-cover"
                                 />
                               </div>

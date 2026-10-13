@@ -100,7 +100,11 @@ export default async function ProductDetailPage({ params }) {
         </div>
 
         {/* Client Product View (Interactive Gallery, Add to Cart, Quantity, Review Form) */}
-        <ProductDetailClient product={product} initialReviews={reviews} />
+        <ProductDetailClient
+          product={product}
+          initialReviews={reviews}
+          relatedProducts={filteredRelated}
+        />
 
         {/* Related Products in this category */}
         {filteredRelated.length > 0 && (

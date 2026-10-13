@@ -6,6 +6,8 @@ import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { Star, ShoppingBag, Check, ShieldCheck, Sparkles, Heart } from 'lucide-react';
 
+import ProductImage from './ProductImage';
+
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -38,12 +40,8 @@ export default function ProductCard({ product }) {
     <div className="group relative bg-white rounded-xl border border-stone-200 hover:border-stone-300 hover:shadow-lg transition-all duration-200 flex flex-col overflow-hidden p-2.5 sm:p-3.5 min-w-0">
       {/* Product Image */}
       <Link href={`/products/${product.slug}`} className="block relative aspect-square bg-stone-50 rounded-lg overflow-hidden mb-2.5 sm:mb-3">
-        <img
-          src={
-            product.images && product.images[0]
-              ? product.images[0]
-              : 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=600'
-          }
+        <ProductImage
+          src={product.images && product.images[0] ? product.images[0] : null}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"

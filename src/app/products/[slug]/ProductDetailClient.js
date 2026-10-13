@@ -28,17 +28,16 @@ import {
   ThumbsUp,
   CheckCircle2,
 } from 'lucide-react';
+import ProductImage from '@/components/store/ProductImage';
 
-export default function ProductDetailClient({ product, initialReviews = [] }) {
+export default function ProductDetailClient({ product, initialReviews = [], relatedProducts = [] }) {
   const router = useRouter();
   const { addToCart } = useCart();
   const { user } = useAuth();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [activeImage, setActiveImage] = useState(
-    product.images && product.images[0]
-      ? product.images[0]
-      : 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=800'
+    product.images && product.images[0] ? product.images[0] : ''
   );
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -200,7 +199,7 @@ export default function ProductDetailClient({ product, initialReviews = [] }) {
 
             {/* Large Primary Image with Zoom Look */}
             <div className="flex-1 aspect-square rounded-xl bg-stone-50 border border-stone-200 overflow-hidden relative group max-h-[480px]">
-              <img
+              <ProductImage
                 src={activeImage}
                 alt={product.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -464,65 +463,68 @@ export default function ProductDetailClient({ product, initialReviews = [] }) {
         </div>
       </div>
 
-      {/* FREQUENTLY BOUGHT TOGETHER BUNDLE (Classic Amazon High-Converting Feature) */}
-      <div className="bg-white rounded-xl border border-stone-200 p-6 shadow-xs">
-        <h3 className="font-serif font-bold text-stone-900 text-lg mb-4">
-          Frequently Bought Together
-        </h3>
+      {/* FREQUENTLY BOUGHT TOGETHER BUNDLE */}
+      {relatedProducts && relatedProducts.length >= 2 && (
+        <div className="bg-white rounded-xl border border-stone-200 p-6 shadow-xs">
+          <h3 className="font-serif font-bold text-stone-900 text-lg mb-4">
+            Frequently Bought Together
+          </h3>
 
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-          <div className="flex items-center gap-3 overflow-x-auto pb-2">
-            <div className="w-24 h-24 rounded-lg bg-stone-50 border border-stone-200 p-1 shrink-0">
-              <img src={activeImage} alt="" className="w-full h-full object-cover rounded" />
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div className="flex items-center gap-3 overflow-x-auto pb-2">
+              <div className="w-24 h-24 rounded-lg bg-stone-50 border border-stone-200 p-1 shrink-0">
+                <ProductImage src={activeImage} alt="" className="w-full h-full object-cover rounded" />
+              </div>
+              <span className="text-xl text-stone-400 font-light">+</span>
+              <div className="w-24 h-24 rounded-lg bg-stone-50 border border-stone-200 p-1 shrink-0">
+                <ProductImage
+                  src={relatedProducts[0]?.images?.[0] || null}
+                  alt={relatedProducts[0]?.name}
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+              <span className="text-xl text-stone-400 font-light">+</span>
+              <div className="w-24 h-24 rounded-lg bg-stone-50 border border-stone-200 p-1 shrink-0">
+                <ProductImage
+                  src={relatedProducts[1]?.images?.[0] || null}
+                  alt={relatedProducts[1]?.name}
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
             </div>
-            <span className="text-xl text-stone-400 font-light">+</span>
-            <div className="w-24 h-24 rounded-lg bg-stone-50 border border-stone-200 p-1 shrink-0">
-              <img
-                src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&q=80&w=300"
-                alt=""
-                className="w-full h-full object-cover rounded"
-              />
-            </div>
-            <span className="text-xl text-stone-400 font-light">+</span>
-            <div className="w-24 h-24 rounded-lg bg-stone-50 border border-stone-200 p-1 shrink-0">
-              <img
-                src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=300"
-                alt=""
-                className="w-full h-full object-cover rounded"
-              />
+
+            <div className="space-y-2 lg:text-right">
+              <div className="flex items-baseline gap-2 lg:justify-end">
+                <span className="text-xs text-stone-600">Total price for all 3:</span>
+                <span className="text-2xl font-bold text-[#1B4332]">
+                  ₹{product.sellingPrice + relatedProducts[0].sellingPrice + relatedProducts[1].sellingPrice}
+                </span>
+              </div>
+              <button
+                onClick={handleAddBundle}
+                className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-6 py-2.5 rounded-xl text-xs transition-colors shadow-xs"
+              >
+                Add all 3 to Cart
+              </button>
             </div>
           </div>
 
-          <div className="space-y-2 lg:text-right">
-            <div className="flex items-baseline gap-2 lg:justify-end">
-              <span className="text-xs text-stone-600">Total price for all 3:</span>
-              <span className="text-2xl font-bold text-[#1B4332]">₹1,547</span>
-              <span className="text-xs text-stone-400 line-through">₹2,098</span>
-            </div>
-            <button
-              onClick={handleAddBundle}
-              className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-6 py-2.5 rounded-xl text-xs transition-colors shadow-xs"
-            >
-              Add all 3 to Cart
-            </button>
+          <div className="pt-4 mt-4 border-t border-stone-100 space-y-1.5 text-xs text-stone-700">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+              <span><strong>This item:</strong> {product.name} (₹{product.sellingPrice})</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+              <span>{relatedProducts[0].name} (₹{relatedProducts[0].sellingPrice})</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+              <span>{relatedProducts[1].name} (₹{relatedProducts[1].sellingPrice})</span>
+            </label>
           </div>
         </div>
-
-        <div className="pt-4 mt-4 border-t border-stone-100 space-y-1.5 text-xs text-stone-700">
-          <label className="flex items-center gap-2">
-            <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
-            <span><strong>This item:</strong> {product.name} (₹{product.sellingPrice})</span>
-          </label>
-          <label className="flex items-center gap-2">
-            <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
-            <span>Triphala Gut Detox Vati (₹349)</span>
-          </label>
-          <label className="flex items-center gap-2">
-            <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
-            <span>Classical Maha Bhringraj Taila (₹699)</span>
-          </label>
-        </div>
-      </div>
+      )}
 
       {/* AMAZON PRODUCT COMPARISON MATRIX */}
       <div className="bg-white rounded-xl border border-stone-200 p-4 sm:p-6 shadow-xs overflow-x-auto touch-scroll">

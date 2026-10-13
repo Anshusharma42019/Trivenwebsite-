@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   Truck,
 } from 'lucide-react';
+import ProductImage from '@/components/store/ProductImage';
 
 export default function WishlistPage() {
   const { wishlist, removeFromWishlist } = useWishlist();
@@ -158,12 +159,8 @@ export default function WishlistPage() {
                     href={`/products/${item.slug}`}
                     className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl bg-stone-100 overflow-hidden shrink-0 border border-stone-200 block"
                   >
-                    <img
-                      src={
-                        item.images && item.images[0]
-                          ? item.images[0]
-                          : 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=300'
-                      }
+                    <ProductImage
+                      src={item.images && item.images[0] ? item.images[0] : null}
                       alt={item.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform"
                     />
@@ -238,67 +235,7 @@ export default function WishlistPage() {
           </div>
         )}
 
-        {/* Amazon Recommendations Strip */}
-        <div className="mt-12 bg-white rounded-2xl border border-stone-200 p-6 shadow-xs">
-          <h3 className="font-serif font-bold text-stone-900 text-base mb-4 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-            <span>Customers who saved items in Wish List also viewed</span>
-          </h3>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              {
-                title: 'Organic Ashwagandha KSM-66',
-                price: '₹599',
-                mrp: '₹799',
-                img: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=300',
-                slug: 'organic-ashwagandha-ksm-66-churna',
-              },
-              {
-                title: 'Classical Mahabhringraj Taila',
-                price: '₹349',
-                mrp: '₹449',
-                img: 'https://images.unsplash.com/photo-1608248597359-0012217c4639?auto=format&fit=crop&q=80&w=300',
-                slug: 'organic-ashwagandha-ksm-66-churna',
-              },
-              {
-                title: 'Himalayan Shilajit Resin 20g',
-                price: '₹1,449',
-                mrp: '₹1,899',
-                img: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=300',
-                slug: 'organic-ashwagandha-ksm-66-churna',
-              },
-              {
-                title: 'Brahmi Rasayana Brain Tonic',
-                price: '₹420',
-                mrp: '₹520',
-                img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=300',
-                slug: 'organic-ashwagandha-ksm-66-churna',
-              },
-            ].map((p, idx) => (
-              <Link
-                key={idx}
-                href={`/products/${p.slug}`}
-                className="group border border-stone-100 rounded-xl p-3 hover:border-stone-300 hover:shadow-xs transition-all flex flex-col"
-              >
-                <div className="aspect-square rounded-lg bg-stone-50 overflow-hidden mb-2">
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <h4 className="font-bold text-xs text-stone-900 group-hover:text-[#1B4332] line-clamp-1 mb-1">
-                  {p.title}
-                </h4>
-                <div className="flex items-center gap-1.5 mt-auto text-xs">
-                  <span className="font-bold text-[#1B4332]">{p.price}</span>
-                  <span className="text-[10px] text-stone-400 line-through">{p.mrp}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
       </main>
 
       <Footer />

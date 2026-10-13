@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Star, ShoppingBag, ShieldCheck, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import ProductImage from './ProductImage';
 
 export default function AmazonDealsRow({ products = [], title = "Today's Deals in Classical Medicines", subtitle = "Authentic AYUSH certified remedies with same-day dispatch" }) {
   const scrollRef = useRef(null);
@@ -94,8 +95,8 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
                 <div>
                   {/* Thumbnail */}
                   <Link href={`/products/${product.slug}`} className="block relative aspect-square bg-white rounded-lg overflow-hidden border border-stone-100 mb-2">
-                    <img
-                      src={product.images && product.images[0] ? product.images[0] : 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=400'}
+                    <ProductImage
+                      src={product.images && product.images[0] ? product.images[0] : null}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                     />

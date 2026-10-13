@@ -31,6 +31,7 @@ import {
   ChevronRight,
   User,
 } from 'lucide-react';
+import ProductImage from '@/components/store/ProductImage';
 
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
@@ -1290,14 +1291,13 @@ export default function CheckoutPage() {
               <div className="space-y-4 max-h-80 overflow-y-auto pr-1">
                 {items.map((item) => (
                   <div key={item.productId} className="flex gap-3 text-xs">
-                    <img
-                      src={
-                        item.image ||
-                        'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=200'
-                      }
-                      alt={item.name}
-                      className="w-14 h-14 rounded-lg object-cover border border-stone-200 shrink-0"
-                    />
+                    <div className="w-14 h-14 rounded-lg overflow-hidden border border-stone-200 shrink-0">
+                      <ProductImage
+                        src={item.image || null}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-bold text-stone-900 line-clamp-1">{item.name}</h4>
                       <p className="text-stone-400 text-[11px]">
