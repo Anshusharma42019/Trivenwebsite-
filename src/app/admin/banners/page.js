@@ -37,7 +37,7 @@ export default function AdminBannersPage() {
     title: '',
     subtitle: '',
     badge: 'Authentic Ayurveda',
-    imageUrl: PRESET_BANNER_IMAGES[0].url,
+    imageUrl: '',
     linkUrl: '/products',
     ctaText: 'Explore Remedy',
     sortOrder: 0,
@@ -153,9 +153,15 @@ export default function AdminBannersPage() {
 
   const handleSaveBanner = async (e) => {
     e.preventDefault();
-    setSaving(true);
     setStatusMsg(null);
     setErrorMsg(null);
+
+    if (!formData.imageUrl || !formData.imageUrl.trim()) {
+      setErrorMsg('Please upload a banner image before saving.');
+      return;
+    }
+
+    setSaving(true);
 
     try {
       const url = editingBanner ? `/api/banners/${editingBanner._id}` : '/api/banners';
