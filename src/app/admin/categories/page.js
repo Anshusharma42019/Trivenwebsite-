@@ -177,24 +177,24 @@ export default function AdminCategoriesPage() {
         <div className="flex gap-2">
           <button
             onClick={handleOpenAddCategory}
-            className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md"
+            className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md"
           >
-            <Plus className="w-4 h-4 text-[#D4AF37]" />
+            <Plus className="w-4 h-4 text-[#C5A059]" />
             <span>Add Category</span>
           </button>
           <button
             onClick={() => setBrandModal(true)}
             className="bg-white border border-stone-200 hover:bg-stone-50 text-stone-800 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-2xs"
           >
-            <Plus className="w-4 h-4 text-[#1B4332]" />
+            <Plus className="w-4 h-4 text-[#8C5E3C]" />
             <span>Add Brand</span>
           </button>
         </div>
       </div>
 
       {msg && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-          <Check className="w-4 h-4 text-emerald-600" />
+        <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold flex items-center gap-2">
+          <Check className="w-4 h-4 text-amber-700" />
           <span>{msg}</span>
         </div>
       )}
@@ -255,7 +255,7 @@ export default function AdminCategoriesPage() {
               <div key={b._id} className="p-3.5 rounded-xl border border-stone-200 bg-stone-50/50 space-y-1">
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-xs text-stone-900">{b.name}</h4>
-                  <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 font-bold px-2 py-0.5 rounded-full">
                     Licensed
                   </span>
                 </div>
@@ -263,7 +263,7 @@ export default function AdminCategoriesPage() {
                   License: {b.manufacturerDetails?.licenseNo || 'AYUSH Registered'}
                 </p>
                 <p className="text-[11px] text-stone-400">
-                  {b.manufacturerDetails?.address || 'Haridwar, India'}
+                  {b.manufacturerDetails?.address || 'New Delhi, India'}
                 </p>
               </div>
             ))}
@@ -340,7 +340,7 @@ export default function AdminCategoriesPage() {
                     type="button"
                     disabled={uploadingImage}
                     onClick={() => fileInputRef.current?.click()}
-                    className="bg-[#1B4332] text-white px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 hover:bg-[#2D6A4F] disabled:opacity-50"
+                    className="bg-[#18181B] text-[#C5A059] border border-[#C5A059]/40 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 hover:bg-stone-900 disabled:opacity-50"
                   >
                     {uploadingImage ? (
                       <>
@@ -349,7 +349,7 @@ export default function AdminCategoriesPage() {
                       </>
                     ) : (
                       <>
-                        <UploadCloud className="w-3.5 h-3.5 text-[#D4AF37]" />
+                        <UploadCloud className="w-3.5 h-3.5 text-[#C5A059]" />
                         <span>Upload Photo from Device</span>
                       </>
                     )}
@@ -373,7 +373,7 @@ export default function AdminCategoriesPage() {
                 >
                   Cancel
                 </button>
-                <button type="submit" className="px-5 py-2 bg-[#1B4332] text-white rounded-xl font-bold">
+                <button type="submit" className="px-5 py-2 bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 rounded-xl font-bold">
                   {editingCategory ? 'Update Category' : 'Save Category'}
                 </button>
               </div>
@@ -425,7 +425,7 @@ export default function AdminCategoriesPage() {
                   type="text"
                   value={newBrand.address}
                   onChange={(e) => setNewBrand({ ...newBrand, address: e.target.value })}
-                  placeholder="Haridwar, Uttarakhand"
+                  placeholder="New Delhi, Delhi"
                   className="w-full p-2.5 rounded-xl border border-stone-300"
                 />
               </div>
@@ -437,7 +437,7 @@ export default function AdminCategoriesPage() {
                 >
                   Cancel
                 </button>
-                <button type="submit" className="px-5 py-2 bg-[#1B4332] text-white rounded-xl font-bold">
+                <button type="submit" className="px-5 py-2 bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 rounded-xl font-bold">
                   Save Brand
                 </button>
               </div>

@@ -43,11 +43,11 @@ export default function AmazonFourColumnGrid2({ products = [] }) {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                     />
                   </div>
-                  <p className="text-xs font-semibold text-stone-900 group-hover:text-[#1B4332] line-clamp-2">
+                  <p className="text-xs font-semibold text-stone-900 group-hover:text-[#8C5E3C] line-clamp-2">
                     {product.name} ({product.netQuantity || 'Standard Pack'})
                   </p>
                   <div className="flex items-center gap-1.5 text-xs mt-1">
-                    <span className="font-bold text-[#1B4332]">₹{product.sellingPrice}</span>
+                    <span className="font-bold text-stone-900">₹{product.sellingPrice}</span>
                     {product.mrp > product.sellingPrice && (
                       <span className="text-stone-400 line-through">₹{product.mrp}</span>
                     )}
@@ -60,7 +60,7 @@ export default function AmazonFourColumnGrid2({ products = [] }) {
 
               <Link
                 href={`/products/${product.slug}`}
-                className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
+                className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
               >
                 <span>View formulation details</span>
                 <ArrowRight className="w-3.5 h-3.5" />

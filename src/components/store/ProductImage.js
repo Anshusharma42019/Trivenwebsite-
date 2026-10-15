@@ -23,8 +23,8 @@ export default function ProductImage({
       <div
         className={`w-full h-full flex flex-col items-center justify-center bg-stone-100/90 text-stone-400 p-3 select-none text-center ${containerClassName}`}
       >
-        <div className="w-9 h-9 rounded-full bg-emerald-950/10 border border-emerald-800/15 flex items-center justify-center text-[#1B4332] mb-1.5 shadow-2xs">
-          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+        <div className="w-9 h-9 rounded-full bg-amber-500/10 border border-[#C5A059]/30 flex items-center justify-center text-[#8C5E3C] mb-1.5 shadow-2xs">
+          <Sparkles className="w-4 h-4 text-[#C5A059]" />
         </div>
         <span className="text-[10px] font-bold text-stone-600 uppercase tracking-wider leading-tight">
           Triven Pure

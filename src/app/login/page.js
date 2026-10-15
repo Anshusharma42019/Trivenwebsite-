@@ -24,8 +24,8 @@ function LoginFormContent() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Standard Amazon-style Sign-In authentication
-    document.title = 'Amazon-Style Sign-In | Triven Ayurveda';
+    // Triven Ayurveda Sign-In authentication
+    document.title = 'Sign In | Triven Ayurveda';
   }, []);
 
   // If already logged in, redirect to requested target or account
@@ -79,25 +79,25 @@ function LoginFormContent() {
     <div className="w-full max-w-[380px]">
       {/* Checkout notice if redirected from checkout */}
       {redirectUrl.includes('/checkout') && (
-        <div className="mb-4 p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-stone-800 text-xs flex items-start gap-2.5 shadow-2xs">
+        <div className="mb-4 p-3.5 rounded-xl bg-amber-50/90 border border-amber-200/80 text-[#2C2523] text-xs flex items-start gap-2.5 shadow-2xs">
           <Lock className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
           <div className="space-y-0.5">
             <p className="font-bold text-amber-900">Sign in to place your order</p>
             <p className="text-[11px] text-stone-600">
-              Amazon-standard verified authentication ensures real-time PIN tracking and doorstep delivery.
+              Verified Ayurvedic authentication ensures real-time tracking and doorstep delivery.
             </p>
           </div>
         </div>
       )}
 
-      {/* Amazon-style Sign-In Card */}
-      <div className="bg-white border border-stone-300 rounded-xl p-6 sm:p-7 shadow-xs">
-        <h1 className="font-serif font-bold text-2xl text-stone-900 mb-4">
+      {/* Luxury Sign-In Card */}
+      <div className="bg-white border border-[#EBE6DD] rounded-2xl p-6 sm:p-7 shadow-luxury">
+        <h1 className="font-serif font-bold text-2xl text-[#14171F] mb-4">
           {isRegistering ? 'Create Account' : 'Sign in'}
         </h1>
 
         {error && (
-          <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-800 text-xs flex items-start gap-2">
+          <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs flex items-start gap-2">
             <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
@@ -107,7 +107,7 @@ function LoginFormContent() {
           {isRegistering ? (
             <>
               <div>
-                <label className="block text-xs font-bold text-stone-800 mb-1">
+                <label className="block text-xs font-bold text-[#14171F] mb-1">
                   Your name *
                 </label>
                 <input
@@ -116,16 +116,16 @@ function LoginFormContent() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="First and last name"
-                  className="w-full px-3 py-2 sm:py-2.5 border border-stone-400 focus:border-[#1B4332] focus:ring-1 focus:ring-[#1B4332] rounded text-sm outline-none transition-all"
+                  className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-xl text-sm outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-800 mb-1">
+                <label className="block text-xs font-bold text-[#14171F] mb-1">
                   Mobile number *
                 </label>
                 <div className="relative flex">
-                  <span className="inline-flex items-center px-3 rounded-l border border-r-0 border-stone-400 bg-stone-100 text-stone-600 text-xs font-semibold select-none">
+                  <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-stone-300 bg-stone-100 text-stone-600 text-xs font-semibold select-none">
                     +91
                   </span>
                   <input
@@ -141,31 +141,31 @@ function LoginFormContent() {
                       })
                     }
                     placeholder="10-digit mobile number"
-                    className="w-full px-3 py-2 sm:py-2.5 border border-stone-400 focus:border-[#1B4332] focus:ring-1 focus:ring-[#1B4332] rounded-r text-sm outline-none transition-all"
+                    className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-r-xl text-sm outline-none transition-all"
                   />
                 </div>
-                <p className="mt-1 text-[11px] text-stone-500">
+                <p className="mt-1 text-[11px] text-[#6E6761]">
                   Required for delivery tracking & OTP notifications.
                 </p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-800 mb-1 flex items-center justify-between">
+                <label className="block text-xs font-bold text-[#14171F] mb-1 flex items-center justify-between">
                   <span>Email address</span>
-                  <span className="text-[11px] font-normal text-stone-500">(Optional)</span>
+                  <span className="text-[11px] font-normal text-[#6E6761]">(Optional)</span>
                 </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="name@example.com (optional)"
-                  className="w-full px-3 py-2 sm:py-2.5 border border-stone-400 focus:border-[#1B4332] focus:ring-1 focus:ring-[#1B4332] rounded text-sm outline-none transition-all"
+                  className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-xl text-sm outline-none transition-all"
                 />
               </div>
             </>
           ) : (
             <div>
-              <label className="block text-xs font-bold text-stone-800 mb-1">
+              <label className="block text-xs font-bold text-[#14171F] mb-1">
                 Email or mobile phone number *
               </label>
               <input
@@ -174,18 +174,18 @@ function LoginFormContent() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="Mobile number or email"
-                className="w-full px-3 py-2 sm:py-2.5 border border-stone-400 focus:border-[#1B4332] focus:ring-1 focus:ring-[#1B4332] rounded text-sm outline-none transition-all"
+                className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-xl text-sm outline-none transition-all"
               />
             </div>
           )}
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-xs font-bold text-stone-800">
+              <label className="text-xs font-bold text-[#14171F]">
                 Password *
               </label>
               {!isRegistering && (
-                <span className="text-xs text-[#1B4332] hover:underline cursor-pointer">
+                <span className="text-xs text-[#C5A059] hover:underline cursor-pointer font-medium">
                   Forgot Password?
                 </span>
               )}
@@ -196,31 +196,31 @@ function LoginFormContent() {
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder={isRegistering ? 'At least 6 characters' : 'Enter password'}
-              className="w-full px-3 py-2 sm:py-2.5 border border-stone-400 focus:border-[#1B4332] focus:ring-1 focus:ring-[#1B4332] rounded text-sm outline-none transition-all"
+              className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-xl text-sm outline-none transition-all"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 min-h-[44px] bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold py-2.5 px-4 rounded-lg text-xs shadow-xs transition-colors flex items-center justify-center gap-2 active:scale-98"
+            className="w-full mt-2 min-h-[44px] bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold py-2.5 px-4 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2 active:scale-98"
           >
             {loading ? (
-              <Loader2 className="w-4 h-4 animate-spin text-[#1B4332]" />
+              <Loader2 className="w-4 h-4 animate-spin text-[#D4AF37]" />
             ) : (
               <span>{isRegistering ? 'Verify & Create Account' : 'Sign in to Continue'}</span>
             )}
           </button>
         </form>
 
-        {/* Amazon Statutory Note */}
-        <div className="mt-4 pt-4 border-t border-stone-200 text-[11px] text-stone-600 leading-relaxed">
+        {/* Statutory Note */}
+        <div className="mt-4 pt-4 border-t border-[#EBE6DD] text-[11px] text-[#6E6761] leading-relaxed">
           By continuing, you agree to Triven Ayurveda's{' '}
-          <Link href="/products" className="text-[#1B4332] hover:underline">
+          <Link href="/products" className="text-[#C5A059] hover:underline font-medium">
             Conditions of Use
           </Link>{' '}
           and{' '}
-          <Link href="/products" className="text-[#1B4332] hover:underline">
+          <Link href="/products" className="text-[#C5A059] hover:underline font-medium">
             Privacy Notice
           </Link>
           .
@@ -228,41 +228,41 @@ function LoginFormContent() {
 
         <div className="mt-4 pt-3 border-t border-stone-100 text-xs">
           {isRegistering ? (
-            <p className="text-stone-600">
+            <p className="text-[#6E6761]">
               Already have an account?{' '}
               <button
                 type="button"
                 onClick={() => setIsRegistering(false)}
-                className="font-bold text-[#1B4332] hover:underline"
+                className="font-bold text-[#C5A059] hover:underline"
               >
                 Sign in
               </button>
             </p>
           ) : (
             <div className="space-y-3">
-              <p className="text-stone-600">
-                <span className="text-[#1B4332] hover:underline cursor-pointer">▸ Need help?</span>
+              <p className="text-[#6E6761]">
+                <span className="text-[#C5A059] hover:underline cursor-pointer">▸ Need help?</span>
               </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Amazon Divider and 'Create account' button */}
+      {/* Divider and 'Create account' button */}
       {!isRegistering && (
         <div className="w-full mt-6">
           <div className="relative flex items-center justify-center mb-4">
-            <div className="border-t border-stone-300 w-full" />
-            <span className="bg-white px-3 text-xs text-stone-500 shrink-0">
+            <div className="border-t border-[#EBE6DD] w-full" />
+            <span className="bg-[#FAF8F5] px-3 text-xs text-[#6E6761] shrink-0 font-medium">
               New to Triven Ayurveda?
             </span>
-            <div className="border-t border-stone-300 w-full" />
+            <div className="border-t border-[#EBE6DD] w-full" />
           </div>
 
           <button
             type="button"
             onClick={() => setIsRegistering(true)}
-            className="w-full min-h-[44px] bg-stone-50 hover:bg-stone-100 text-stone-800 font-semibold py-2.5 px-4 rounded-lg text-xs border border-stone-300 shadow-2xs transition-colors flex items-center justify-center"
+            className="w-full min-h-[44px] bg-white hover:bg-stone-50 text-[#14171F] font-semibold py-2.5 px-4 rounded-xl text-xs border border-stone-300 shadow-xs transition-colors flex items-center justify-center"
           >
             Create your Triven account
           </button>
@@ -274,19 +274,19 @@ function LoginFormContent() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-between text-stone-800">
+    <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between text-[#2C2523] selection:bg-[#C5A059]/20 selection:text-[#0F1D36]">
       <div className="flex-1 flex flex-col items-center pt-8 pb-12 px-4 sm:px-6">
-        {/* Amazon-style Centered Brand Logo */}
-        <Link href="/" className="flex items-center gap-2 mb-6 group">
-          <div className="w-10 h-10 rounded-full bg-[#1B4332] text-[#D4AF37] flex items-center justify-center font-serif text-2xl font-bold shadow-xs">
+        {/* Brand Logo */}
+        <Link href="/" className="flex items-center gap-2.5 mb-6 group">
+          <div className="w-11 h-11 rounded-full bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/35 flex items-center justify-center font-serif text-2xl font-bold shadow-md group-hover:scale-105 transition-transform">
             ॐ
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-serif text-2xl font-bold tracking-tight text-[#1B4332]">
+            <span className="font-serif text-2xl font-bold tracking-tight text-[#14171F]">
               TRIVEN
             </span>
-            <span className="text-[9px] tracking-widest uppercase font-semibold text-stone-500">
-              Ayurveda • Haridwar
+            <span className="text-[9px] tracking-widest uppercase font-semibold text-[#8C5E3C]">
+              Ayurveda • Classical & Pure
             </span>
           </div>
         </Link>
@@ -294,8 +294,8 @@ export default function LoginPage() {
         <Suspense
           fallback={
             <div className="p-12 text-center">
-              <Loader2 className="w-8 h-8 animate-spin text-[#1B4332] mx-auto mb-2" />
-              <p className="text-xs text-stone-500">Loading secure sign-in...</p>
+              <Loader2 className="w-8 h-8 animate-spin text-[#C5A059] mx-auto mb-2" />
+              <p className="text-xs text-[#6E6761]">Loading secure sign-in...</p>
             </div>
           }
         >
@@ -303,21 +303,21 @@ export default function LoginPage() {
         </Suspense>
       </div>
 
-      {/* Amazon Auth Footer */}
-      <div className="border-t border-stone-200 py-6 bg-stone-50/60 text-center text-xs text-stone-500 space-y-2">
+      {/* Auth Footer */}
+      <div className="border-t border-[#EBE6DD] py-6 bg-white/70 backdrop-blur-xs text-center text-xs text-[#6E6761] space-y-2">
         <div className="flex justify-center gap-6">
-          <Link href="/products" className="hover:underline hover:text-[#1B4332]">
+          <Link href="/products" className="hover:underline hover:text-[#C5A059]">
             Conditions of Use
           </Link>
-          <Link href="/products" className="hover:underline hover:text-[#1B4332]">
+          <Link href="/products" className="hover:underline hover:text-[#C5A059]">
             Privacy Notice
           </Link>
-          <Link href="/products" className="hover:underline hover:text-[#1B4332]">
+          <Link href="/products" className="hover:underline hover:text-[#C5A059]">
             AYUSH Compliance Notice
           </Link>
         </div>
         <p className="text-[11px] text-stone-400">
-          © 2026 Triven Ayurveda Labs Pvt Ltd. Handcrafted in Haridwar, Uttarakhand.
+          © 2026 Triven Ayurveda Labs Pvt Ltd. Handcrafted with Authentic Botanical Purity.
         </p>
       </div>
     </div>

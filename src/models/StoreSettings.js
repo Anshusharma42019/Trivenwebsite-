@@ -20,7 +20,7 @@ const StoreSettingsSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      default: 'Ayurveda Bhavan, Sector 12, Haridwar, Uttarakhand - 249401, India',
+      default: 'Triven Ayurveda Bhavan, Sector 12, New Delhi - 110001, India',
     },
     currency: {
       type: String,
@@ -52,7 +52,7 @@ const StoreSettingsSchema = new mongoose.Schema(
     },
     announcementBar: {
       enabled: { type: Boolean, default: true },
-      text: { type: String, default: '🌿 Authentic AYUSH Certified Formulations • Free Delivery on orders over ₹999' },
+      text: { type: String, default: 'Authentic AYUSH Certified Formulations • Free Delivery on orders over ₹999' },
     },
   },
   {

@@ -38,7 +38,7 @@ export default async function HomePage() {
   const displayProducts = dealProducts.length > 0 ? dealProducts : bestsellerProducts;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-stone-800 antialiased selection:bg-[#D4AF37]/30 selection:text-[#1B4332]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] antialiased selection:bg-[#C5A059]/25 selection:text-[#0F1D36]">
       {/* 1. Amazon-Style Navigation Bar with Delivery Location & Search Category Dropdown */}
       <Navbar />
 

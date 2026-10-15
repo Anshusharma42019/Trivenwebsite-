@@ -28,6 +28,13 @@ import {
   Flame,
   ArrowRight,
   Navigation,
+  Globe,
+  Leaf,
+  Droplet,
+  HeartPulse,
+  Crown,
+  Stethoscope,
+  Award,
 } from 'lucide-react';
 import AddressMapPicker from '@/components/store/AddressMapPicker';
 
@@ -65,8 +72,8 @@ export default function Navbar() {
   };
 
   // Location / Pincode state
-  const [currentPincode, setCurrentPincode] = useState('249401');
-  const [currentCity, setCurrentCity] = useState('Haridwar');
+  const [currentPincode, setCurrentPincode] = useState('110001');
+  const [currentCity, setCurrentCity] = useState('New Delhi');
   const [tempPincode, setTempPincode] = useState('');
   const [pincodeLoading, setPincodeLoading] = useState(false);
   const [pincodeMessage, setPincodeMessage] = useState(null);
@@ -232,39 +239,39 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 shadow-md">
-      {/* Main Amazon Navigation Bar */}
-      <div className="bg-[#1B4332] text-white">
+      <header className="sticky top-0 z-30 shadow-xs">
+      {/* Main Luxury Navigation Bar */}
+      <div className="bg-white/95 backdrop-blur-md text-stone-900 border-b border-stone-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-18 gap-3 sm:gap-5">
 
             {/* Logo */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              <Link href="/" className="flex items-center gap-2 sm:gap-2.5 shrink-0 group py-1 px-1 sm:px-2 rounded hover:ring-1 hover:ring-white/40 transition-all">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#D4AF37] text-[#1B4332] flex items-center justify-center font-serif text-lg sm:text-xl font-bold shadow-xs group-hover:scale-105 transition-transform">
+              <Link href="/" className="flex items-center gap-2 sm:gap-2.5 shrink-0 group py-1 px-1 sm:px-2 rounded-lg hover:bg-stone-50 transition-all">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#C5A059] text-white flex items-center justify-center font-serif text-lg sm:text-xl font-bold shadow-xs group-hover:scale-105 transition-transform">
                   ॐ
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-serif text-lg sm:text-2xl font-bold tracking-tight text-white leading-none">
+                  <span className="font-serif text-lg sm:text-2xl font-bold tracking-tight text-stone-900 leading-none">
                     TRIVEN
                   </span>
-                  <span className="text-[8px] sm:text-[9px] tracking-widest uppercase font-semibold text-[#D4AF37] mt-0.5">
-                    Ayurveda • Haridwar
+                  <span className="text-[8px] sm:text-[9px] tracking-widest uppercase font-semibold text-[#C5A059] mt-0.5">
+                    Ayurveda • Classical & Pure
                   </span>
                 </div>
               </Link>
             </div>
 
-            {/* Amazon-style Delivery Location Selector (Interactive Modal Trigger) */}
+            {/* Delivery Location Selector (Interactive Modal Trigger) */}
             <button
               onClick={() => setLocationModalOpen(true)}
-              className="hidden lg:flex items-center gap-1.5 py-1 px-2.5 rounded hover:ring-1 hover:ring-white/40 text-left transition-all text-xs cursor-pointer focus:outline-none"
+              className="hidden lg:flex items-center gap-2 py-1.5 px-3 rounded-lg border border-stone-200/70 bg-stone-50/60 hover:bg-stone-100/80 text-left transition-all text-xs cursor-pointer focus:outline-none"
               aria-label="Choose delivery location"
             >
-              <MapPin className="w-4 h-4 text-[#D4AF37] shrink-0" />
+              <MapPin className="w-4 h-4 text-[#C5A059] shrink-0" />
               <div className="flex flex-col leading-tight">
-                <span className="text-[10px] text-stone-300">Deliver to {user?.name ? (user.name.startsWith('Dr.') ? user.name.split(' ').slice(0, 2).join(' ') : user.name.split(' ')[0]) : 'India'}</span>
-                <span className="font-bold text-white">{currentCity} {currentPincode}</span>
+                <span className="text-[10px] text-stone-500">Deliver to {user?.name ? (user.name.startsWith('Dr.') ? user.name.split(' ').slice(0, 2).join(' ') : user.name.split(' ')[0]) : 'India'}</span>
+                <span className="font-bold text-stone-900">{currentCity} {currentPincode}</span>
               </div>
             </button>
 
@@ -276,7 +283,7 @@ export default function Navbar() {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-medium px-3 pr-7 py-2.5 rounded-l-md border-r border-stone-300 focus:outline-none appearance-none cursor-pointer h-full"
+                    className="bg-stone-50 hover:bg-stone-100 text-stone-800 text-xs font-medium px-3 pr-7 py-2.5 rounded-l-md border border-r-0 border-stone-300 focus:outline-none appearance-none cursor-pointer h-full"
                   >
                     <option value="">All Categories</option>
                     <option value="herbal-supplements">Herbal Supplements</option>
@@ -295,20 +302,20 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-                  className="w-full bg-white text-stone-900 px-4 py-2 text-sm focus:outline-none rounded-l-md lg:rounded-l-none"
+                  className="w-full bg-white text-stone-900 px-4 py-2 text-sm border border-stone-300 focus:outline-none rounded-l-md lg:rounded-l-none"
                 />
 
-                {/* Gold Search Button */}
+                {/* Royal Sapphire / Gold Search Button */}
                 <button
                   type="submit"
-                  className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] px-4 sm:px-5 py-2 rounded-r-md transition-colors flex items-center justify-center font-bold min-w-[44px]"
+                  className="bg-[#0F1D36] hover:bg-[#162238] text-[#C5A059] px-4 sm:px-5 py-2 rounded-r-md transition-colors flex items-center justify-center font-bold min-w-[44px] border-l border-stone-200"
                   aria-label="Search"
                 >
-                  <Search className="w-4 h-4 text-[#1B4332] stroke-[2.5]" />
+                  <Search className="w-4 h-4 text-[#C5A059] stroke-[2.5]" />
                 </button>
               </form>
 
-              {/* Amazon Live Suggestions Dropdown */}
+              {/* Suggestions Dropdown */}
               {showSuggestions && suggestions.length > 0 && (
                 <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-2xl border border-stone-200 overflow-hidden z-50 text-stone-900 animate-in fade-in">
                   <div className="p-2 border-b border-stone-100 bg-stone-50 text-[11px] font-bold text-stone-500 uppercase tracking-wider">
@@ -320,7 +327,7 @@ export default function Navbar() {
                         key={p._id}
                         href={`/products/${p.slug}`}
                         onClick={() => setShowSuggestions(false)}
-                        className="flex items-center gap-3 p-3 hover:bg-emerald-50/60 transition-colors group"
+                        className="flex items-center gap-3 p-3 hover:bg-amber-50/60 transition-colors group"
                       >
                         <div className="w-10 h-10 rounded-lg bg-stone-100 overflow-hidden shrink-0 border border-stone-200 flex items-center justify-center">
                           {p.images && p.images[0] ? (
@@ -330,11 +337,11 @@ export default function Navbar() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                            <Sparkles className="w-4 h-4 text-[#C5A059]" />
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-stone-900 group-hover:text-[#1B4332] truncate">
+                          <p className="text-xs font-bold text-stone-900 group-hover:text-[#8C5E3C] truncate">
                             {p.name}
                           </p>
                           <span className="text-[11px] text-stone-500">
@@ -342,7 +349,7 @@ export default function Navbar() {
                           </span>
                         </div>
                         <div className="text-right shrink-0">
-                          <span className="text-xs font-bold text-[#1B4332]">₹{p.sellingPrice}</span>
+                          <span className="text-xs font-bold text-stone-900">₹{p.sellingPrice}</span>
                           {p.mrp > p.sellingPrice && (
                             <span className="block text-[10px] text-stone-400 line-through">₹{p.mrp}</span>
                           )}
@@ -353,7 +360,7 @@ export default function Navbar() {
                   <Link
                     href={`/products?search=${encodeURIComponent(searchQuery.trim())}`}
                     onClick={() => setShowSuggestions(false)}
-                    className="block p-2.5 text-center bg-stone-50 hover:bg-stone-100 text-xs font-bold text-[#1B4332] transition-colors border-t border-stone-100"
+                    className="block p-2.5 text-center bg-stone-50 hover:bg-stone-100 text-xs font-bold text-stone-900 transition-colors border-t border-stone-100"
                   >
                     See all results for "{searchQuery}" →
                   </Link>
@@ -365,20 +372,20 @@ export default function Navbar() {
             <div className="flex items-center gap-1 sm:gap-3 shrink-0">
               
               {/* Language / Region */}
-              <div className="hidden xl:flex items-center gap-1 text-xs font-semibold py-1 px-2 rounded hover:ring-1 hover:ring-white/40 cursor-pointer">
-                <span>🇮🇳</span>
+              <div className="hidden xl:flex items-center gap-1.5 text-xs font-semibold py-1 px-2.5 rounded-lg border border-stone-200/80 hover:border-[#C5A059] bg-stone-50/50 cursor-pointer text-[#14171F]">
+                <Globe className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>EN</span>
               </div>
 
               {/* Wishlist Heart Icon - Accessible on all screen sizes */}
               <Link
                 href="/wishlist"
-                className="flex items-center justify-center min-w-[40px] min-h-[44px] py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all text-xs"
+                className="flex items-center justify-center min-w-[40px] min-h-[44px] py-1 px-2 rounded-lg hover:bg-stone-100 transition-all text-xs"
                 title="Your Wishlist"
                 aria-label="Wishlist"
               >
                 <div className="relative">
-                  <Heart className="w-5 h-5 text-white hover:text-red-300 transition-colors" />
+                  <Heart className="w-5 h-5 text-stone-700 hover:text-red-500 transition-colors" />
                   {wishlistCount > 0 && (
                     <span className="absolute -top-1.5 -right-2 bg-red-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
                       {wishlistCount}
@@ -387,28 +394,28 @@ export default function Navbar() {
                 </div>
               </Link>
 
-              {/* Amazon-style 'Returns & Orders' */}
+              {/* 'Returns & Orders' */}
               <Link
                 href="/orders"
-                className="hidden md:flex flex-col text-left py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-colors text-xs min-h-[44px] justify-center"
+                className="hidden md:flex flex-col text-left py-1 px-2 rounded-lg hover:bg-stone-100 transition-colors text-xs min-h-[44px] justify-center"
               >
-                <span className="text-[10px] text-stone-300">Returns</span>
-                <span className="font-bold text-white">& Orders</span>
+                <span className="text-[10px] text-stone-500">Returns</span>
+                <span className="font-bold text-stone-900">& Orders</span>
               </Link>
 
-              {/* Amazon Shopping Cart */}
+              {/* Shopping Cart */}
               <Link
                 href="/checkout"
-                className="flex items-center gap-1.5 min-w-[44px] min-h-[44px] py-1 px-2 sm:px-2.5 rounded hover:ring-1 hover:ring-white/40 transition-all group"
+                className="flex items-center gap-1.5 min-w-[44px] min-h-[44px] py-1 px-2 sm:px-2.5 rounded-lg hover:bg-stone-100 transition-all group"
                 aria-label="View Cart"
               >
                 <div className="relative">
-                  <ShoppingBag className="w-6 h-6 text-white group-hover:text-[#D4AF37] transition-colors" />
-                  <span className="absolute -top-1.5 -right-2 bg-[#D4AF37] text-[#1B4332] text-xs font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md">
+                  <ShoppingBag className="w-6 h-6 text-stone-800 group-hover:text-[#C5A059] transition-colors" />
+                  <span className="absolute -top-1.5 -right-2 bg-[#0F1D36] text-[#C5A059] text-xs font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md border border-[#C5A059]/40">
                     {cartCount}
                   </span>
                 </div>
-                <span className="hidden sm:inline font-bold text-xs text-white group-hover:text-[#D4AF37] mt-2">
+                <span className="hidden sm:inline font-bold text-xs text-stone-900 group-hover:text-[#C5A059] mt-2">
                   Cart
                 </span>
               </Link>
@@ -419,13 +426,13 @@ export default function Navbar() {
                   <div>
                     <button
                       onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                      className="flex flex-col text-left py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all text-xs focus:outline-none min-h-[44px] justify-center"
+                      className="flex flex-col text-left py-1 px-2 rounded-lg hover:bg-stone-100 transition-all text-xs focus:outline-none min-h-[44px] justify-center"
                     >
-                      <span className="text-[10px] text-stone-300">Hello, {user.name.split(' ')[0]}</span>
-                      <div className="flex items-center gap-1 font-bold text-white">
+                      <span className="text-[10px] text-stone-500">Hello, {user.name.split(' ')[0]}</span>
+                      <div className="flex items-center gap-1 font-bold text-stone-900">
                         <span className="hidden sm:inline">Account & Lists</span>
                         <User className="w-4 h-4 sm:hidden" />
-                        <ChevronDown className="w-3 h-3 text-stone-300" />
+                        <ChevronDown className="w-3 h-3 text-stone-400" />
                       </div>
                     </button>
 
@@ -442,9 +449,9 @@ export default function Navbar() {
                         {isStaff && (
                           <Link
                             href="/admin"
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-[#1B4332] font-semibold hover:bg-emerald-50 transition-colors"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-stone-900 font-semibold hover:bg-stone-50 transition-colors"
                           >
-                            <LayoutDashboard className="w-4 h-4 text-[#D4AF37]" />
+                            <LayoutDashboard className="w-4 h-4 text-[#C5A059]" />
                             <span>Admin Master Panel</span>
                           </Link>
                         )}
@@ -461,7 +468,7 @@ export default function Navbar() {
                           href="/orders"
                           className="flex items-center gap-2.5 px-4 py-2 text-stone-700 hover:bg-stone-50 transition-colors"
                         >
-                          <Package className="w-4 h-4 text-emerald-600" />
+                          <Package className="w-4 h-4 text-[#C5A059]" />
                           <span>Your Orders</span>
                         </Link>
 
@@ -486,11 +493,11 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/login"
-                    className="flex flex-col text-left py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-colors text-xs min-h-[44px] justify-center"
+                    className="flex flex-col text-left py-1 px-2.5 rounded-lg hover:bg-stone-100 transition-colors text-xs min-h-[44px] justify-center"
                   >
-                    <span className="text-[10px] text-stone-300 hidden sm:block">Hello, Sign in</span>
-                    <span className="font-bold text-white hidden sm:block">Account & Lists</span>
-                    <div className="sm:hidden flex items-center gap-1 font-bold text-white">
+                    <span className="text-[10px] text-stone-500 hidden sm:block">Hello, Sign in</span>
+                    <span className="font-bold text-stone-900 hidden sm:block">Account & Lists</span>
+                    <div className="sm:hidden flex items-center gap-1 font-bold text-stone-900">
                       <User className="w-4 h-4" />
                       <span className="text-[11px]">Login</span>
                     </div>
@@ -502,7 +509,7 @@ export default function Navbar() {
         </div>
 
         {/* Dedicated Mobile Search & Location Bar (Hidden on md and above) */}
-        <div className="md:hidden px-3 sm:px-4 pb-2.5 pt-1 border-t border-emerald-900/40 bg-[#163628]">
+        <div className="md:hidden px-3 sm:px-4 pb-2.5 pt-1 border-t border-stone-800/60 bg-[#0F1D36]">
           <div className="flex items-center justify-between gap-2 mb-2 text-[11px] text-stone-200">
             <button
               onClick={() => setLocationModalOpen(true)}
@@ -522,14 +529,14 @@ export default function Navbar() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-              className="w-full bg-white text-stone-900 px-3 py-2 text-xs rounded-l-md focus:outline-none min-h-[40px]"
+              className="w-full bg-[#FAF8F5] border border-stone-300 text-[#14171F] px-3 py-2 text-xs rounded-l-md focus:outline-none min-h-[40px]"
             />
             <button
               type="submit"
-              className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] px-4 py-2 rounded-r-md transition-colors flex items-center justify-center font-bold min-w-[44px] min-h-[40px]"
+              className="bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border-y border-r border-[#D4AF37]/40 px-4 py-2 rounded-r-md transition-colors flex items-center justify-center font-bold min-w-[44px] min-h-[40px]"
               aria-label="Search formulations"
             >
-              <Search className="w-4 h-4 text-[#1B4332] stroke-[2.5]" />
+              <Search className="w-4 h-4 text-[#D4AF37] stroke-[2.5]" />
             </button>
           </form>
 
@@ -541,7 +548,7 @@ export default function Navbar() {
                   key={p._id}
                   href={`/products/${p.slug}`}
                   onClick={() => setShowSuggestions(false)}
-                  className="flex items-center gap-3 p-2.5 hover:bg-emerald-50/60 transition-colors"
+                  className="flex items-center gap-3 p-2.5 hover:bg-amber-50/60 transition-colors"
                 >
                   <div className="w-9 h-9 rounded-md bg-stone-100 overflow-hidden shrink-0 border border-stone-200 flex items-center justify-center">
                     {p.images && p.images[0] ? (
@@ -551,7 +558,7 @@ export default function Navbar() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -565,53 +572,53 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Sub-Navigation Bar (Amazon Utility Bar with ☰ All Drawer Trigger) */}
-      <div className="bg-[#12281E] text-stone-200 border-t border-emerald-900/40 text-xs">
+      {/* Sub-Navigation Bar (Utility Bar with ☰ All Drawer Trigger) */}
+      <div className="bg-[#FAF8F5] text-stone-700 border-b border-stone-200/80 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-9 overflow-x-auto scrollbar-none gap-2">
             
             <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-              {/* The Iconic Amazon '☰ All' Drawer Trigger */}
+              {/* The Iconic '☰ All' Drawer Trigger */}
               <button
                 type="button"
                 onClick={() => setAllDrawerOpen(true)}
-                className="flex items-center gap-1.5 font-bold text-white py-1 px-2.5 rounded hover:ring-1 hover:ring-white/40 transition-all cursor-pointer bg-emerald-900/40"
+                className="flex items-center gap-1.5 font-bold text-[#D4AF37] py-1 px-2.5 rounded-lg transition-all cursor-pointer bg-[#0F1D36] hover:bg-[#162238] border border-[#D4AF37]/30 shadow-xs"
               >
-                <Menu className="w-4 h-4" />
+                <Menu className="w-4 h-4 text-[#D4AF37]" />
                 <span>All Medicines</span>
               </button>
 
-              <Link href="/products?bestseller=true" className="py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all font-medium text-stone-200 hover:text-white">
+              <Link href="/products?bestseller=true" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950">
                 Bestsellers
               </Link>
 
-              <Link href="/products" className="py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all font-medium text-stone-200 hover:text-white">
+              <Link href="/products" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950">
                 Today's Deals
               </Link>
 
-              <Link href="/products?category=herbal-supplements" className="py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all font-medium text-stone-200 hover:text-white hidden sm:inline-block">
+              <Link href="/products?category=herbal-supplements" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden sm:inline-block">
                 Herbal Supplements
               </Link>
 
-              <Link href="/products?category=ayurvedic-oils" className="py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all font-medium text-stone-200 hover:text-white hidden md:inline-block">
+              <Link href="/products?category=ayurvedic-oils" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden md:inline-block">
                 Classical Oils
               </Link>
 
-              <Link href="/products?category=digestive-wellness" className="py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all font-medium text-stone-200 hover:text-white hidden lg:inline-block">
+              <Link href="/products?category=digestive-wellness" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block">
                 Gut Wellness
               </Link>
 
-              <Link href="/products?category=immunity-rasayana" className="py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all font-medium text-stone-200 hover:text-white hidden lg:inline-block">
+              <Link href="/products?category=immunity-rasayana" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block">
                 Rasayanas
               </Link>
 
-              <Link href="/products" className="py-1 px-2 rounded hover:ring-1 hover:ring-white/40 transition-all font-medium text-[#D4AF37] hover:text-amber-300">
+              <Link href="/products" className="py-1 px-2 rounded hover:bg-amber-100/50 transition-all font-semibold text-[#8C5E3C] hover:text-[#5C3E28]">
                 Consult a Vaidya
               </Link>
             </div>
 
             {/* Right Prime Badge */}
-            <div className="hidden sm:flex items-center gap-1 text-[11px] text-[#D4AF37] font-bold shrink-0">
+            <div className="hidden sm:flex items-center gap-1 text-[11px] text-[#C5A059] font-bold shrink-0">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Vedic Prime: 1-Day Delivery</span>
             </div>
@@ -635,18 +642,18 @@ export default function Navbar() {
           {/* Drawer Sidebar */}
           <div className="relative w-[84vw] max-w-sm sm:w-96 bg-white text-stone-900 h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-300">
             {/* Drawer User Header */}
-            <div className="bg-[#1B4332] text-white p-4 flex items-center justify-between">
+            <div className="bg-[#0F1D36] text-white p-4 flex items-center justify-between border-b border-[#D4AF37]/30">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-[#D4AF37] text-[#1B4332] flex items-center justify-center font-bold text-sm">
-                  {user ? user.name.charAt(0).toUpperCase() : <User className="w-5 h-5" />}
+                <div className="w-9 h-9 rounded-full bg-[#D4AF37] text-[#0F1D36] flex items-center justify-center font-bold text-sm shadow-sm">
+                  {user ? user.name.charAt(0).toUpperCase() : <User className="w-5 h-5 text-[#0F1D36]" />}
                 </div>
-                <span className="font-serif font-bold text-base">
+                <span className="font-serif font-bold text-base text-white">
                   Hello, {user ? user.name.split(' ')[0] : 'Sign In'}
                 </span>
               </div>
               <button
                 onClick={() => setAllDrawerOpen(false)}
-                className="p-1 rounded-full hover:bg-emerald-900 text-stone-200 hover:text-white"
+                className="p-1 rounded-full hover:bg-stone-800 text-stone-400 hover:text-white"
                 aria-label="Close Menu"
               >
                 <X className="w-5 h-5" />
@@ -684,23 +691,38 @@ export default function Navbar() {
                 </h3>
                 <div className="space-y-1 font-medium text-stone-700">
                   <Link href="/products?category=herbal-supplements" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>🌿 Herbal Supplements</span>
+                    <span className="flex items-center gap-2.5">
+                      <Leaf className="w-4 h-4 text-[#C5A059]" />
+                      <span>Herbal Supplements</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                   <Link href="/products?category=ayurvedic-oils" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>🪔 Ayurvedic Oils & Tailas</span>
+                    <span className="flex items-center gap-2.5">
+                      <Droplet className="w-4 h-4 text-[#C5A059]" />
+                      <span>Classical Oils & Tailas</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                   <Link href="/products?category=digestive-wellness" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>🍵 Digestive & Gut Health</span>
+                    <span className="flex items-center gap-2.5">
+                      <HeartPulse className="w-4 h-4 text-[#C5A059]" />
+                      <span>Digestive & Gut Health</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                   <Link href="/products?category=skin-and-hair" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>✨ Skin & Hair Elixirs</span>
+                    <span className="flex items-center gap-2.5">
+                      <Sparkles className="w-4 h-4 text-[#C5A059]" />
+                      <span>Skin & Hair Elixirs</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                   <Link href="/products?category=immunity-rasayana" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>🛡️ Immunity & Rasayana</span>
+                    <span className="flex items-center gap-2.5">
+                      <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
+                      <span>Immunity & Rasayana</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                 </div>
@@ -713,15 +735,24 @@ export default function Navbar() {
                 </h3>
                 <div className="space-y-1 font-medium text-stone-700">
                   <Link href="/products" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>👑 Triven Vedic Prime Club</span>
+                    <span className="flex items-center gap-2.5">
+                      <Crown className="w-4 h-4 text-[#C5A059]" />
+                      <span>Triven Vedic Prime Club</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                   <Link href="/products" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>🩺 Free Vaidya Consultation & Dosha Quiz</span>
+                    <span className="flex items-center gap-2.5">
+                      <Stethoscope className="w-4 h-4 text-[#C5A059]" />
+                      <span>Free Vaidya Consultation & Dosha Quiz</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                   <Link href="/products" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span>📜 AYUSH Samhita Standards</span>
+                    <span className="flex items-center gap-2.5">
+                      <Award className="w-4 h-4 text-[#C5A059]" />
+                      <span>AYUSH Samhita Standards</span>
+                    </span>
                     <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
                   </Link>
                 </div>
@@ -750,7 +781,7 @@ export default function Navbar() {
                       Sign Out
                     </button>
                   ) : (
-                    <Link href="/login" onClick={() => setAllDrawerOpen(false)} className="block py-2 px-2 font-bold text-[#1B4332] hover:bg-emerald-50 rounded">
+                    <Link href="/login" onClick={() => setAllDrawerOpen(false)} className="block py-2 px-2 font-bold text-stone-900 hover:bg-stone-100 rounded">
                       Sign In
                     </Link>
                   )}
@@ -787,7 +818,7 @@ export default function Navbar() {
             </div>
 
             <p className="text-xs text-stone-600 mt-3 leading-relaxed">
-              Select a delivery location to see product availability, exact dispatch schedules, and free Triven Prime 1-day delivery options.
+              Select a delivery location to see product availability, exact dispatch schedules, and free delivery benefits.
             </p>
 
             {/* If user is logged in and has saved addresses, display them for 1-click select */}
@@ -806,11 +837,11 @@ export default function Navbar() {
                         onClick={() => handleSelectSavedAddress(addr)}
                         className={`w-full text-left p-2.5 rounded-lg border text-xs transition-all flex items-start gap-2.5 cursor-pointer ${
                           isSelected
-                            ? 'border-[#1B4332] bg-emerald-50/70 ring-1 ring-[#1B4332]'
+                            ? 'border-[#C5A059] bg-amber-50/70 ring-1 ring-[#C5A059]'
                             : 'border-stone-200 hover:border-stone-300 hover:bg-stone-50'
                         }`}
                       >
-                        <MapPin className={`w-4 h-4 shrink-0 mt-0.5 ${isSelected ? 'text-[#1B4332]' : 'text-stone-400'}`} />
+                        <MapPin className={`w-4 h-4 shrink-0 mt-0.5 ${isSelected ? 'text-[#8C5E3C]' : 'text-stone-400'}`} />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-stone-900 truncate">
@@ -834,7 +865,7 @@ export default function Navbar() {
                   <Link
                     href="/account"
                     onClick={() => setLocationModalOpen(false)}
-                    className="text-[11px] text-[#1B4332] hover:underline font-semibold"
+                    className="text-[11px] text-[#8C5E3C] hover:underline font-semibold"
                   >
                     Manage address book ›
                   </Link>
@@ -855,19 +886,19 @@ export default function Navbar() {
                   placeholder="Enter 6-digit Indian PIN code"
                   value={tempPincode}
                   onChange={(e) => setTempPincode(e.target.value.replace(/\D/g, ''))}
-                  className="flex-1 px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-[#1B4332] focus:ring-1 focus:ring-[#1B4332]"
+                  className="flex-1 px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059]"
                 />
                 <button
                   type="submit"
                   disabled={pincodeLoading}
-                  className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-4 py-2 rounded-lg text-xs transition-colors shadow-xs"
+                  className="bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold px-4 py-2 rounded-lg text-xs transition-colors shadow-xs"
                 >
                   {pincodeLoading ? 'Checking...' : 'Apply'}
                 </button>
               </div>
 
               {pincodeMessage && (
-                <p className="text-xs text-[#1B4332] font-semibold bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                <p className="text-xs text-stone-800 font-semibold bg-amber-50 p-2.5 rounded-lg border border-amber-200">
                   {pincodeMessage}
                 </p>
               )}
@@ -880,15 +911,15 @@ export default function Navbar() {
                   setLocationModalOpen(false);
                   setIsMapPickerOpen(true);
                 }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-[#1B4332] font-bold text-xs transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-[#8C5E3C] font-bold text-xs transition-colors cursor-pointer"
               >
-                <Navigation className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>📍 Choose Location on Map (PIN code or Area)</span>
+                <Navigation className="w-3.5 h-3.5 text-[#C5A059]" />
+                <span>Choose Location on Map (PIN code or Area)</span>
               </button>
 
               <div className="text-xs text-stone-500 flex items-center justify-between">
                 <span>Current: <strong>{currentPincode} ({currentCity})</strong></span>
-                <span className="text-emerald-700 font-semibold">✓ Free Prime Delivery</span>
+                <span className="text-amber-800 font-semibold">✓ Free Prime Delivery</span>
               </div>
             </div>
           </div>
@@ -904,10 +935,10 @@ export default function Navbar() {
         onLocationSelect={handleMapLocationPicked}
       />
 
-      {/* Amazon-Style Sticky Mobile Bottom Navigation Bar */}
+      {/* Mobile Bottom Navigation Bar */}
       <nav
         aria-label="Mobile Bottom Navigation"
-        className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-stone-200/90 shadow-[0_-4px_25px_rgba(0,0,0,0.1)] md:hidden pt-2 pb-[max(env(safe-area-inset-bottom,0px),12px)] transform-gpu will-change-transform"
+        className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#EBE6DD] shadow-[0_-4px_25px_rgba(15,29,54,0.06)] md:hidden pt-2 pb-[max(env(safe-area-inset-bottom,0px),12px)] transform-gpu will-change-transform"
       >
         <div className="grid grid-cols-5 items-center justify-around text-center px-1">
           {/* 1. Home */}
@@ -920,16 +951,16 @@ export default function Navbar() {
               }
             }}
             className={`flex flex-col items-center justify-center py-1 select-none active:scale-95 transition-all min-h-[48px] ${
-              pathname === '/' ? 'text-[#1B4332]' : 'text-stone-600 hover:text-stone-900'
+              pathname === '/' ? 'text-[#0F1D36]' : 'text-[#6E6761] hover:text-[#0F1D36]'
             }`}
           >
             <div className="relative flex items-center justify-center">
               <Home className={`w-5 h-5 ${pathname === '/' ? 'stroke-[2.5]' : 'stroke-[1.85]'}`} />
               {pathname === '/' && (
-                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#1B4332] rounded-full" />
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#D4AF37] rounded-full" />
               )}
             </div>
-            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname === '/' ? 'font-bold text-[#1B4332]' : 'font-medium text-stone-600'}`}>
+            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname === '/' ? 'font-bold text-[#0F1D36]' : 'font-medium text-[#6E6761]'}`}>
               Home
             </span>
           </Link>
@@ -938,16 +969,16 @@ export default function Navbar() {
           <Link
             href={user ? "/account" : "/login"}
             className={`flex flex-col items-center justify-center py-1 select-none active:scale-95 transition-all min-h-[48px] ${
-              pathname.startsWith('/account') || pathname.startsWith('/login') ? 'text-[#1B4332]' : 'text-stone-600 hover:text-stone-900'
+              pathname.startsWith('/account') || pathname.startsWith('/login') ? 'text-[#0F1D36]' : 'text-[#6E6761] hover:text-[#0F1D36]'
             }`}
           >
             <div className="relative flex items-center justify-center">
               <User className={`w-5 h-5 ${pathname.startsWith('/account') || pathname.startsWith('/login') ? 'stroke-[2.5]' : 'stroke-[1.85]'}`} />
               {user && (
-                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-600 rounded-full ring-2 ring-white" />
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#D4AF37] rounded-full ring-2 ring-white" />
               )}
             </div>
-            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname.startsWith('/account') || pathname.startsWith('/login') ? 'font-bold text-[#1B4332]' : 'font-medium text-stone-600'}`}>
+            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname.startsWith('/account') || pathname.startsWith('/login') ? 'font-bold text-[#0F1D36]' : 'font-medium text-[#6E6761]'}`}>
               You
             </span>
           </Link>
@@ -956,7 +987,7 @@ export default function Navbar() {
           <Link
             href="/wishlist"
             className={`flex flex-col items-center justify-center py-1 select-none active:scale-95 transition-all min-h-[48px] ${
-              pathname.startsWith('/wishlist') ? 'text-[#1B4332]' : 'text-stone-600 hover:text-stone-900'
+              pathname.startsWith('/wishlist') ? 'text-[#0F1D36]' : 'text-[#6E6761] hover:text-[#0F1D36]'
             }`}
           >
             <div className="relative flex items-center justify-center">
@@ -967,7 +998,7 @@ export default function Navbar() {
                 </span>
               )}
             </div>
-            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname.startsWith('/wishlist') ? 'font-bold text-[#1B4332]' : 'font-medium text-stone-600'}`}>
+            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname.startsWith('/wishlist') ? 'font-bold text-[#0F1D36]' : 'font-medium text-[#6E6761]'}`}>
               Wishlist
             </span>
           </Link>
@@ -976,35 +1007,35 @@ export default function Navbar() {
           <Link
             href="/checkout"
             className={`flex flex-col items-center justify-center py-1 select-none active:scale-95 transition-all min-h-[48px] ${
-              pathname.startsWith('/checkout') ? 'text-[#1B4332]' : 'text-stone-600 hover:text-stone-900'
+              pathname.startsWith('/checkout') ? 'text-[#0F1D36]' : 'text-[#6E6761] hover:text-[#0F1D36]'
             }`}
           >
             <div className="relative flex items-center justify-center">
               <ShoppingBag className={`w-5 h-5 ${pathname.startsWith('/checkout') ? 'stroke-[2.5]' : 'stroke-[1.85]'}`} />
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-2.5 bg-[#D4AF37] text-[#1B4332] text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                <span className="absolute -top-1.5 -right-2.5 bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
                   {cartCount > 9 ? '9+' : cartCount}
                 </span>
               )}
             </div>
-            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname.startsWith('/checkout') ? 'font-bold text-[#1B4332]' : 'font-medium text-stone-600'}`}>
+            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname.startsWith('/checkout') ? 'font-bold text-[#0F1D36]' : 'font-medium text-[#6E6761]'}`}>
               Cart
             </span>
           </Link>
 
-          {/* 5. All (Amazon Hamburger Drawer Trigger) */}
+          {/* 5. All Drawer Trigger */}
           <button
             type="button"
             onClick={() => setAllDrawerOpen(true)}
             aria-label="Open All Categories Menu"
             className={`flex flex-col items-center justify-center py-1 select-none active:scale-95 transition-all cursor-pointer min-h-[48px] ${
-              allDrawerOpen ? 'text-[#1B4332]' : 'text-stone-600 hover:text-stone-900'
+              allDrawerOpen ? 'text-[#0F1D36]' : 'text-[#6E6761] hover:text-[#0F1D36]'
             }`}
           >
             <div className="relative flex items-center justify-center">
               <Menu className={`w-5 h-5 ${allDrawerOpen ? 'stroke-[2.5]' : 'stroke-[1.85]'}`} />
             </div>
-            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${allDrawerOpen ? 'font-bold text-[#1B4332]' : 'font-medium text-stone-600'}`}>
+            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${allDrawerOpen ? 'font-bold text-[#0F1D36]' : 'font-medium text-[#6E6761]'}`}>
               All
             </span>
           </button>

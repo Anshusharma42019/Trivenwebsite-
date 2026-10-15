@@ -228,7 +228,7 @@ export default function AdminBannersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 flex items-center gap-2.5">
-            <ImageIcon className="w-7 h-7 text-[#1B4332]" />
+            <ImageIcon className="w-7 h-7 text-[#C5A059]" />
             <span>Hero & Marketing Banners</span>
           </h1>
           <p className="text-xs text-stone-500 mt-1">
@@ -238,16 +238,16 @@ export default function AdminBannersPage() {
 
         <button
           onClick={handleOpenAdd}
-          className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-xs transition-colors self-start sm:self-auto"
+          className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-xs transition-colors self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4 text-[#D4AF37]" />
+          <Plus className="w-4 h-4 text-[#C5A059]" />
           <span>Add New Hero Banner</span>
         </button>
       </div>
 
       {statusMsg && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-700" />
+        <div className="p-3 bg-amber-50/70 border border-amber-200 text-stone-900 text-xs rounded-xl flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 shrink-0 text-[#8C5E3C]" />
           <span>{statusMsg}</span>
         </div>
       )}
@@ -264,7 +264,7 @@ export default function AdminBannersPage() {
         <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs space-y-2">
           <div className="p-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between text-xs">
             <span className="font-bold text-stone-700 flex items-center gap-1.5">
-              <Eye className="w-4 h-4 text-[#1B4332]" />
+              <Eye className="w-4 h-4 text-[#C5A059]" />
               <span>Live Storefront Simulation: "{previewBanner.title}"</span>
             </span>
             <span className="text-stone-400 text-[11px]">Desktop & Mobile Preview</span>
@@ -278,7 +278,7 @@ export default function AdminBannersPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-stone-950/90 via-stone-900/60 to-transparent flex items-center px-6 sm:px-12">
               <div className="max-w-xl space-y-2 text-white">
-                <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#D4AF37] text-[#1B4332]">
+                <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#C5A059] text-[#18181B]">
                   {previewBanner.badge || 'Authentic Ayurveda'}
                 </span>
                 <h3 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
@@ -312,7 +312,7 @@ export default function AdminBannersPage() {
 
         {loading ? (
           <div className="p-12 text-center">
-            <Loader2 className="w-8 h-8 animate-spin text-[#1B4332] mx-auto mb-2" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#C5A059] mx-auto mb-2" />
             <p className="text-xs text-stone-500">Loading banners...</p>
           </div>
         ) : banners.length === 0 ? (
@@ -320,7 +320,7 @@ export default function AdminBannersPage() {
             <p>No promotional banners found. Create your first hero campaign banner.</p>
             <button
               onClick={handleOpenAdd}
-              className="bg-[#1B4332] text-white font-bold px-4 py-2 rounded-xl text-xs"
+              className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 font-bold px-4 py-2 rounded-xl text-xs transition-colors"
             >
               Add First Banner
             </button>
@@ -356,7 +356,7 @@ export default function AdminBannersPage() {
                     <p className="text-xs text-stone-500 truncate">{b.subtitle || 'No subtitle'}</p>
 
                     <div className="flex items-center gap-3 text-[11px] text-stone-500 pt-0.5">
-                      <span className="bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-medium">
+                      <span className="bg-amber-50 text-amber-900 border border-amber-200/60 px-2 py-0.5 rounded font-medium">
                         {b.badge}
                       </span>
                       <span>Link: <code className="text-stone-700">{b.linkUrl}</code></span>
@@ -372,7 +372,7 @@ export default function AdminBannersPage() {
                     onClick={() => handleToggleStatus(b)}
                     className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
                       b.isActive
-                        ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                        ? 'bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200'
                         : 'bg-stone-200 text-stone-600 hover:bg-stone-300'
                     }`}
                   >
@@ -381,7 +381,7 @@ export default function AdminBannersPage() {
 
                   <button
                     onClick={() => handleOpenEdit(b)}
-                    className="p-2 text-stone-500 hover:text-[#1B4332] hover:bg-stone-100 rounded-lg transition-colors"
+                    className="p-2 text-stone-500 hover:text-[#8C5E3C] hover:bg-stone-100 rounded-lg transition-colors"
                     title="Edit Banner"
                   >
                     <Edit2 className="w-4 h-4" />
@@ -405,8 +405,8 @@ export default function AdminBannersPage() {
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-stone-900/60 backdrop-blur-xs animate-in fade-in overflow-y-auto">
           <div className="bg-white rounded-2xl shadow-2xl border border-stone-200 w-full max-w-xl overflow-hidden flex flex-col my-auto max-h-[92vh]">
-            <div className="p-4 sm:p-5 bg-[#1B4332] text-white flex items-center justify-between">
-              <h3 className="font-serif font-bold text-base">
+            <div className="p-4 sm:p-5 bg-[#18181B] text-white flex items-center justify-between border-b border-[#C5A059]/30">
+              <h3 className="font-serif font-bold text-base text-[#C5A059]">
                 {editingBanner ? 'Edit Hero Banner' : 'Create New Hero Banner'}
               </h3>
               <button
@@ -426,7 +426,7 @@ export default function AdminBannersPage() {
                   placeholder="e.g. The Great Vedic Health Festival"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                  className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                 />
               </div>
 
@@ -437,7 +437,7 @@ export default function AdminBannersPage() {
                   placeholder="e.g. Up to 35% Off on Pure Classical Samhita Formulations"
                   value={formData.subtitle}
                   onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-                  className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                  className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                 />
               </div>
 
@@ -449,7 +449,7 @@ export default function AdminBannersPage() {
                     placeholder="e.g. AYUSH Certified Standards"
                     value={formData.badge}
                     onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
-                    className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                    className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                   />
                 </div>
 
@@ -460,7 +460,7 @@ export default function AdminBannersPage() {
                     placeholder="e.g. Shop Festival Deals"
                     value={formData.ctaText}
                     onChange={(e) => setFormData({ ...formData, ctaText: e.target.value })}
-                    className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                    className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                   />
                 </div>
               </div>
@@ -473,7 +473,7 @@ export default function AdminBannersPage() {
                   placeholder="/products?category=ayurvedic-oils"
                   value={formData.linkUrl}
                   onChange={(e) => setFormData({ ...formData, linkUrl: e.target.value })}
-                  className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                  className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                 />
               </div>
 
@@ -491,7 +491,7 @@ export default function AdminBannersPage() {
                   <button
                     type="button"
                     onClick={() => setShowUrlFallback(!showUrlFallback)}
-                    className="text-xs text-[#1B4332] hover:underline font-medium"
+                    className="text-xs text-[#8C5E3C] hover:underline font-medium"
                   >
                     {showUrlFallback ? 'Hide URL input' : 'Or paste URL'}
                   </button>
@@ -523,23 +523,23 @@ export default function AdminBannersPage() {
                   onClick={() => fileInputRef.current?.click()}
                   className={`border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-all ${
                     isDragging
-                      ? 'border-[#1B4332] bg-emerald-50/60'
-                      : 'border-stone-300 hover:border-[#1B4332] bg-white hover:bg-stone-50/50'
+                      ? 'border-[#C5A059] bg-amber-50/40'
+                      : 'border-stone-300 hover:border-[#C5A059] bg-white hover:bg-stone-50/50'
                   }`}
                 >
                   {uploadingImage ? (
                     <div className="flex flex-col items-center justify-center gap-2 py-2">
-                      <Loader2 className="w-7 h-7 text-[#1B4332] animate-spin" />
+                      <Loader2 className="w-7 h-7 text-[#C5A059] animate-spin" />
                       <span className="text-sm font-semibold text-stone-700">Uploading banner image to server...</span>
                       <span className="text-xs text-stone-400">Saving securely in high resolution</span>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-1.5">
-                      <div className="w-10 h-10 rounded-full bg-emerald-50 text-[#1B4332] flex items-center justify-center border border-emerald-100 shadow-xs">
+                      <div className="w-10 h-10 rounded-full bg-amber-50 text-[#8C5E3C] flex items-center justify-center border border-amber-200/60 shadow-xs">
                         <UploadCloud className="w-5 h-5" />
                       </div>
                       <div className="text-sm font-semibold text-stone-700">
-                        <span className="text-[#1B4332] underline decoration-[#D4AF37] decoration-2">Click to browse banner file</span> or drag & drop here
+                        <span className="text-[#8C5E3C] underline decoration-[#C5A059] decoration-2">Click to browse banner file</span> or drag & drop here
                       </div>
                       <div className="text-xs text-stone-400">
                         PNG, JPG, WEBP, AVIF up to 10MB • Landscape ratio recommended
@@ -563,7 +563,7 @@ export default function AdminBannersPage() {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="text-[#1B4332] hover:underline text-[11px]"
+                        className="text-[#8C5E3C] hover:underline text-[11px]"
                       >
                         Change Image
                       </button>
@@ -613,7 +613,7 @@ export default function AdminBannersPage() {
                     type="number"
                     value={formData.sortOrder}
                     onChange={(e) => setFormData({ ...formData, sortOrder: Number(e.target.value) })}
-                    className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                    className="w-full p-2.5 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                   />
                 </div>
 
@@ -623,7 +623,7 @@ export default function AdminBannersPage() {
                     id="is-active"
                     checked={formData.isActive}
                     onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                    className="rounded text-[#1B4332] w-4 h-4"
+                    className="rounded text-[#18181B] accent-[#18181B] w-4 h-4"
                   />
                   <label htmlFor="is-active" className="text-stone-800 font-bold cursor-pointer">
                     Publish Immediately
@@ -642,9 +642,9 @@ export default function AdminBannersPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-bold px-5 py-2 rounded-lg flex items-center gap-1.5"
+                  className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 font-bold px-5 py-2 rounded-lg flex items-center gap-1.5 transition-colors shadow-sm"
                 >
-                  {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <span>Save Banner</span>}
+                  {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#C5A059]" /> : <span>Save Banner</span>}
                 </button>
               </div>
             </form>

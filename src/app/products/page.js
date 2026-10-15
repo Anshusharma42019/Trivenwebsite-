@@ -23,7 +23,7 @@ export async function generateMetadata({ searchParams }) {
   const params = await searchParams;
   if (params.bestseller === 'true') {
     return {
-      title: 'Amazon Best Sellers in Ayurvedic Medicine | Triven Ayurveda',
+      title: 'Best Sellers in Ayurvedic Medicine | Triven Ayurveda',
       description: 'Our most popular classical remedies and top-rated formulations based on verified purchases.',
     };
   }
@@ -83,7 +83,7 @@ export default async function ProductsPage({ searchParams }) {
   const brands = rawBrands ? JSON.parse(JSON.stringify(rawBrands)) : [];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523]">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1 w-full">
@@ -93,11 +93,11 @@ export default async function ProductsPage({ searchParams }) {
             <div>
               {/* Breadcrumb */}
               <div className="flex items-center gap-1.5 text-xs text-stone-500 mb-1 flex-wrap">
-                <Link href="/" className="hover:text-[#1B4332] hover:underline">
+                <Link href="/" className="hover:text-[#C5A059] hover:underline">
                   Home
                 </Link>
                 <span>›</span>
-                <Link href="/products" className="hover:text-[#1B4332] hover:underline">
+                <Link href="/products" className="hover:text-[#C5A059] hover:underline">
                   Ayurvedic Medicines
                 </Link>
                 {category && (
@@ -130,8 +130,8 @@ export default async function ProductsPage({ searchParams }) {
                   </span>
                 )}
                 {bestseller && (
-                  <span className="inline-flex items-center gap-1 text-[11px] bg-[#1B4332] text-[#D4AF37] px-2 py-0.5 rounded-full font-bold">
-                    <span>★ Amazon #1 Best Sellers</span>
+                  <span className="inline-flex items-center gap-1 text-[11px] bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 px-3 py-0.5 rounded-full font-bold shadow-xs">
+                    <span>✦ Triven #1 Best Sellers</span>
                   </span>
                 )}
               </div>
@@ -155,7 +155,7 @@ export default async function ProductsPage({ searchParams }) {
                     href={`/products?${new URLSearchParams({ ...params, sort: s.value }).toString()}`}
                     className={`text-xs px-2.5 sm:px-3 py-1.5 rounded-lg border font-medium whitespace-nowrap shrink-0 transition-all ${
                       sort === s.value
-                        ? 'bg-[#1B4332] text-white border-[#1B4332] shadow-xs'
+                        ? 'bg-[#18181B] text-[#C5A059] border-[#C5A059] shadow-xs'
                         : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
                     }`}
                   >
@@ -187,11 +187,11 @@ export default async function ProductsPage({ searchParams }) {
           {/* Right Results Column */}
           <div className="lg:col-span-3 space-y-6 min-w-0">
             {products.length === 0 ? (
-              <div className="bg-white rounded-xl border border-stone-200 p-8 sm:p-12 text-center shadow-xs">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-stone-100 text-stone-400 mx-auto flex items-center justify-center text-2xl font-serif mb-4">
-                  🌿
+              <div className="bg-white rounded-2xl border border-[#EBE6DD] p-8 sm:p-12 text-center shadow-luxury">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-amber-50 border border-amber-200/60 mx-auto flex items-center justify-center mb-4 shadow-sm">
+                  <Sparkles className="w-7 h-7 text-[#C5A059]" />
                 </div>
-                <h3 className="font-serif font-bold text-base sm:text-lg text-stone-800">
+                <h3 className="font-serif font-bold text-base sm:text-lg text-[#14171F]">
                   No matching classical formulations found
                 </h3>
                 <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
@@ -199,7 +199,7 @@ export default async function ProductsPage({ searchParams }) {
                 </p>
                 <Link
                   href="/products"
-                  className="mt-4 inline-block bg-[#1B4332] text-white text-xs font-semibold px-6 py-2.5 rounded-lg hover:bg-[#2D6A4F] transition-colors min-h-[44px] leading-[44px]"
+                  className="mt-4 inline-block bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 text-xs font-bold px-6 py-2.5 rounded-xl transition-all min-h-[44px] leading-[44px] shadow-sm"
                 >
                   View All Formulations
                 </Link>
@@ -210,13 +210,13 @@ export default async function ProductsPage({ searchParams }) {
                   <div key={p._id.toString()} className="relative min-w-0">
                     {/* Amazon-style 'Overall Pick' / 'Best Seller' Tag on First items */}
                     {idx === 0 && (
-                      <div className="absolute top-2 left-2 z-20 bg-stone-900 text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded shadow-xs">
-                        Overall Pick
+                      <div className="absolute top-2.5 left-2.5 z-20 bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs tracking-wider">
+                        ✦ Overall Pick
                       </div>
                     )}
                     {idx === 1 && p.isBestseller && (
-                      <div className="absolute top-2 left-2 z-20 bg-[#D4AF37] text-[#1B4332] text-[9px] sm:text-[10px] font-extrabold px-1.5 sm:px-2 py-0.5 rounded shadow-xs">
-                        #1 Best Seller
+                      <div className="absolute top-2.5 left-2.5 z-20 bg-[#D4AF37] text-[#0F1D36] text-[9px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-xs tracking-wider">
+                        ★ #1 Best Seller
                       </div>
                     )}
                     <ProductCard product={p} />
@@ -232,10 +232,10 @@ export default async function ProductsPage({ searchParams }) {
                   <Link
                     key={p}
                     href={`/products?${new URLSearchParams({ ...params, page: String(p) }).toString()}`}
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center text-xs font-bold transition-all min-h-[40px] min-w-[40px] ${
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-xs font-bold transition-all min-h-[40px] min-w-[40px] ${
                       p === page
-                        ? 'bg-[#1B4332] text-white shadow-xs'
-                        : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-50'
+                        ? 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37] shadow-sm'
+                        : 'bg-white border border-stone-200 text-stone-700 hover:bg-stone-50 hover:border-stone-300'
                     }`}
                   >
                     {p}

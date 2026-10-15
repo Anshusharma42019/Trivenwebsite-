@@ -37,7 +37,7 @@ export default function ProductCard({ product }) {
   const isOutOfStock = product.stock <= 0;
 
   return (
-    <div className="group relative bg-white rounded-xl border border-stone-200 hover:border-stone-300 hover:shadow-lg transition-all duration-200 flex flex-col overflow-hidden p-2.5 sm:p-3.5 min-w-0">
+    <div className="group relative bg-white rounded-2xl border border-stone-200/90 hover:border-[#C5A059]/50 hover:shadow-[0_15px_35px_rgba(15,29,54,0.08)] transition-all duration-300 flex flex-col overflow-hidden p-3 sm:p-4 min-w-0">
       {/* Product Image */}
       <Link href={`/products/${product.slug}`} className="block relative aspect-square bg-stone-50 rounded-lg overflow-hidden mb-2.5 sm:mb-3">
         <ProductImage
@@ -68,7 +68,7 @@ export default function ProductCard({ product }) {
         )}
 
         {/* Dosage Form Tag */}
-        <span className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-xs text-stone-700 text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded border border-stone-200 shadow-2xs truncate max-w-[80%]">
+        <span className="absolute bottom-2.5 left-2.5 bg-white/95 backdrop-blur-md text-[#8C5E3C] text-[9px] sm:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full border border-[#C5A059]/30 shadow-2xs truncate max-w-[80%]">
           {product.dosageForm || 'Classical'}
         </span>
       </Link>
@@ -76,10 +76,13 @@ export default function ProductCard({ product }) {
       {/* Content Section */}
       <div className="flex flex-col flex-1 min-w-0">
         {/* Title */}
-        <Link href={`/products/${product.slug}`} className="block group-hover:text-[#1B4332] transition-colors mb-1">
-          <h3 className="font-sans font-medium text-stone-900 text-xs sm:text-sm leading-snug line-clamp-2">
-            {product.name} ({product.netQuantity || 'Standard Pack'})
+        <Link href={`/products/${product.slug}`} className="block group-hover:text-[#8C5E3C] transition-colors mb-1.5">
+          <h3 className="font-serif font-bold text-stone-900 text-xs sm:text-sm leading-snug line-clamp-2">
+            {product.name}
           </h3>
+          <p className="text-[11px] text-stone-400 font-sans mt-0.5 truncate">
+            {product.netQuantity || 'Authentic Formulation'}
+          </p>
         </Link>
 
         {/* Ratings and Reviews */}
@@ -110,21 +113,23 @@ export default function ProductCard({ product }) {
           </div>
 
           {/* Prime Tag */}
-          <div className="text-[10px] sm:text-[11px] text-stone-600 flex items-center gap-1 mb-2.5 truncate">
-            <span className="font-bold text-[#1B4332]">✓ Triven Prime</span>
-            <span className="hidden xs:inline">• Fast Delivery</span>
+          <div className="text-[10px] sm:text-[11px] flex items-center gap-1 mb-3 truncate">
+            <span className="font-bold text-[#C5A059] flex items-center gap-0.5">
+              <span>✦</span> Triven Prime
+            </span>
+            <span className="text-stone-400 text-[10px]">• AYUSH Certified</span>
           </div>
 
           {/* Add to Cart Button */}
           <button
             onClick={handleAdd}
             disabled={isOutOfStock || added}
-            className={`w-full py-2 px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-xs min-h-[40px] sm:min-h-[44px] ${
+            className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 min-h-[42px] sm:min-h-[44px] ${
               isOutOfStock
-                ? 'bg-stone-200 text-stone-500 cursor-not-allowed'
+                ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
                 : added
-                ? 'bg-emerald-700 text-white'
-                : 'bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] active:scale-95'
+                ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
+                : 'bg-[#0F1D36] hover:bg-[#162238] text-[#C5A059] border border-[#C5A059]/40 hover:border-[#C5A059] active:scale-98 shadow-sm'
             }`}
             aria-label={isOutOfStock ? "Out of Stock" : `Add ${product.name} to Cart`}
           >
@@ -132,13 +137,13 @@ export default function ProductCard({ product }) {
               <span>Out of Stock</span>
             ) : added ? (
               <>
-                <Check className="w-3.5 h-3.5" />
-                <span>Added</span>
+                <Check className="w-3.5 h-3.5 text-[#C5A059]" />
+                <span>Added to Bag</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-3.5 h-3.5" />
-                <span>Add to Cart</span>
+                <ShoppingBag className="w-3.5 h-3.5 text-[#C5A059]" />
+                <span>Add to Bag</span>
               </>
             )}
           </button>

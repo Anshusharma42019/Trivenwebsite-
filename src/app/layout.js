@@ -1,8 +1,21 @@
 import './globals.css';
 import Script from 'next/script';
+import { Inter, Playfair_Display } from 'next/font/google';
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'Triven Ayurveda | Pure Classical Vedic Formulations',
@@ -13,8 +26,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col bg-[#FAF8F5] text-slate-800 antialiased selection:bg-ayur-200 selection:text-ayur-900 pb-16 md:pb-0">
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <body className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] font-sans antialiased selection:bg-[#C5A059]/25 selection:text-[#0F1D36] pb-16 md:pb-0">
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>

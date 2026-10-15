@@ -96,7 +96,7 @@ export default function AdminAuditLogsPage() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="py-12 text-center text-stone-400">
-                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#1B4332]" />
+                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#C5A059]" />
                     <span>Loading audit records...</span>
                   </td>
                 </tr>
@@ -116,7 +116,7 @@ export default function AdminAuditLogsPage() {
                       {log.userEmail || 'system'}
                     </td>
                     <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-stone-900 border border-amber-200">
                         {log.action}
                       </span>
                     </td>

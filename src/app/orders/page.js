@@ -21,6 +21,7 @@ import {
   FileText,
   Star,
   Sparkles,
+  MapPin,
 } from 'lucide-react';
 import ProductImage from '@/components/store/ProductImage';
 
@@ -67,7 +68,7 @@ export default function OrdersPage() {
   if (authLoading || (!user && loadingOrders)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#1B4332]" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#C5A059]" />
       </div>
     );
   }
@@ -91,24 +92,24 @@ export default function OrdersPage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523]">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
-        {/* Amazon Breadcrumb */}
+        {/* Triven Breadcrumb */}
         <div className="flex items-center gap-1.5 text-xs text-stone-500 mb-4">
-          <Link href="/" className="hover:text-[#1B4332] hover:underline">
+          <Link href="/" className="hover:text-[#C5A059] hover:underline">
             Home
           </Link>
           <span>›</span>
-          <Link href="/account" className="hover:text-[#1B4332] hover:underline">
+          <Link href="/account" className="hover:text-[#C5A059] hover:underline">
             Your Account
           </Link>
           <span>›</span>
           <span className="text-stone-800 font-semibold">Your Orders</span>
         </div>
 
-        {/* Amazon Orders Header */}
+        {/* Triven Orders Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
@@ -127,7 +128,7 @@ export default function OrdersPage() {
               placeholder="Search all orders..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-stone-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#1B4332]"
+              className="w-full pl-9 pr-4 py-2 bg-white border border-stone-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
             />
           </div>
         </div>
@@ -145,7 +146,7 @@ export default function OrdersPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`py-3 px-3 sm:px-4 font-semibold whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? 'border-[#1B4332] text-[#1B4332]'
+                  ? 'border-[#C5A059] text-stone-900 font-bold'
                   : 'border-transparent text-stone-500 hover:text-stone-800'
               }`}
             >
@@ -174,13 +175,13 @@ export default function OrdersPage() {
         {/* Orders List */}
         {loadingOrders ? (
           <div className="bg-white rounded-2xl border border-stone-200 p-12 text-center">
-            <Loader2 className="w-6 h-6 animate-spin text-[#1B4332] mx-auto mb-2" />
+            <Loader2 className="w-6 h-6 animate-spin text-[#C5A059] mx-auto mb-2" />
             <p className="text-xs text-stone-500">Loading your verified order records...</p>
           </div>
         ) : filteredOrders.length === 0 ? (
           <div className="bg-white rounded-2xl border border-stone-200 p-12 text-center max-w-xl mx-auto shadow-xs space-y-4">
-            <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mx-auto text-2xl">
-              📦
+            <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-200/60 flex items-center justify-center mx-auto shadow-sm">
+              <Package className="w-8 h-8 text-[#C5A059]" />
             </div>
             <h3 className="font-serif text-xl font-bold text-stone-900">
               No orders found in this period
@@ -193,7 +194,7 @@ export default function OrdersPage() {
             <div className="pt-2">
               <Link
                 href="/products"
-                className="inline-block bg-[#1B4332] text-white font-bold text-xs px-6 py-2.5 rounded-xl hover:bg-[#2D6A4F] transition-all shadow-xs"
+                className="inline-block bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 font-bold text-xs px-6 py-3 rounded-xl hover:bg-[#162238] transition-all shadow-sm"
               >
                 Start Shopping Classical Remedies
               </Link>
@@ -206,7 +207,7 @@ export default function OrdersPage() {
                 key={order._id}
                 className="bg-white rounded-xl border border-stone-300 overflow-hidden shadow-xs"
               >
-                {/* AMAZON ORDER METADATA HEADER STRIP */}
+                {/* TRIVEN ORDER METADATA HEADER STRIP */}
                 <div className="bg-stone-100 px-4 sm:px-6 py-3 border-b border-stone-200 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-600">
                   <div className="flex flex-wrap items-center gap-6 sm:gap-10">
                     <div>
@@ -231,13 +232,34 @@ export default function OrdersPage() {
                       </span>
                     </div>
 
-                    <div>
+                    <div className="relative group">
                       <span className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold">
                         Ship To
                       </span>
-                      <span className="font-medium text-stone-800">
-                        {order.shippingAddress?.fullName || user.name}
+                      <span className="font-semibold text-stone-900 flex items-center gap-1 cursor-pointer hover:text-[#8C5E3C] transition-colors">
+                        <span>{order.shippingAddress?.fullName || user.name}</span>
+                        <MapPin className="w-3.5 h-3.5 text-[#C5A059]" />
                       </span>
+                      {/* Address dropdown card on hover/focus */}
+                      <div className="absolute left-0 top-full mt-1.5 hidden group-hover:block z-30 bg-white border border-stone-200 rounded-xl p-3 shadow-xl min-w-[260px] max-w-[320px] text-xs space-y-1">
+                        <div className="flex items-center justify-between border-b border-stone-100 pb-1.5">
+                          <span className="font-bold text-stone-900">{order.shippingAddress?.fullName || user.name}</span>
+                          {order.shippingAddress?.addressType && (
+                            <span className="text-[9px] uppercase font-bold bg-stone-100 px-1.5 py-0.5 rounded text-stone-600">
+                              {order.shippingAddress.addressType === 'work' ? 'Office' : 'Home'}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-stone-700 leading-snug">{order.shippingAddress?.addressLine1}</p>
+                        {order.shippingAddress?.addressLine2 && <p className="text-stone-600">{order.shippingAddress.addressLine2}</p>}
+                        {order.shippingAddress?.landmark && (
+                          <p className="text-stone-500 text-[10px]">Landmark: {order.shippingAddress.landmark}</p>
+                        )}
+                        <p className="text-stone-900 font-semibold">
+                          {order.shippingAddress?.city}, {order.shippingAddress?.state} - <strong>{order.shippingAddress?.pincode}</strong>
+                        </p>
+                        <p className="text-stone-500 text-[10px] pt-1">Phone: {order.shippingAddress?.phone || order.customerDetails?.phone}</p>
+                      </div>
                     </div>
                   </div>
 
@@ -249,14 +271,14 @@ export default function OrdersPage() {
                       <div className="flex items-center gap-2">
                         <Link
                           href={`/orders/${order.orderNumber}`}
-                          className="text-[#1B4332] font-semibold hover:underline"
+                          className="text-[#8C5E3C] font-semibold hover:underline"
                         >
                           View order details
                         </Link>
                         <span className="text-stone-300">|</span>
                         <Link
                           href={`/orders/${order.orderNumber}`}
-                          className="text-[#1B4332] font-semibold hover:underline"
+                          className="text-[#8C5E3C] font-semibold hover:underline"
                         >
                           Invoice
                         </Link>
@@ -273,14 +295,14 @@ export default function OrdersPage() {
                       <h4 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
                         {order.status === 'delivered' ? (
                           <>
-                            <CheckCircle2 className="w-5 h-5 text-emerald-700" />
+                            <CheckCircle2 className="w-5 h-5 text-[#C5A059]" />
                             <span>Delivered</span>
                           </>
                         ) : order.status === 'cancelled' ? (
                           <span className="text-red-600">Order Cancelled</span>
                         ) : (
                           <>
-                            <Truck className="w-5 h-5 text-[#1B4332]" />
+                            <Truck className="w-5 h-5 text-[#8C5E3C]" />
                             <span>Arriving {new Date(new Date(order.createdAt).getTime() + 86400000 * 2).toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
                           </>
                         )}

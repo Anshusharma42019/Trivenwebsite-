@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, Truck, RefreshCw, Award, ChevronUp } from 'lucide-react';
+import { ShieldCheck, Truck, RefreshCw, Award, ChevronUp, Globe } from 'lucide-react';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -12,19 +12,19 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#12281E] text-stone-300 mt-16 border-t border-emerald-950 pb-24 md:pb-8">
+    <footer className="bg-[#0F1D36] text-stone-300 mt-16 border-t border-[#D4AF37]/25 pb-24 md:pb-8">
       {/* Amazon-style 'Back to Top' Bar */}
       <button
         onClick={scrollToTop}
-        className="w-full bg-[#1b4332] hover:bg-[#245842] text-stone-200 text-xs font-semibold py-3.5 transition-colors flex items-center justify-center gap-1 border-b border-emerald-900/60"
+        className="w-full bg-[#080F1D] hover:bg-[#142038] text-[#D4AF37] text-xs font-semibold py-3.5 transition-colors flex items-center justify-center gap-1 border-b border-[#D4AF37]/20"
       >
-        <ChevronUp className="w-4 h-4" />
+        <ChevronUp className="w-4 h-4 text-[#D4AF37]" />
         <span>Back to top</span>
       </button>
 
-      {/* Main Multi-Column Footer (Amazon Layout) */}
+      {/* Main Multi-Column Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-8 pb-12 border-b border-emerald-900/60 text-xs text-center sm:text-left">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-8 pb-12 border-b border-stone-800 text-xs text-center sm:text-left">
           
           {/* Column 1: Get to Know Us */}
           <div className="space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
@@ -49,7 +49,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Haridwar Botanical Farms
+                  Himalayan Botanical Farms
                 </Link>
               </li>
               <li>
@@ -155,9 +155,9 @@ export default function Footer() {
         </div>
 
         {/* Brand & Language Middle Bar */}
-        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-emerald-900/40 text-center sm:text-left">
+        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-stone-800 text-center sm:text-left">
           <Link href="/" className="flex items-center justify-center sm:justify-start gap-2 group">
-            <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#12281E] flex items-center justify-center font-serif text-lg font-bold">
+            <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#0F1D36] flex items-center justify-center font-serif text-lg font-bold shadow-sm">
               ॐ
             </div>
             <span className="font-serif text-lg font-bold text-white tracking-wide">
@@ -166,14 +166,15 @@ export default function Footer() {
           </Link>
 
           <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2 sm:gap-3 text-xs">
-            <span className="py-1 px-3 border border-emerald-800 rounded text-stone-300">
-              🌐 English - EN
+            <span className="py-1 px-3 border border-stone-800 rounded text-stone-300 inline-flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span>English - EN</span>
             </span>
-            <span className="py-1 px-3 border border-emerald-800 rounded text-stone-300">
+            <span className="py-1 px-3 border border-stone-800 rounded text-stone-300">
               ₹ INR - Indian Rupee
             </span>
-            <span className="py-1 px-3 border border-emerald-800 rounded text-stone-300">
-              🇮🇳 India
+            <span className="py-1 px-3 border border-stone-800 rounded text-stone-300">
+              India
             </span>
           </div>
         </div>
@@ -190,7 +191,7 @@ export default function Footer() {
               <Link href="/products" className="hover:underline">Privacy Notice</Link>
               <Link href="/products" className="hover:underline">AYUSH Certification Disclosures</Link>
             </div>
-            <p className="text-center sm:text-right">© 2026 Triven Ayurveda Labs Pvt Ltd. All rights reserved. Sourced & Handcrafted in Haridwar, Uttarakhand.</p>
+            <p className="text-center sm:text-right">© 2026 Triven Ayurveda Labs Pvt Ltd. All rights reserved. Sourced & Handcrafted with Classical Botanical Purity.</p>
           </div>
         </div>
       </div>

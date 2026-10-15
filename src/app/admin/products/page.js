@@ -7,7 +7,7 @@ import {
   Search,
   Filter,
   Edit2,
-  Archive,
+  Trash2,
   Check,
   X,
   AlertCircle,
@@ -260,6 +260,12 @@ export default function AdminProductsPage() {
     setSaving(true);
     setActionMsg(null);
 
+    if (Number(formData.sellingPrice) > Number(formData.mrp)) {
+      alert('Selling price cannot be greater than MRP.');
+      setSaving(false);
+      return;
+    }
+
     try {
       const textImgs = (formData.imagesText || '')
         .split('\n')
@@ -325,17 +331,29 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleArchive = async (id, name) => {
-    if (!confirm(`Are you sure you want to archive "${name}"?`)) return;
+  const handleDeleteProduct = async (id, name) => {
+    if (
+      !confirm(
+        `Are you sure you want to PERMANENTLY delete "${name}" from the database and website? This action cannot be undone.`
+      )
+    ) {
+      return;
+    }
 
     try {
       const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      const json = await res.json();
       if (res.ok) {
-        setActionMsg(`Product "${name}" archived.`);
+        setActionMsg(`Product "${name}" has been permanently deleted from website.`);
+        setTimeout(() => setActionMsg(null), 3500);
+        setProducts((prev) => prev.filter((p) => p._id !== id));
         fetchCatalog();
+      } else {
+        alert(json.error || 'Failed to delete product');
       }
     } catch (e) {
       console.error(e);
+      alert(e.message || 'Error deleting product');
     }
   };
 
@@ -354,16 +372,16 @@ export default function AdminProductsPage() {
 
         <button
           onClick={handleOpenAdd}
-          className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-md self-start"
+          className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-md self-start"
         >
-          <Plus className="w-4 h-4 text-[#D4AF37]" />
+          <Plus className="w-4 h-4 text-[#C5A059]" />
           <span>Add New Formulation</span>
         </button>
       </div>
 
       {actionMsg && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-          <Check className="w-4 h-4 text-emerald-600" />
+        <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold flex items-center gap-2">
+          <Check className="w-4 h-4 text-amber-700" />
           <span>{actionMsg}</span>
         </div>
       )}
@@ -405,7 +423,7 @@ export default function AdminProductsPage() {
               {loading ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-stone-400">
-                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#1B4332]" />
+                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#C5A059]" />
                     <span>Loading products...</span>
                   </td>
                 </tr>
@@ -449,7 +467,7 @@ export default function AdminProductsPage() {
                       ₹{p.sellingPrice} <span className="text-stone-400 font-normal line-through text-[10px]">₹{p.mrp}</span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className={`font-bold ${p.stock <= p.lowStockThreshold ? 'text-red-600' : 'text-emerald-800'}`}>
+                      <span className={`font-bold ${p.stock <= p.lowStockThreshold ? 'text-red-600' : 'text-stone-900'}`}>
                         {p.stock} units
                       </span>
                     </td>
@@ -458,7 +476,7 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="py-3 px-4">
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                        p.status === 'published' ? 'bg-emerald-100 text-emerald-800' : 'bg-stone-200 text-stone-700'
+                        p.status === 'published' ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-stone-200 text-stone-700'
                       }`}>
                         {p.status}
                       </span>
@@ -467,17 +485,17 @@ export default function AdminProductsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleOpenEdit(p)}
-                          className="p-1.5 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-100"
-                          title="Edit"
+                          className="p-1.5 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+                          title="Edit Formulation"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
-                          onClick={() => handleArchive(p._id, p.name)}
-                          className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50"
-                          title="Archive"
+                          onClick={() => handleDeleteProduct(p._id, p.name)}
+                          className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors"
+                          title="Permanently Delete"
                         >
-                          <Archive className="w-3.5 h-3.5" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </td>
@@ -544,6 +562,20 @@ export default function AdminProductsPage() {
                     <option value="">Select Category</option>
                     {categories.map((c) => (
                       <option key={c._id} value={c._id}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-stone-600 mb-1 font-semibold">Brand / Manufacturer</label>
+                  <select
+                    value={formData.brand}
+                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                    className="w-full p-2.5 rounded-xl border border-stone-300 bg-white"
+                  >
+                    <option value="">Direct Apothecary / Triven</option>
+                    {brands.map((b) => (
+                      <option key={b._id} value={b._id}>{b.name}</option>
                     ))}
                   </select>
                 </div>
@@ -643,16 +675,29 @@ export default function AdminProductsPage() {
                   />
                 </div>
 
+                <div>
+                  <label className="block text-stone-600 mb-1 font-semibold">Storefront Listing Status *</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    className="w-full p-2.5 rounded-xl border border-stone-300 bg-white font-medium"
+                  >
+                    <option value="published">Published (Live on Website)</option>
+                    <option value="draft">Draft (Hidden from Storefront)</option>
+                    <option value="archived">Archived (De-listed)</option>
+                  </select>
+                </div>
+
                 {/* Product Images Upload Section (Amazon 4-Angle Studio) */}
                 <div className="sm:col-span-2 space-y-3 bg-stone-50/80 p-4 rounded-2xl border border-stone-200">
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="block text-stone-800 font-bold text-sm flex items-center gap-1.5">
-                        <Camera className="w-4 h-4 text-[#1B4332]" />
-                        <span>Amazon Product Multi-Angle Studio ({formData.images.length} added)</span>
+                        <Camera className="w-4 h-4 text-[#8C5E3C]" />
+                        <span>Triven Ayurveda Multi-Angle Studio ({formData.images.length} added)</span>
                       </label>
                       <p className="text-xs text-stone-500">
-                        Upload different angles (Front, Back, Label, Seal) so customers can view all sides on Amazon!
+                        Upload different angles (Front, Back, Label, Seal) so customers can view all sides on Triven Ayurveda!
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -662,7 +707,7 @@ export default function AdminProductsPage() {
                           setSelectedSlot(null);
                           fileInputRef.current?.click();
                         }}
-                        className="text-xs bg-[#1B4332] text-[#D4AF37] hover:bg-[#153427] px-2.5 py-1 rounded-lg font-bold shadow-xs transition-colors cursor-pointer"
+                        className="text-xs bg-[#18181B] text-[#C5A059] border border-[#C5A059]/40 hover:bg-stone-900 px-2.5 py-1 rounded-lg font-bold shadow-xs transition-colors cursor-pointer"
                       >
                         + Upload Photos
                       </button>
@@ -705,23 +750,23 @@ export default function AdminProductsPage() {
                       }}
                       className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
                         isDragging
-                          ? 'border-[#1B4332] bg-emerald-50/60'
-                          : 'border-stone-300 hover:border-[#1B4332] bg-white hover:bg-stone-50/50'
+                          ? 'border-[#C5A059] bg-amber-50/40'
+                          : 'border-stone-300 hover:border-[#C5A059] bg-white hover:bg-stone-50/50'
                       }`}
                     >
                       {uploadingImages ? (
                         <div className="flex flex-col items-center justify-center gap-2 py-2">
-                          <Loader2 className="w-8 h-8 text-[#1B4332] animate-spin" />
+                          <Loader2 className="w-8 h-8 text-[#C5A059] animate-spin" />
                           <span className="text-sm font-semibold text-stone-700">Uploading photos to Cloudinary...</span>
                           <span className="text-xs text-stone-400">Saving securely in high resolution</span>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center gap-2">
-                          <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#1B4332] flex items-center justify-center border border-emerald-100 shadow-xs">
+                          <div className="w-12 h-12 rounded-full bg-amber-500/10 text-[#8C5E3C] flex items-center justify-center border border-[#C5A059]/30 shadow-xs">
                             <UploadCloud className="w-6 h-6" />
                           </div>
                           <div className="text-sm font-semibold text-stone-700">
-                            <span className="text-[#1B4332] underline decoration-[#D4AF37] decoration-2">Click to select photos</span> or drag & drop all angles here
+                            <span className="text-[#8C5E3C] underline decoration-[#C5A059] decoration-2">Click to select photos</span> or drag & drop all angles here
                           </div>
                           <div className="text-xs text-stone-400">
                             Select multiple images (Front, Back, Label, Cap) • PNG, JPG, WEBP up to 10MB
@@ -756,7 +801,7 @@ export default function AdminProductsPage() {
                                 ? sIdx === 0
                                   ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/50 shadow-xs'
                                   : 'border-stone-200 shadow-xs'
-                                : 'border-2 border-dashed border-stone-300 hover:border-[#1B4332] bg-stone-50/60'
+                                : 'border-2 border-dashed border-stone-300 hover:border-[#C5A059] bg-stone-50/60'
                             }`}
                           >
                             {imgUrl ? (
@@ -770,7 +815,7 @@ export default function AdminProductsPage() {
                                   <span
                                     className={`text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs ${
                                       sIdx === 0
-                                        ? 'bg-[#1B4332] text-[#D4AF37]'
+                                        ? 'bg-[#18181B] text-[#C5A059]'
                                         : 'bg-stone-900/80 text-white'
                                     }`}
                                   >
@@ -833,10 +878,10 @@ export default function AdminProductsPage() {
                                 }}
                                 className="w-full h-full flex flex-col items-center justify-center p-2 text-center group cursor-pointer"
                               >
-                                <div className="w-8 h-8 rounded-full bg-white border border-stone-200 group-hover:border-[#1B4332] flex items-center justify-center text-stone-500 group-hover:text-[#1B4332] mb-1 shadow-2xs">
+                                <div className="w-8 h-8 rounded-full bg-white border border-stone-200 group-hover:border-[#C5A059] flex items-center justify-center text-stone-500 group-hover:text-[#8C5E3C] mb-1 shadow-2xs">
                                   <Plus className="w-4 h-4" />
                                 </div>
-                                <span className="text-[11px] font-bold text-stone-700 group-hover:text-[#1B4332] leading-tight">
+                                <span className="text-[11px] font-bold text-stone-700 group-hover:text-stone-900 leading-tight">
                                   {slot.label}
                                 </span>
                                 <span className="text-[9px] text-stone-400 mt-0.5 leading-tight">
@@ -907,12 +952,12 @@ export default function AdminProductsPage() {
                             setSelectedSlot(null);
                             fileInputRef.current?.click();
                           }}
-                          className="aspect-square rounded-xl border-2 border-dashed border-stone-300 hover:border-[#1B4332] bg-stone-50/50 hover:bg-emerald-50/40 transition-colors flex flex-col items-center justify-center p-2 text-center group cursor-pointer"
+                          className="aspect-square rounded-xl border-2 border-dashed border-stone-300 hover:border-[#C5A059] bg-stone-50/50 hover:bg-amber-50/40 transition-colors flex flex-col items-center justify-center p-2 text-center group cursor-pointer"
                         >
-                          <div className="w-8 h-8 rounded-full bg-white border border-stone-200 group-hover:border-[#1B4332] flex items-center justify-center text-[#1B4332] mb-1 shadow-2xs">
+                          <div className="w-8 h-8 rounded-full bg-white border border-stone-200 group-hover:border-[#C5A059] flex items-center justify-center text-[#8C5E3C] mb-1 shadow-2xs">
                             <Plus className="w-4 h-4" />
                           </div>
-                          <span className="text-[11px] font-bold text-stone-700 group-hover:text-[#1B4332]">
+                          <span className="text-[11px] font-bold text-stone-700 group-hover:text-stone-900">
                             Add More
                           </span>
                           <span className="text-[9px] text-stone-400">Extra angle</span>
@@ -998,7 +1043,7 @@ export default function AdminProductsPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-5 py-2 rounded-xl font-bold shadow-md flex items-center gap-1.5"
+                  className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 px-5 py-2 rounded-xl font-bold shadow-md flex items-center gap-1.5"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>{editingProduct ? 'Save Changes' : 'Create Product'}</span>

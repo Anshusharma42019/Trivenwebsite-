@@ -5,43 +5,51 @@ import { ShieldCheck, Truck, Award, RefreshCw, CheckCircle2 } from 'lucide-react
 
 export default function AmazonTrustStrip() {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
-      <div className="bg-white rounded-xl shadow-xs border border-stone-200 p-6">
-        <h3 className="font-serif font-bold text-center text-stone-900 text-lg mb-6">
-          Why 1,50,000+ Indian Families Order Classical Ayurveda From Triven
-        </h3>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+      <div className="bg-white rounded-2xl shadow-[0_4px_30px_rgba(15,29,54,0.05)] border border-[#C5A059]/25 p-7 sm:p-10 relative overflow-hidden">
+        {/* Subtle decorative gold top bar */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent opacity-80" />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#1B4332] border border-emerald-200 flex items-center justify-center mb-2.5">
-              <ShieldCheck className="w-6 h-6 text-[#1B4332]" />
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <span className="text-[11px] font-bold tracking-widest uppercase text-[#C5A059] block mb-1">
+            ✦ Royal Heritage & Standards ✦
+          </span>
+          <h3 className="font-serif font-bold text-stone-900 text-lg sm:text-2xl">
+            Why 1,50,000+ Indian Families Trust Triven Ayurveda
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
+          <div className="flex flex-col items-center group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0F1D36] to-[#1B2A4A] text-[#C5A059] border border-[#C5A059]/40 shadow-sm flex items-center justify-center mb-3 group-hover:scale-108 group-hover:border-[#C5A059] transition-all duration-300">
+              <ShieldCheck className="w-6 h-6 text-[#C5A059]" />
             </div>
-            <h4 className="text-xs sm:text-sm font-bold text-stone-900">AYUSH Certified Formulations</h4>
-            <p className="text-[11px] text-stone-500 mt-0.5">Strict compliance with Ayurvedic Pharmacopoeia of India</p>
+            <h4 className="text-xs sm:text-sm font-bold text-stone-900 font-serif">AYUSH Certified Formulations</h4>
+            <p className="text-[11px] text-stone-500 mt-1 leading-relaxed">Strict compliance with Ayurvedic Pharmacopoeia of India</p>
           </div>
 
-          <div className="flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#1B4332] border border-emerald-200 flex items-center justify-center mb-2.5">
-              <Award className="w-6 h-6 text-[#1B4332]" />
+          <div className="flex flex-col items-center group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0F1D36] to-[#1B2A4A] text-[#C5A059] border border-[#C5A059]/40 shadow-sm flex items-center justify-center mb-3 group-hover:scale-108 group-hover:border-[#C5A059] transition-all duration-300">
+              <Award className="w-6 h-6 text-[#C5A059]" />
             </div>
-            <h4 className="text-xs sm:text-sm font-bold text-stone-900">NABL Lab Tested Purity</h4>
-            <p className="text-[11px] text-stone-500 mt-0.5">Every batch tested for heavy metals, pesticides & microbes</p>
+            <h4 className="text-xs sm:text-sm font-bold text-stone-900 font-serif">NABL Lab Tested Purity</h4>
+            <p className="text-[11px] text-stone-500 mt-1 leading-relaxed">Every batch tested for heavy metals, pesticides & microbes</p>
           </div>
 
-          <div className="flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#1B4332] border border-emerald-200 flex items-center justify-center mb-2.5">
-              <Truck className="w-6 h-6 text-[#1B4332]" />
+          <div className="flex flex-col items-center group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0F1D36] to-[#1B2A4A] text-[#C5A059] border border-[#C5A059]/40 shadow-sm flex items-center justify-center mb-3 group-hover:scale-108 group-hover:border-[#C5A059] transition-all duration-300">
+              <Truck className="w-6 h-6 text-[#C5A059]" />
             </div>
-            <h4 className="text-xs sm:text-sm font-bold text-stone-900">Fast Pan-India Express</h4>
-            <p className="text-[11px] text-stone-500 mt-0.5">Dispatched within 24 hours to 19,000+ pin codes</p>
+            <h4 className="text-xs sm:text-sm font-bold text-stone-900 font-serif">Pan-India Express Dispatch</h4>
+            <p className="text-[11px] text-stone-500 mt-1 leading-relaxed">Dispatched in 24 hours to 19,000+ PIN codes with live tracking</p>
           </div>
 
-          <div className="flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#1B4332] border border-emerald-200 flex items-center justify-center mb-2.5">
-              <RefreshCw className="w-6 h-6 text-[#1B4332]" />
+          <div className="flex flex-col items-center group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0F1D36] to-[#1B2A4A] text-[#C5A059] border border-[#C5A059]/40 shadow-sm flex items-center justify-center mb-3 group-hover:scale-108 group-hover:border-[#C5A059] transition-all duration-300">
+              <RefreshCw className="w-6 h-6 text-[#C5A059]" />
             </div>
-            <h4 className="text-xs sm:text-sm font-bold text-stone-900">Cash on Delivery & Easy Returns</h4>
-            <p className="text-[11px] text-stone-500 mt-0.5">Pay safely at doorstep with zero advance obligation</p>
+            <h4 className="text-xs sm:text-sm font-bold text-stone-900 font-serif">Cash on Delivery & Guarantee</h4>
+            <p className="text-[11px] text-stone-500 mt-1 leading-relaxed">Pay safely at doorstep with zero advance obligation</p>
           </div>
         </div>
       </div>

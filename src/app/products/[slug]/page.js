@@ -111,14 +111,14 @@ export default async function ProductDetailPage({ params }) {
           <div className="mt-20 pt-12 border-t border-stone-200">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <span className="text-xs uppercase font-bold tracking-widest text-[#2D6A4F]">
+                <span className="text-xs uppercase font-bold tracking-widest text-[#C5A059]">
                   Complementary Remedies
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-stone-900 mt-1">
                   You May Also Need
                 </h3>
               </div>
-              <Link href="/products" className="text-xs font-semibold text-[#1B4332] hover:underline">
+              <Link href="/products" className="text-xs font-semibold text-[#C5A059] hover:text-[#8C5E3C] hover:underline">
                 View all formulations →
               </Link>
             </div>

@@ -50,7 +50,7 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <Link
               href="/products"
-              className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline mr-1 hidden md:inline-block"
+              className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline mr-1 hidden md:inline-block"
             >
               See all deals
             </Link>
@@ -90,7 +90,7 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
             return (
               <div
                 key={product._id}
-                className="w-[175px] xs:w-[210px] sm:w-[240px] md:w-[260px] shrink-0 bg-stone-50/50 hover:bg-white rounded-xl border border-stone-200 hover:border-emerald-300 transition-all p-2.5 sm:p-3 flex flex-col justify-between group hover:shadow-md"
+                className="w-[175px] xs:w-[210px] sm:w-[240px] md:w-[260px] shrink-0 bg-stone-50/50 hover:bg-white rounded-xl border border-stone-200 hover:border-[#C5A059] transition-all p-2.5 sm:p-3 flex flex-col justify-between group hover:shadow-md"
               >
                 <div>
                   {/* Thumbnail */}
@@ -125,7 +125,7 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
                   </div>
 
                   {/* Title */}
-                  <Link href={`/products/${product.slug}`} className="block group-hover:text-[#1B4332] transition-colors mb-1">
+                  <Link href={`/products/${product.slug}`} className="block group-hover:text-[#8C5E3C] transition-colors mb-1">
                     <h3 className="text-xs sm:text-sm font-medium text-stone-800 line-clamp-2 leading-snug">
                       {product.name}
                     </h3>
@@ -140,10 +140,12 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
                     <span>({product.numReviews || 18})</span>
                   </div>
 
-                  {/* Amazon Prime / Pan-India Delivery Tag */}
-                  <div className="text-[10px] sm:text-[11px] text-stone-600 flex items-center gap-1 mb-2.5 truncate">
-                    <span className="font-bold text-[#1B4332]">✓ Prime</span>
-                    <span className="hidden xxs:inline">• Fast Delivery</span>
+                  {/* Amazon Prime Tag */}
+                  <div className="text-[10px] sm:text-[11px] flex items-center gap-1 mb-2.5 truncate">
+                    <span className="font-bold text-[#C5A059] flex items-center gap-0.5">
+                      <span>✦</span> Prime
+                    </span>
+                    <span className="text-stone-400 text-[10px]">• Express Dispatch</span>
                   </div>
                 </div>
 
@@ -151,26 +153,26 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
                 <button
                   onClick={(e) => handleAdd(e, product)}
                   disabled={isJustAdded || product.stock <= 0}
-                  className={`w-full py-2 px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-2xs min-h-[38px] sm:min-h-[42px] ${
+                  className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm min-h-[40px] sm:min-h-[42px] ${
                     product.stock <= 0
-                      ? 'bg-stone-200 text-stone-500 cursor-not-allowed'
+                      ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
                       : isJustAdded
-                      ? 'bg-emerald-700 text-white'
-                      : 'bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] active:scale-95'
+                      ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
+                      : 'bg-[#0F1D36] hover:bg-[#162238] text-[#C5A059] border border-[#C5A059]/40 hover:border-[#C5A059] active:scale-98'
                   }`}
                   aria-label={product.stock <= 0 ? "Out of Stock" : `Add ${product.name} to Cart`}
                 >
                   {isJustAdded ? (
                     <>
-                      <Check className="w-3.5 h-3.5" />
-                      <span>Added</span>
+                      <Check className="w-3.5 h-3.5 text-[#C5A059]" />
+                      <span>Added to Bag</span>
                     </>
                   ) : product.stock <= 0 ? (
                     <span>Out of Stock</span>
                   ) : (
                     <>
-                      <ShoppingBag className="w-3.5 h-3.5" />
-                      <span>Add to Cart</span>
+                      <ShoppingBag className="w-3.5 h-3.5 text-[#C5A059]" />
+                      <span>Add to Bag</span>
                     </>
                   )}
                 </button>

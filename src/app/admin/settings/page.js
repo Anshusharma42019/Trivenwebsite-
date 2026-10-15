@@ -61,7 +61,7 @@ export default function AdminSettingsPage() {
   if (loading || !settings) {
     return (
       <div className="py-24 text-center text-xs text-stone-500 flex items-center justify-center gap-2">
-        <Loader2 className="w-5 h-5 animate-spin text-[#1B4332]" />
+        <Loader2 className="w-5 h-5 animate-spin text-[#C5A059]" />
         <span>Loading store settings...</span>
       </div>
     );
@@ -80,8 +80,8 @@ export default function AdminSettingsPage() {
       </div>
 
       {msg && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-          <Check className="w-4 h-4 text-emerald-600" />
+        <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 text-stone-900 text-xs font-semibold flex items-center gap-2">
+          <Check className="w-4 h-4 text-[#8C5E3C]" />
           <span>{msg}</span>
         </div>
       )}
@@ -240,9 +240,9 @@ export default function AdminSettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="w-full sm:w-auto justify-center min-h-[44px] bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-6 py-3 rounded-xl font-bold shadow-md flex items-center gap-2 transition-all hover:scale-102 active:scale-98"
+            className="w-full sm:w-auto justify-center min-h-[44px] bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 px-6 py-3 rounded-xl font-bold shadow-sm flex items-center gap-2 transition-all hover:scale-102 active:scale-98"
           >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4 text-[#D4AF37]" />}
+            {saving ? <Loader2 className="w-4 h-4 animate-spin text-[#C5A059]" /> : <Save className="w-4 h-4 text-[#C5A059]" />}
             <span>Save Store Configuration</span>
           </button>
         </div>

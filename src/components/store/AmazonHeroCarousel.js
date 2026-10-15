@@ -58,7 +58,7 @@ export default function AmazonHeroCarousel() {
   };
 
   return (
-    <div className="relative w-full bg-[#1B4332] text-white overflow-hidden select-none">
+    <div className="relative w-full bg-[#0F1D36] text-white overflow-hidden select-none">
       {/* If admin uploaded banners exist, show carousel */}
       {slides.length > 0 ? (
         <div className="relative h-[360px] sm:h-[440px] md:h-[500px] lg:h-[540px] w-full">
@@ -78,7 +78,7 @@ export default function AmazonHeroCarousel() {
                     alt={slide.title}
                     className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-10000"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#1B4332]/95 via-[#1B4332]/85 to-transparent sm:w-3/4 md:w-2/3" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0F1D36]/95 via-[#0F1D36]/80 to-transparent sm:w-3/4 md:w-2/3" />
                   <div className="absolute inset-0 bg-black/20" />
                 </div>
 
@@ -86,7 +86,7 @@ export default function AmazonHeroCarousel() {
                 <div className="relative max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
                   <div className="max-w-xl space-y-2.5 sm:space-y-4 pb-14 sm:pb-24">
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-emerald-950/70 border border-emerald-600/50 text-[#D4AF37] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide backdrop-blur-xs">
+                    <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#0F1D36]/70 border border-[#D4AF37]/50 text-[#D4AF37] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide backdrop-blur-xs">
                       <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
                       <span>{slide.badge}</span>
                     </div>
@@ -97,12 +97,12 @@ export default function AmazonHeroCarousel() {
                     </h1>
 
                     {/* Tagline */}
-                    <p className="text-amber-200 font-medium text-xs sm:text-base md:text-lg">
+                    <p className="text-[#C5A059] font-medium text-xs sm:text-base md:text-lg">
                       {slide.tagline}
                     </p>
 
                     {/* Description */}
-                    <p className="text-stone-200 text-xs sm:text-sm leading-relaxed max-w-lg hidden sm:block">
+                    <p className="text-stone-300 text-xs sm:text-sm leading-relaxed max-w-lg hidden sm:block">
                       {slide.description}
                     </p>
 
@@ -110,14 +110,14 @@ export default function AmazonHeroCarousel() {
                     <div className="pt-1 sm:pt-2 flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3">
                       <Link
                         href={slide.linkUrl}
-                        className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm transition-all shadow-lg hover:shadow-xl flex items-center gap-1.5 sm:gap-2 min-h-[40px] sm:min-h-[44px]"
+                        className="bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] font-bold px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm transition-all shadow-[0_4px_20px_rgba(212,175,55,0.3)] hover:shadow-[0_4px_25px_rgba(212,175,55,0.5)] flex items-center gap-1.5 sm:gap-2 min-h-[40px] sm:min-h-[44px]"
                       >
                         <span>{slide.ctaText}</span>
-                        <ArrowRight className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+                        <ArrowRight className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-[#0F1D36]" />
                       </Link>
                       <Link
                         href="/products"
-                        className="bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-xs px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold transition-all min-h-[40px] sm:min-h-[44px] flex items-center justify-center"
+                        className="bg-white/10 hover:bg-white/20 text-white border border-[#D4AF37]/40 hover:border-[#D4AF37] backdrop-blur-md px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all min-h-[40px] sm:min-h-[44px] flex items-center justify-center"
                       >
                         All Formulations
                       </Link>
@@ -155,7 +155,7 @@ export default function AmazonHeroCarousel() {
                     onClick={() => setCurrentSlide(i)}
                     className={`h-1.5 sm:h-2 rounded-full transition-all ${
                       i === currentSlide
-                        ? 'w-6 sm:w-8 bg-[#D4AF37]'
+                        ? 'w-6 sm:w-8 bg-[#C5A059]'
                         : 'w-1.5 sm:w-2 bg-white/40 hover:bg-white/70'
                     }`}
                     aria-label={`Go to slide ${i + 1}`}
@@ -166,26 +166,29 @@ export default function AmazonHeroCarousel() {
           )}
         </div>
       ) : (
-        /* Clean branded hero when no banners have been uploaded yet (no fake stock photos) */
-        <div className="relative h-[340px] sm:h-[400px] w-full flex items-center justify-center text-center px-4 bg-gradient-to-b from-[#143225] via-[#1B4332] to-[#2D6A4F]">
-          <div className="max-w-2xl space-y-3.5 z-10 py-8">
-            <div className="inline-flex items-center gap-2 bg-emerald-950/70 border border-emerald-600/50 text-[#D4AF37] px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide">
-              <Sparkles className="w-3.5 h-3.5" />
+        /* Clean branded hero with luxury Royal Midnight Lapis and 24K Gold gradient */
+        <div className="relative h-[340px] sm:h-[420px] w-full flex items-center justify-center text-center px-4 bg-gradient-to-br from-[#0F1D36] via-[#142038] to-[#1B2A4A] overflow-hidden">
+          {/* Subtle gold radial aura */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.12)_0%,transparent_70%)] pointer-events-none" />
+
+          <div className="max-w-2xl space-y-4 z-10 py-8 relative">
+            <div className="inline-flex items-center gap-2 bg-[#0F1D36]/80 border border-[#D4AF37]/50 text-[#D4AF37] px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase backdrop-blur-md shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
               <span>AYUSH Certified Classical Samhita Formulations</span>
             </div>
-            <h1 className="font-serif text-3xl sm:text-5xl font-bold leading-tight text-white drop-shadow-md">
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-white drop-shadow-lg tracking-tight">
               Triven Ayurveda
             </h1>
-            <p className="text-amber-100 text-xs sm:text-base max-w-lg mx-auto font-medium">
+            <p className="text-[#EADFC9] text-xs sm:text-base max-w-lg mx-auto font-medium leading-relaxed">
               Pure classical remedies prepared according to Charaka & Sushruta Samhita with wild-harvested Himalayan botanicals.
             </p>
             <div className="pt-2 flex items-center justify-center gap-3">
               <Link
                 href="/products"
-                className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-5 py-2.5 rounded-lg text-xs sm:text-sm transition-all shadow-lg flex items-center gap-2"
+                className="bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] font-bold px-6 sm:px-8 py-3 rounded-xl text-xs sm:text-sm transition-all shadow-[0_4px_20px_rgba(212,175,55,0.35)] flex items-center gap-2"
               >
-                <span>Browse All Products</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Explore Formulations</span>
+                <ArrowRight className="w-4 h-4 text-[#0F1D36]" />
               </Link>
             </div>
           </div>

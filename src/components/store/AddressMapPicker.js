@@ -16,7 +16,7 @@ import {
 
 // Known Indian PIN Code coordinates database for instant zero-latency positioning
 const PIN_CODE_DATABASE = {
-  '249401': { lat: 29.9457, lng: 78.1642, city: 'Haridwar', state: 'Uttarakhand', locality: 'Mayapur / BHEL Haridwar' },
+  '249401': { lat: 30.0869, lng: 78.2676, city: 'Rishikesh', state: 'Uttarakhand', locality: 'Tapovan / Rishikesh' },
   '248001': { lat: 30.3165, lng: 78.0322, city: 'Dehradun', state: 'Uttarakhand', locality: 'Rajpur Road / Clock Tower' },
   '110001': { lat: 28.6304, lng: 77.2177, city: 'New Delhi', state: 'Delhi', locality: 'Connaught Place / Central Delhi' },
   '110016': { lat: 28.5447, lng: 77.1926, city: 'New Delhi', state: 'Delhi', locality: 'Hauz Khas / Green Park' },
@@ -55,12 +55,12 @@ export default function AddressMapPicker({
   const mapInstanceRef = useRef(null);
   const markerRef = useRef(null);
 
-  const [coords, setCoords] = useState({ lat: 29.9457, lng: 78.1642 });
+  const [coords, setCoords] = useState({ lat: 28.6304, lng: 77.2177 });
   const [addressDetails, setAddressDetails] = useState({
-    locality: 'Haridwar Botanical Sanctuary',
-    city: 'Haridwar',
-    state: 'Uttarakhand',
-    pincode: '249401',
+    locality: 'Connaught Place / Central Delhi',
+    city: 'New Delhi',
+    state: 'Delhi',
+    pincode: '110001',
   });
   const [locating, setLocating] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -111,13 +111,13 @@ export default function AddressMapPicker({
         maxZoom: 19,
       }).addTo(map);
 
-      // Custom Amazon Gold/Green Delivery Pin
+      // Custom Triven Royal Sapphire & Gold Delivery Pin
       const pinIcon = window.L.divIcon({
-        className: 'custom-amazon-pin',
+        className: 'custom-triven-pin',
         html: `
           <div style="position:relative; width:40px; height:48px; transform:translate(-20px, -44px); cursor:pointer;">
-            <div style="background:#1B4332; border:3px solid #D4AF37; width:40px; height:40px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-              <span style="transform:rotate(45deg); font-size:18px;">📍</span>
+            <div style="background:#0F1D36; border:3px solid #D4AF37; width:40px; height:40px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(15,29,54,0.35);">
+              <svg style="transform:rotate(45deg); width:18px; height:18px;" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div style="width:14px; height:6px; background:rgba(0,0,0,0.3); border-radius:50%; margin:2px auto 0 auto; filter:blur(1px);"></div>
           </div>
@@ -301,11 +301,11 @@ export default function AddressMapPicker({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-stone-900/70 backdrop-blur-xs animate-in fade-in">
       <div className="bg-white rounded-2xl shadow-2xl border border-stone-200 w-full max-w-3xl overflow-hidden flex flex-col max-h-[92vh]">
-        {/* Amazon-style Map Header */}
-        <div className="bg-[#1B4332] text-white px-5 py-4 flex items-center justify-between shrink-0 border-b border-emerald-900">
+        {/* Luxury Map Header */}
+        <div className="bg-[#0F1D36] text-white px-5 py-4 flex items-center justify-between shrink-0 border-b border-[#D4AF37]/30">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#1B4332] flex items-center justify-center font-bold">
-              <MapPin className="w-4 h-4 fill-current" />
+            <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#0F1D36] flex items-center justify-center font-bold shadow-sm">
+              <MapPin className="w-4 h-4 fill-current text-[#0F1D36]" />
             </div>
             <div>
               <h3 className="font-serif font-bold text-base text-white">
@@ -319,14 +319,14 @@ export default function AddressMapPicker({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-emerald-900/60 text-stone-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg hover:bg-[#162238] text-stone-300 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Search & GPS Tool Bar */}
-        <div className="p-3 bg-stone-50 border-b border-stone-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0 text-xs">
+        <div className="p-3 bg-[#FAF8F5] border-b border-[#EBE6DD] flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0 text-xs">
           <form onSubmit={handleSearch} className="flex-1 flex items-center gap-2 min-w-0">
             <div className="relative flex-1">
               <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-2.5" />
@@ -335,15 +335,15 @@ export default function AddressMapPicker({
                 placeholder="Search area, landmark, or 6-digit PIN code..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 bg-white border border-stone-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#1B4332] min-h-[40px]"
+                className="w-full pl-8 pr-3 py-2 bg-white border border-stone-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#C5A059] min-h-[40px]"
               />
             </div>
             <button
               type="submit"
               disabled={searching}
-              className="bg-[#1B4332] text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#2D6A4F] transition-colors shrink-0 flex items-center gap-1 min-h-[40px]"
+              className="bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-semibold px-4 py-2 rounded-lg transition-colors shrink-0 flex items-center gap-1 min-h-[40px] shadow-xs"
             >
-              {searching ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <span>Search</span>}
+              {searching ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#D4AF37]" /> : <span>Search</span>}
             </button>
           </form>
 
@@ -351,12 +351,12 @@ export default function AddressMapPicker({
             type="button"
             onClick={handleLocateMe}
             disabled={locating}
-            className="inline-flex items-center justify-center gap-1.5 bg-white border border-stone-300 hover:border-[#1B4332] text-stone-700 font-semibold px-3 py-2 rounded-lg shadow-2xs hover:bg-stone-50 transition-colors shrink-0 min-h-[40px]"
+            className="inline-flex items-center justify-center gap-1.5 bg-white border border-stone-300 hover:border-[#C5A059] text-stone-700 font-semibold px-3 py-2 rounded-lg shadow-2xs hover:bg-stone-50 transition-colors shrink-0 min-h-[40px]"
           >
             {locating ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#1B4332]" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#C5A059]" />
             ) : (
-              <Navigation className="w-3.5 h-3.5 text-[#1B4332]" />
+              <Navigation className="w-3.5 h-3.5 text-[#8C5E3C]" />
             )}
             <span>Use My Location</span>
           </button>
@@ -390,22 +390,22 @@ export default function AddressMapPicker({
 
           {/* Pin Instruction Pill */}
           <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-xs border border-stone-300 px-3 py-1 rounded-full shadow-md text-[10px] sm:text-[11px] font-semibold text-stone-800 flex items-center gap-1.5 z-[1000] pointer-events-none max-w-[90%] text-center">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse shrink-0"></span>
+            <span className="w-2 h-2 rounded-full bg-[#C5A059] animate-pulse shrink-0"></span>
             <span className="truncate">Drag pin or tap map to pinpoint exact gate</span>
           </div>
         </div>
 
         {/* Bottom Location Confirmation Summary */}
         <div className="p-3 sm:p-4 bg-white border-t border-stone-200 shrink-0 space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-emerald-50/70 border border-emerald-200/80 p-3 rounded-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-amber-50/70 border border-amber-200 p-3 rounded-xl">
             <div className="space-y-0.5 min-w-0">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#1B4332]">
-                <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-1.5 text-xs font-bold text-stone-900">
+                <CheckCircle2 className="w-4 h-4 text-[#8C5E3C] shrink-0" />
                 <span className="truncate">Selected Delivery Pin Location</span>
               </div>
               <p className="text-xs font-medium text-stone-900 truncate">
                 {addressDetails.locality}, {addressDetails.city}, {addressDetails.state} -{' '}
-                <strong className="text-emerald-900">{addressDetails.pincode}</strong>
+                <strong className="text-stone-900 font-bold">{addressDetails.pincode}</strong>
               </p>
               <p className="text-[10px] text-stone-500">
                 GPS: {coords.lat.toFixed(5)}° N, {coords.lng.toFixed(5)}° E
@@ -423,10 +423,10 @@ export default function AddressMapPicker({
               <button
                 type="button"
                 onClick={handleConfirm}
-                className="flex-1 sm:flex-none bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold px-5 py-2.5 rounded-full text-xs shadow-xs transition-colors flex items-center justify-center gap-1.5 border border-[#FCD200] min-h-[44px]"
+                className="flex-1 sm:flex-none bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-1.5 border border-[#D4AF37]/40 min-h-[44px] active:scale-98"
               >
                 <span>Confirm Pin</span>
-                <CheckCircle2 className="w-3.5 h-3.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" />
               </button>
             </div>
           </div>

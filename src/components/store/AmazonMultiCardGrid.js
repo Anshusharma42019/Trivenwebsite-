@@ -48,10 +48,10 @@ export default function AmazonMultiCardGrid({ products = [] }) {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       />
                     </div>
-                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">
+                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#8C5E3C]">
                       {p.name}
                     </p>
-                    <span className="text-[11px] text-emerald-700 font-semibold">
+                    <span className="text-[11px] text-stone-900 font-bold">
                       ₹{p.sellingPrice}
                     </span>
                   </Link>
@@ -66,7 +66,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
           <Link
             href="/products"
-            className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
+            className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
           >
             <span>See all classical remedies</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -92,10 +92,10 @@ export default function AmazonMultiCardGrid({ products = [] }) {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       />
                     </div>
-                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#1B4332]">
+                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#8C5E3C]">
                       {p.name}
                     </p>
-                    <span className="text-[11px] text-[#B8860B] font-semibold">
+                    <span className="text-[11px] text-stone-900 font-bold">
                       ₹{p.sellingPrice}
                     </span>
                   </Link>
@@ -110,7 +110,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
           <Link
             href="/products"
-            className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
+            className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
           >
             <span>Explore all formulations</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -146,7 +146,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                     />
                     {dealProduct.mrp > dealProduct.sellingPrice && (
-                      <span className="absolute top-2 left-2 bg-[#D4AF37] text-[#1B4332] text-xs font-bold px-2 py-0.5 rounded shadow-xs">
+                      <span className="absolute top-2 left-2 bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-xs font-bold px-2.5 py-0.5 rounded-md shadow-xs">
                         {Math.round(((dealProduct.mrp - dealProduct.sellingPrice) / dealProduct.mrp) * 100)}% OFF
                       </span>
                     )}
@@ -155,7 +155,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-bold text-[#1B4332]">₹{dealProduct.sellingPrice}</span>
+                    <span className="text-xl font-bold text-stone-900">₹{dealProduct.sellingPrice}</span>
                     {dealProduct.mrp > dealProduct.sellingPrice && (
                       <span className="text-xs text-stone-400 line-through">₹{dealProduct.mrp}</span>
                     )}
@@ -174,7 +174,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
           <Link
             href={dealProduct ? `/products/${dealProduct.slug}` : '/products'}
-            className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100 mt-3"
+            className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100 mt-3"
           >
             <span>Claim this lightning deal</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -182,21 +182,21 @@ export default function AmazonMultiCardGrid({ products = [] }) {
         </div>
 
         {/* CARD 4: Free Vaidya Consultation & Dosha Assessment */}
-        <div className="bg-gradient-to-br from-emerald-900 to-[#1B4332] text-white rounded-xl shadow-md border border-emerald-800 p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg transition-shadow">
+        <div className="bg-gradient-to-br from-[#0F1D36] via-[#142038] to-[#1B2A4A] text-white rounded-2xl shadow-[0_10px_35px_rgba(15,29,54,0.18)] border border-[#D4AF37]/45 p-5 sm:p-6 flex flex-col justify-between hover:shadow-[0_15px_45px_rgba(15,29,54,0.25)] transition-all duration-300">
           <div>
-            <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] px-2.5 py-0.5 rounded-full text-[11px] font-semibold mb-2">
-              <Sparkles className="w-3 h-3" />
-              <span>Free Ayurvedic Assessment</span>
+            <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase mb-2.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span>Ayurvedic Assessment</span>
             </div>
 
-            <h2 className="font-serif font-bold text-white text-lg leading-tight mb-2">
+            <h2 className="font-serif font-bold text-white text-xl leading-tight mb-2">
               Know Your Prakriti (Dosha)
             </h2>
-            <p className="text-xs text-emerald-100 leading-relaxed mb-4">
-              Take a 2-minute diagnostic assessment formulated by Haridwar Vaidyas to discover whether you are Vata, Pitta, or Kapha.
+            <p className="text-[#EADFC9] text-xs leading-relaxed mb-4 font-light">
+              Take a 2-minute diagnostic assessment formulated by senior Ayurvedic Vaidyas to discover whether you are Vata, Pitta, or Kapha.
             </p>
 
-            <div className="bg-emerald-950/60 rounded-lg p-3 border border-emerald-700/60 space-y-2 mb-4">
+            <div className="bg-[#0B1527]/90 rounded-xl p-3.5 border border-[#D4AF37]/25 space-y-2.5 mb-4">
               <div className="flex items-center gap-2 text-xs text-stone-200">
                 <ShieldCheck className="w-4 h-4 text-[#D4AF37] shrink-0" />
                 <span>Personalized classical formulation map</span>
@@ -213,7 +213,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
             <Link
               href="/products"
-              className="block w-full text-center bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold py-2.5 px-4 rounded-lg text-xs transition-colors shadow-md"
+              className="block w-full text-center bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] font-bold py-3 px-4 rounded-xl text-xs transition-all shadow-[0_4px_18px_rgba(212,175,55,0.3)]"
             >
               Explore Certified Formulations
             </Link>
@@ -221,10 +221,10 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
           <Link
             href="/products"
-            className="text-xs font-semibold text-emerald-200 hover:text-white hover:underline flex items-center gap-1 pt-2 border-t border-emerald-800/80 mt-3"
+            className="text-xs font-semibold text-[#D4AF37] hover:text-white hover:underline flex items-center gap-1 pt-3 border-t border-[#D4AF37]/25 mt-3"
           >
             <span>Consult senior Vaidya online</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 text-[#D4AF37]" />
           </Link>
         </div>
 

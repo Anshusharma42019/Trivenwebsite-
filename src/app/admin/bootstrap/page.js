@@ -76,7 +76,7 @@ export default function BootstrapSuperAdminPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-stone-900 text-stone-100 p-4">
       <div className="max-w-md w-full bg-stone-800/80 backdrop-blur-md p-8 rounded-3xl border border-stone-700 shadow-2xl space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-[#1B4332] text-[#D4AF37] flex items-center justify-center font-serif text-2xl font-bold mx-auto border border-emerald-800">
+          <div className="w-14 h-14 rounded-2xl bg-[#18181B] text-[#C5A059] flex items-center justify-center font-serif text-2xl font-bold mx-auto border border-[#C5A059]/40 shadow-lg">
             ॐ
           </div>
           <h1 className="font-serif text-2xl font-bold text-white">
@@ -88,8 +88,8 @@ export default function BootstrapSuperAdminPage() {
         </div>
 
         {isInitialized ? (
-          <div className="p-5 rounded-2xl bg-emerald-950/60 border border-emerald-700/60 text-emerald-200 text-xs space-y-3 text-center">
-            <ShieldCheck className="w-8 h-8 text-[#D4AF37] mx-auto" />
+          <div className="p-5 rounded-2xl bg-stone-900/90 border border-[#C5A059]/40 text-stone-200 text-xs space-y-3 text-center shadow-lg">
+            <ShieldCheck className="w-8 h-8 text-[#C5A059] mx-auto" />
             <p className="font-bold text-white text-sm">Super Admin Already Provisioned</p>
             <p className="leading-relaxed">
               The primary Super Admin master key has already been initialized. Public bootstrapping is cryptographically disabled for security.
@@ -111,7 +111,7 @@ export default function BootstrapSuperAdminPage() {
             )}
 
             {success ? (
-              <div className="p-4 rounded-xl bg-emerald-950 text-emerald-200 text-xs text-center font-bold">
+              <div className="p-4 rounded-xl bg-stone-900 border border-[#C5A059]/50 text-[#C5A059] text-xs text-center font-bold">
                 ✓ Super Admin account initialized! Redirecting to Master Control...
               </div>
             ) : (

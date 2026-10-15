@@ -137,8 +137,8 @@ export default function AdminInventoryPage() {
       </div>
 
       {msg && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-          <Check className="w-4 h-4 text-emerald-600" />
+        <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold flex items-center gap-2">
+          <Check className="w-4 h-4 text-amber-700" />
           <span>{msg}</span>
         </div>
       )}
@@ -149,7 +149,7 @@ export default function AdminInventoryPage() {
           onClick={() => setFilter('all')}
           className={`px-3 py-1.5 rounded-xl font-semibold transition-all ${
             filter === 'all'
-              ? 'bg-[#1B4332] text-white'
+              ? 'bg-[#18181B] text-[#C5A059] border border-[#C5A059]/40 shadow-xs'
               : 'bg-white border border-stone-200 text-stone-700 hover:bg-stone-50'
           }`}
         >
@@ -159,7 +159,7 @@ export default function AdminInventoryPage() {
           onClick={() => setFilter('low_stock')}
           className={`px-3 py-1.5 rounded-xl font-semibold transition-all ${
             filter === 'low_stock'
-              ? 'bg-[#1B4332] text-white'
+              ? 'bg-[#18181B] text-[#C5A059] border border-[#C5A059]/40 shadow-xs'
               : 'bg-white border border-stone-200 text-stone-700 hover:bg-stone-50'
           }`}
         >
@@ -169,7 +169,7 @@ export default function AdminInventoryPage() {
           onClick={() => setFilter('out_of_stock')}
           className={`px-3 py-1.5 rounded-xl font-semibold transition-all ${
             filter === 'out_of_stock'
-              ? 'bg-[#1B4332] text-white'
+              ? 'bg-[#18181B] text-[#C5A059] border border-[#C5A059]/40 shadow-xs'
               : 'bg-white border border-stone-200 text-stone-700 hover:bg-stone-50'
           }`}
         >
@@ -195,7 +195,7 @@ export default function AdminInventoryPage() {
               {loading ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-stone-400">
-                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#1B4332]" />
+                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#C5A059]" />
                     <span>Loading warehouse inventory...</span>
                   </td>
                 </tr>
@@ -216,12 +216,13 @@ export default function AdminInventoryPage() {
                         <p className="font-mono text-[10px] text-stone-400">{p.sku}</p>
                       </td>
                       <td className="py-3 px-4">
-                        <span className={`font-bold text-sm ${isLow ? 'text-red-600' : 'text-emerald-800'}`}>
+                        <span className={`font-bold text-sm ${isLow ? 'text-red-600' : 'text-stone-900'}`}>
                           {p.stock} units
                         </span>
                         {isLow && (
-                          <span className="block text-[10px] text-red-500 font-semibold">
-                            ⚠️ Low Stock Threshold Alert
+                          <span className="inline-flex items-center gap-1 text-[10px] text-red-500 font-semibold">
+                            <AlertTriangle className="w-3 h-3 shrink-0" />
+                            <span>Low Stock Threshold Alert</span>
                           </span>
                         )}
                       </td>
@@ -237,7 +238,7 @@ export default function AdminInventoryPage() {
                       <td className="py-3 px-4 text-right">
                         <button
                           onClick={() => handleOpenAdjust(p)}
-                          className="px-3 py-1.5 rounded-lg bg-[#1B4332] text-white hover:bg-[#2D6A4F] font-semibold text-xs transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-[#18181B] text-[#C5A059] border border-[#C5A059]/40 hover:bg-stone-900 font-semibold text-xs transition-colors"
                         >
                           Adjust Stock
                         </button>
@@ -287,7 +288,7 @@ export default function AdminInventoryPage() {
                       {m.sku}
                     </td>
                     <td className="py-2.5 px-3 font-bold">
-                      <span className={m.quantityDelta > 0 ? 'text-emerald-700' : 'text-red-600'}>
+                      <span className={m.quantityDelta > 0 ? 'text-[#8C5E3C]' : 'text-red-600'}>
                         {m.quantityDelta > 0 ? `+${m.quantityDelta}` : m.quantityDelta}
                       </span>
                     </td>
@@ -393,7 +394,7 @@ export default function AdminInventoryPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-5 py-2 rounded-xl font-bold shadow-md flex items-center gap-1.5"
+                  className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 px-5 py-2 rounded-xl font-bold shadow-md flex items-center gap-1.5"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Commit Adjustment</span>

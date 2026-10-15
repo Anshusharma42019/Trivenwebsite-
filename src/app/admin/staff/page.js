@@ -108,16 +108,16 @@ export default function AdminStaffPage() {
 
         <button
           onClick={() => setModalOpen(true)}
-          className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md self-start"
+          className="bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm self-start transition-colors"
         >
-          <Plus className="w-4 h-4 text-[#D4AF37]" />
+          <Plus className="w-4 h-4 text-[#C5A059]" />
           <span>Onboard Staff Member</span>
         </button>
       </div>
 
       {msg && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-          <Check className="w-4 h-4 text-emerald-600" />
+        <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 text-stone-900 text-xs font-semibold flex items-center gap-2">
+          <Check className="w-4 h-4 text-[#8C5E3C]" />
           <span>{msg}</span>
         </div>
       )}
@@ -154,7 +154,7 @@ export default function AdminStaffPage() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="py-12 text-center text-stone-400">
-                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#1B4332]" />
+                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#C5A059]" />
                     <span>Loading staff directory...</span>
                   </td>
                 </tr>
@@ -168,7 +168,7 @@ export default function AdminStaffPage() {
                 staff.map((s) => (
                   <tr key={s._id} className="hover:bg-stone-50/80 transition-colors">
                     <td className="py-3 px-4 font-bold text-stone-900 flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-full bg-[#1B4332] text-white flex items-center justify-center font-bold text-[11px]">
+                      <div className="w-7 h-7 rounded-full bg-[#18181B] text-[#C5A059] border border-[#C5A059]/30 flex items-center justify-center font-bold text-[11px]">
                         {s.name.charAt(0).toUpperCase()}
                       </div>
                       <span>{s.name}</span>
@@ -183,13 +183,13 @@ export default function AdminStaffPage() {
                     </td>
                     <td className="py-3 px-4 text-stone-500 text-[11px]">
                       {s.role === 'super_admin' ? (
-                        <span className="text-emerald-700 font-bold">★ Full Master Privileges</span>
+                        <span className="text-[#8C5E3C] font-bold">★ Full Master Privileges</span>
                       ) : (
                         <span>Standard Role Permissions</span>
                       )}
                     </td>
                     <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100/70 text-amber-900 border border-amber-200/60">
                         {s.status}
                       </span>
                     </td>
@@ -291,7 +291,7 @@ export default function AdminStaffPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-[#1B4332] text-white rounded-xl font-bold"
+                  className="px-5 py-2 bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 rounded-xl font-bold shadow-sm transition-all"
                 >
                   {saving ? 'Creating...' : 'Create Account'}
                 </button>

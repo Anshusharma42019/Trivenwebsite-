@@ -207,20 +207,20 @@ export default function AccountPage() {
   if (authLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#1B4332]" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#C5A059]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523]">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Amazon Account Header */}
         <div className="mb-8">
           <div className="flex items-center gap-1.5 text-xs text-stone-500 mb-2">
-            <Link href="/" className="hover:text-[#1B4332] hover:underline">
+            <Link href="/" className="hover:text-[#C5A059] hover:underline">
               Home
             </Link>
             <span>›</span>
@@ -241,13 +241,13 @@ export default function AccountPage() {
           {/* Tile 1: Your Orders */}
           <Link
             href="/orders"
-            className="p-5 rounded-xl border border-stone-200 bg-white hover:border-[#1B4332] hover:shadow-md transition-all flex items-start gap-4 group"
+            className="p-5 rounded-xl border border-stone-200 bg-white hover:border-[#C5A059] hover:shadow-md transition-all flex items-start gap-4 group"
           >
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-[#1B4332] group-hover:bg-[#1B4332] group-hover:text-white transition-colors flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] group-hover:bg-[#0F1D36] group-hover:text-[#D4AF37] transition-colors flex items-center justify-center shrink-0">
               <Package className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-serif font-bold text-stone-900 text-base group-hover:text-[#1B4332] transition-colors">Your Orders</h2>
+              <h2 className="font-serif font-bold text-stone-900 text-base group-hover:text-stone-900 transition-colors">Your Orders</h2>
               <p className="text-xs text-stone-500 mt-1 leading-relaxed">
                 Track, return, or buy classical medicines again
               </p>
@@ -288,15 +288,15 @@ export default function AccountPage() {
             onClick={() => setActiveTab('addresses')}
             className={`p-5 rounded-xl border text-left transition-all flex items-start gap-4 cursor-pointer group ${
               activeTab === 'addresses'
-                ? 'border-[#1B4332] bg-emerald-50/50 shadow-sm'
-                : 'border-stone-200 bg-white hover:border-[#1B4332] hover:shadow-xs'
+                ? 'border-[#C5A059] bg-amber-50/40 shadow-sm'
+                : 'border-stone-200 bg-white hover:border-[#C5A059] hover:shadow-xs'
             }`}
           >
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-[#1B4332] group-hover:bg-[#1B4332] group-hover:text-white transition-colors flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] group-hover:bg-[#0F1D36] group-hover:text-[#D4AF37] transition-colors flex items-center justify-center shrink-0">
               <MapPin className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-serif font-bold text-stone-900 text-base group-hover:text-[#1B4332] transition-colors">Your Addresses</h2>
+              <h2 className="font-serif font-bold text-stone-900 text-base group-hover:text-stone-900 transition-colors">Your Addresses</h2>
               <p className="text-xs text-stone-500 mt-1 leading-relaxed">
                 {user.addresses?.length || 0} saved delivery {user.addresses?.length === 1 ? 'address' : 'addresses'}
               </p>
@@ -305,7 +305,7 @@ export default function AccountPage() {
 
           {/* Tile 5: Payment Options */}
           <div className="p-5 rounded-xl border border-stone-200 bg-white hover:border-stone-300 hover:shadow-xs transition-all flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-[#1B4332] flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] flex items-center justify-center shrink-0">
               <CreditCard className="w-6 h-6" />
             </div>
             <div>
@@ -318,7 +318,7 @@ export default function AccountPage() {
 
           {/* Tile 6: Help & Consultations */}
           <div className="p-5 rounded-xl border border-stone-200 bg-white hover:border-stone-300 hover:shadow-xs transition-all flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-[#1B4332] flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] flex items-center justify-center shrink-0">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
@@ -339,7 +339,7 @@ export default function AccountPage() {
               onClick={() => setActiveTab('orders')}
               className={`font-serif font-bold pb-3 -mb-3 border-b-2 transition-colors shrink-0 ${
                 activeTab === 'orders'
-                  ? 'border-[#1B4332] text-[#1B4332]'
+                  ? 'border-[#C5A059] text-stone-900 font-bold'
                   : 'border-transparent text-stone-500 hover:text-stone-800'
               }`}
             >
@@ -349,7 +349,7 @@ export default function AccountPage() {
               onClick={() => setActiveTab('buy_again')}
               className={`font-serif font-bold pb-3 -mb-3 border-b-2 transition-colors shrink-0 ${
                 activeTab === 'buy_again'
-                  ? 'border-[#1B4332] text-[#1B4332]'
+                  ? 'border-[#C5A059] text-stone-900 font-bold'
                   : 'border-transparent text-stone-500 hover:text-stone-800'
               }`}
             >
@@ -359,7 +359,7 @@ export default function AccountPage() {
               onClick={() => setActiveTab('not_shipped')}
               className={`font-serif font-bold pb-3 -mb-3 border-b-2 transition-colors shrink-0 ${
                 activeTab === 'not_shipped'
-                  ? 'border-[#1B4332] text-[#1B4332]'
+                  ? 'border-[#C5A059] text-stone-900 font-bold'
                   : 'border-transparent text-stone-500 hover:text-stone-800'
               }`}
             >
@@ -369,11 +369,11 @@ export default function AccountPage() {
               onClick={() => setActiveTab('addresses')}
               className={`font-serif font-bold pb-3 -mb-3 border-b-2 transition-colors shrink-0 flex items-center gap-1.5 ${
                 activeTab === 'addresses'
-                  ? 'border-[#1B4332] text-[#1B4332]'
+                  ? 'border-[#C5A059] text-stone-900 font-bold'
                   : 'border-transparent text-stone-500 hover:text-stone-800'
               }`}
             >
-              <MapPin className="w-4 h-4 text-[#D4AF37]" />
+              <MapPin className="w-4 h-4 text-[#C5A059]" />
               <span>Your Addresses ({user.addresses?.length || 0})</span>
             </button>
           </div>
@@ -384,7 +384,7 @@ export default function AccountPage() {
                 <div>
                   <h3 className="font-serif font-bold text-stone-900 text-lg">Your Delivery Addresses</h3>
                   <p className="text-xs text-stone-500 mt-0.5">
-                    Manage saved delivery addresses for 1-click Amazon-style checkout
+                    Manage saved delivery addresses for 1-click Triven Ayurveda checkout
                   </p>
                 </div>
                 {!isAddingAddress && (
@@ -403,7 +403,7 @@ export default function AccountPage() {
                       });
                       setIsAddingAddress(true);
                     }}
-                    className="inline-flex items-center gap-1.5 bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-4 py-2 rounded-lg text-xs shadow-xs transition-colors self-start sm:self-auto cursor-pointer"
+                    className="inline-flex items-center gap-1.5 bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 font-bold px-4 py-2 rounded-lg text-xs shadow-xs transition-colors self-start sm:self-auto cursor-pointer"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add New Address</span>
@@ -413,10 +413,10 @@ export default function AccountPage() {
 
               {/* Add Address Form Modal / Box */}
               {isAddingAddress && (
-                <div className="bg-stone-50 rounded-xl p-5 sm:p-6 border-2 border-dashed border-[#1B4332]/30 space-y-4">
+                <div className="bg-stone-50 rounded-xl p-5 sm:p-6 border-2 border-dashed border-[#C5A059]/40 space-y-4">
                   <div className="flex items-center justify-between border-b border-stone-200 pb-3">
                     <h4 className="font-serif font-bold text-stone-900 text-sm flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-[#1B4332]" />
+                      <MapPin className="w-4 h-4 text-[#8C5E3C]" />
                       Add a new delivery address
                     </h4>
                     <button
@@ -435,15 +435,15 @@ export default function AccountPage() {
                   )}
 
                   {/* Interactive Map Selector Option */}
-                  <div className="bg-gradient-to-r from-emerald-50 via-teal-50/40 to-amber-50/40 p-3.5 sm:p-4 rounded-xl border border-emerald-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                  <div className="bg-gradient-to-r from-amber-50/60 via-stone-50 to-amber-50/40 p-3.5 sm:p-4 rounded-xl border border-[#C5A059]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[#1B4332] text-[#D4AF37] flex items-center justify-center shrink-0 shadow-xs">
+                      <div className="w-10 h-10 rounded-xl bg-[#18181B] text-[#C5A059] border border-[#C5A059]/30 flex items-center justify-center shrink-0 shadow-xs">
                         <MapPin className="w-5 h-5 fill-current" />
                       </div>
                       <div>
                         <h5 className="font-serif font-bold text-stone-900 text-xs sm:text-sm flex items-center gap-1.5">
                           <span>Choose Location on Map</span>
-                          <span className="text-[10px] bg-emerald-100 text-[#1B4332] font-sans font-bold px-1.5 py-0.2 rounded">Fast Auto-fill</span>
+                          <span className="text-[10px] bg-amber-100 text-[#8C5E3C] font-sans font-bold px-1.5 py-0.2 rounded">Fast Auto-fill</span>
                         </h5>
                         <p className="text-[11px] text-stone-600 mt-0.5 leading-relaxed">
                           Search any Indian PIN code or Area / Locality to auto-fill address details with 100% accuracy
@@ -454,18 +454,18 @@ export default function AccountPage() {
                     <button
                       type="button"
                       onClick={() => setIsMapPickerOpen(true)}
-                      className="inline-flex items-center justify-center gap-1.5 bg-[#1B4332] hover:bg-[#163628] text-white font-bold px-4 py-2.5 rounded-lg text-xs transition-colors shadow-xs cursor-pointer shrink-0"
+                      className="inline-flex items-center justify-center gap-1.5 bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold px-4 py-2.5 rounded-xl text-xs transition-colors shadow-xs cursor-pointer shrink-0"
                     >
                       <Navigation className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      <span>📍 Select on Map</span>
+                      <span>Select on Map</span>
                     </button>
                   </div>
 
                   {/* Map Confirmation Banner if pinned */}
                   {mapLocation && (
-                    <div className="p-3 bg-emerald-100/70 rounded-xl border border-emerald-400 text-xs text-stone-800 flex items-center justify-between">
+                    <div className="p-3 bg-amber-50 rounded-xl border border-amber-300 text-xs text-stone-800 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-amber-700 shrink-0" />
                         <span>
                           Doorstep GPS Pinned: <strong>{mapLocation.locality}</strong>, {mapLocation.city} ({mapLocation.lat.toFixed(4)}° N, {mapLocation.lng.toFixed(4)}° E)
                         </span>
@@ -473,7 +473,7 @@ export default function AccountPage() {
                       <button
                         type="button"
                         onClick={() => setIsMapPickerOpen(true)}
-                        className="text-[11px] font-bold text-[#1B4332] underline hover:text-[#163628] cursor-pointer"
+                        className="text-[11px] font-bold text-[#8C5E3C] underline hover:text-stone-900 cursor-pointer"
                       >
                         Adjust Pin
                       </button>
@@ -494,7 +494,7 @@ export default function AccountPage() {
                             setNewAddressForm({ ...newAddressForm, fullName: e.target.value })
                           }
                           placeholder="e.g. Rahul Sharma"
-                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#1B4332] bg-white"
+                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
                         />
                       </div>
                       <div>
@@ -509,7 +509,7 @@ export default function AccountPage() {
                             setNewAddressForm({ ...newAddressForm, phone: e.target.value })
                           }
                           placeholder="e.g. 9876543210"
-                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#1B4332] bg-white"
+                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
                         />
                       </div>
                     </div>
@@ -526,7 +526,7 @@ export default function AccountPage() {
                           setNewAddressForm({ ...newAddressForm, addressLine1: e.target.value })
                         }
                         placeholder="House / Flat No., Road / Street"
-                        className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#1B4332] bg-white"
+                        className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
                       />
                     </div>
 
@@ -541,7 +541,7 @@ export default function AccountPage() {
                           setNewAddressForm({ ...newAddressForm, addressLine2: e.target.value })
                         }
                         placeholder="Colony, Landmark, Sector"
-                        className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#1B4332] bg-white"
+                        className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
                       />
                     </div>
 
@@ -557,7 +557,7 @@ export default function AccountPage() {
                           onChange={(e) =>
                             setNewAddressForm({ ...newAddressForm, city: e.target.value })
                           }
-                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#1B4332] bg-white"
+                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
                         />
                       </div>
                       <div>
@@ -571,7 +571,7 @@ export default function AccountPage() {
                           onChange={(e) =>
                             setNewAddressForm({ ...newAddressForm, state: e.target.value })
                           }
-                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#1B4332] bg-white"
+                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
                         />
                       </div>
                       <div>
@@ -585,7 +585,7 @@ export default function AccountPage() {
                           value={newAddressForm.pincode}
                           onChange={(e) => handlePincodeChange(e.target.value)}
                           placeholder="e.g. 226021"
-                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#1B4332] bg-white"
+                          className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
                         />
                       </div>
                     </div>
@@ -602,7 +602,7 @@ export default function AccountPage() {
                             onChange={() =>
                               setNewAddressForm({ ...newAddressForm, type: 'home' })
                             }
-                            className="text-[#1B4332] focus:ring-[#1B4332]"
+                            className="text-[#18181B] focus:ring-[#C5A059]"
                           />
                           <span>Home (7am-9pm)</span>
                         </label>
@@ -614,7 +614,7 @@ export default function AccountPage() {
                             onChange={() =>
                               setNewAddressForm({ ...newAddressForm, type: 'work' })
                             }
-                            className="text-[#1B4332] focus:ring-[#1B4332]"
+                            className="text-[#18181B] focus:ring-[#C5A059]"
                           />
                           <span>Work (10am-6pm)</span>
                         </label>
@@ -627,7 +627,7 @@ export default function AccountPage() {
                           onChange={(e) =>
                             setNewAddressForm({ ...newAddressForm, isDefault: e.target.checked })
                           }
-                          className="rounded text-[#1B4332] focus:ring-[#1B4332]"
+                          className="rounded text-[#18181B] focus:ring-[#C5A059]"
                         />
                         <span className="font-medium text-stone-700">
                           Make this my default address
@@ -639,7 +639,7 @@ export default function AccountPage() {
                       <button
                         type="submit"
                         disabled={addressLoading}
-                        className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-5 py-2.5 rounded-lg text-xs shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
+                        className="inline-flex items-center gap-2 bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 font-bold px-5 py-2.5 rounded-lg text-xs shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
                       >
                         {addressLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                         <span>Save Address</span>
@@ -659,7 +659,7 @@ export default function AccountPage() {
               {/* Addresses List */}
               {(!user.addresses || user.addresses.length === 0) ? (
                 <div className="py-12 text-center border-2 border-dashed border-stone-200 rounded-xl bg-stone-50/50">
-                  <div className="w-14 h-14 rounded-full bg-emerald-50 text-[#1B4332] flex items-center justify-center text-xl mx-auto mb-3">
+                  <div className="w-14 h-14 rounded-full bg-amber-50 text-[#8C5E3C] border border-[#C5A059]/30 flex items-center justify-center text-xl mx-auto mb-3">
                     <MapPin className="w-6 h-6" />
                   </div>
                   <h4 className="font-serif font-bold text-stone-800 text-base">
@@ -672,7 +672,7 @@ export default function AccountPage() {
                     <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
                       <button
                         onClick={() => setIsAddingAddress(true)}
-                        className="inline-flex items-center gap-1.5 bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-5 py-2.5 rounded-lg text-xs shadow-xs cursor-pointer"
+                        className="inline-flex items-center gap-1.5 bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 font-bold px-5 py-2.5 rounded-lg text-xs shadow-xs cursor-pointer"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Add Address Manually</span>
@@ -682,10 +682,10 @@ export default function AccountPage() {
                           setIsAddingAddress(true);
                           setIsMapPickerOpen(true);
                         }}
-                        className="inline-flex items-center gap-1.5 bg-[#1B4332] hover:bg-[#163628] text-white font-bold px-5 py-2.5 rounded-lg text-xs shadow-xs cursor-pointer"
+                        className="inline-flex items-center gap-1.5 bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold px-5 py-2.5 rounded-xl text-xs shadow-xs cursor-pointer"
                       >
                         <Navigation className="w-4 h-4 text-[#D4AF37]" />
-                        <span>📍 Choose Location on Map</span>
+                        <span>Choose Location on Map</span>
                       </button>
                     </div>
                   )}
@@ -708,9 +708,9 @@ export default function AccountPage() {
                       });
                       setIsAddingAddress(true);
                     }}
-                    className="border-2 border-dashed border-stone-300 hover:border-[#1B4332] rounded-xl p-6 flex flex-col items-center justify-center gap-2 text-stone-500 hover:text-[#1B4332] transition-colors min-h-[200px] cursor-pointer group bg-stone-50/30"
+                    className="border-2 border-dashed border-stone-300 hover:border-[#C5A059] rounded-xl p-6 flex flex-col items-center justify-center gap-2 text-stone-500 hover:text-stone-900 transition-colors min-h-[200px] cursor-pointer group bg-stone-50/30"
                   >
-                    <div className="w-10 h-10 rounded-full border border-stone-300 group-hover:border-[#1B4332] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full border border-stone-300 group-hover:border-[#C5A059] flex items-center justify-center">
                       <Plus className="w-5 h-5" />
                     </div>
                     <span className="font-serif font-bold text-sm">Add Address</span>
@@ -722,7 +722,7 @@ export default function AccountPage() {
                       key={addr._id}
                       className={`relative rounded-xl border p-5 flex flex-col justify-between transition-all ${
                         addr.isDefault
-                          ? 'border-[#1B4332] bg-white ring-2 ring-[#1B4332]/10 shadow-xs'
+                          ? 'border-[#C5A059] bg-white ring-2 ring-[#C5A059]/10 shadow-xs'
                           : 'border-stone-200 bg-white hover:border-stone-300 hover:shadow-xs'
                       }`}
                     >
@@ -733,7 +733,7 @@ export default function AccountPage() {
                               {addr.type || 'home'}
                             </span>
                             {addr.isDefault && (
-                              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-emerald-100 text-[#1B4332]">
+                              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">
                                 Default
                               </span>
                             )}
@@ -759,7 +759,7 @@ export default function AccountPage() {
                         {!addr.isDefault ? (
                           <button
                             onClick={() => handleSetDefaultAddress(addr._id)}
-                            className="text-[#1B4332] hover:underline font-semibold cursor-pointer"
+                            className="text-[#8C5E3C] hover:underline font-semibold cursor-pointer"
                           >
                             Set as Default
                           </button>
@@ -781,13 +781,13 @@ export default function AccountPage() {
             </div>
           ) : loadingOrders ? (
             <div className="py-12 text-center text-xs text-stone-500 flex flex-col items-center gap-2">
-              <Loader2 className="w-6 h-6 animate-spin text-[#1B4332]" />
+              <Loader2 className="w-6 h-6 animate-spin text-[#C5A059]" />
               <span>Loading your order history...</span>
             </div>
           ) : orders.length === 0 ? (
             <div className="py-12 text-center">
-              <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center text-2xl mx-auto mb-3 font-serif">
-                📦
+              <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-200/60 flex items-center justify-center mx-auto mb-3 shadow-sm">
+                <Package className="w-8 h-8 text-[#C5A059]" />
               </div>
               <h3 className="font-serif font-bold text-stone-800 text-base">
                 You have not placed any orders yet
@@ -797,7 +797,7 @@ export default function AccountPage() {
               </p>
               <Link
                 href="/products"
-                className="mt-4 inline-block bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-6 py-2.5 rounded-lg text-xs shadow-xs"
+                className="mt-4 inline-block bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold px-6 py-2.5 rounded-xl text-xs shadow-sm"
               >
                 Start Shopping
               </Link>
@@ -843,8 +843,8 @@ export default function AccountPage() {
                     <div className="p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                       <div className="space-y-4 flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded">
-                            <Truck className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold px-2 py-0.5 rounded">
+                            <Truck className="w-3.5 h-3.5 text-[#8C5E3C]" />
                             <span>{order.status === 'delivered' ? 'Delivered' : 'Dispatched / In Transit'}</span>
                           </span>
                           <span className="text-xs text-stone-500">
@@ -882,7 +882,7 @@ export default function AccountPage() {
                       <div className="flex flex-col gap-2 shrink-0 sm:w-44">
                         <Link
                           href={`/orders/${order.orderNumber}`}
-                          className="w-full text-center bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold py-2 px-3 rounded-lg text-xs shadow-xs transition-colors"
+                          className="w-full text-center bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 font-bold py-2 px-3 rounded-lg text-xs shadow-xs transition-colors"
                         >
                           Track Package
                         </Link>
@@ -894,7 +894,7 @@ export default function AccountPage() {
                         </Link>
                         <Link
                           href={`/orders/${order.orderNumber}`}
-                          className="w-full text-center text-xs text-stone-600 hover:text-[#1B4332] hover:underline py-1"
+                          className="w-full text-center text-xs text-stone-600 hover:text-[#C5A059] hover:underline py-1"
                         >
                           View invoice & details
                         </Link>

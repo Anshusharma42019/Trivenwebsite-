@@ -82,12 +82,12 @@ export default function ProductFiltersDrawer({
       {/* Triven Prime Filter */}
       <div className="pb-4 border-b border-stone-100">
         <h4 className="font-serif font-bold text-sm text-stone-900 mb-2 flex items-center gap-1.5">
-          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+          <Sparkles className="w-4 h-4 text-[#C5A059]" />
           <span>Triven Prime</span>
         </h4>
-        <label className="flex items-center gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#1B4332]">
-          <input type="checkbox" defaultChecked className="rounded text-[#1B4332] focus:ring-0" />
-          <span className="font-bold text-[#1B4332]">✓ Triven Prime</span>
+        <label className="flex items-center gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#8C5E3C]">
+          <input type="checkbox" defaultChecked className="rounded text-[#18181B] focus:ring-0" />
+          <span className="font-bold text-[#C5A059]">✓ Triven Prime</span>
           <span className="text-[11px] text-stone-500">• 1-Day Delivery</span>
         </label>
       </div>
@@ -122,16 +122,16 @@ export default function ProductFiltersDrawer({
       </div>
 
       {/* Department / Categories */}
-      <div className="pb-4 border-b border-stone-100">
+      <div className="pb-4 border-b border-[#EBE6DD]">
         <div className="flex items-center justify-between mb-2">
-          <h4 className="font-serif font-bold text-sm text-stone-900">
+          <h4 className="font-serif font-bold text-sm text-[#14171F]">
             Category
           </h4>
           {currentCategory && (
             <Link
               href={buildUrl({ category: null })}
               onClick={() => setIsOpen(false)}
-              className="text-xs text-[#1B4332] font-bold hover:underline"
+              className="text-xs text-[#C5A059] font-bold hover:underline"
             >
               Clear
             </Link>
@@ -142,10 +142,10 @@ export default function ProductFiltersDrawer({
           <Link
             href={buildUrl({ category: null })}
             onClick={() => setIsOpen(false)}
-            className={`block py-1.5 px-2 rounded-md ${
+            className={`block py-1.5 px-2.5 rounded-lg transition-colors ${
               !currentCategory
-                ? 'font-bold text-[#1B4332] bg-emerald-50'
-                : 'text-stone-700 hover:text-[#1B4332]'
+                ? 'font-bold text-[#0F1D36] bg-[#0F1D36]/5 border-l-2 border-[#D4AF37]'
+                : 'text-[#6E6761] hover:text-[#0F1D36] hover:bg-stone-50'
             }`}
           >
             All Classical Formulations
@@ -155,10 +155,10 @@ export default function ProductFiltersDrawer({
               key={c._id?.toString() || c.slug}
               href={buildUrl({ category: c.slug })}
               onClick={() => setIsOpen(false)}
-              className={`block py-1.5 px-2 rounded-md ${
+              className={`block py-1.5 px-2.5 rounded-lg transition-colors ${
                 currentCategory === c.slug
-                  ? 'font-bold text-[#1B4332] bg-emerald-50'
-                  : 'text-stone-700 hover:text-[#1B4332]'
+                  ? 'font-bold text-[#0F1D36] bg-[#0F1D36]/5 border-l-2 border-[#D4AF37]'
+                  : 'text-[#6E6761] hover:text-[#0F1D36] hover:bg-stone-50'
               }`}
             >
               {c.name}
@@ -168,29 +168,29 @@ export default function ProductFiltersDrawer({
       </div>
 
       {/* Price Filter Presets */}
-      <div className="pb-4 border-b border-stone-100">
+      <div className="pb-4 border-b border-[#EBE6DD]">
         <div className="flex items-center justify-between mb-2">
-          <h4 className="font-serif font-bold text-sm text-stone-900">
+          <h4 className="font-serif font-bold text-sm text-[#14171F]">
             Price
           </h4>
           {(minPrice || maxPrice) && (
             <Link
               href={buildUrl({ minPrice: null, maxPrice: null })}
               onClick={() => setIsOpen(false)}
-              className="text-xs text-[#1B4332] font-bold hover:underline"
+              className="text-xs text-[#C5A059] font-bold hover:underline"
             >
               Clear
             </Link>
           )}
         </div>
-        <div className="space-y-1 text-xs text-stone-700">
+        <div className="space-y-1 text-xs text-[#6E6761]">
           <Link
             href={buildUrl({ minPrice: null, maxPrice: '400' })}
             onClick={() => setIsOpen(false)}
-            className={`block py-1.5 px-2 rounded-md ${
+            className={`block py-1.5 px-2.5 rounded-lg transition-colors ${
               maxPrice === '400' && !minPrice
-                ? 'font-bold text-[#1B4332] bg-emerald-50'
-                : 'hover:text-[#1B4332] hover:underline'
+                ? 'font-bold text-[#0F1D36] bg-[#0F1D36]/5 border-l-2 border-[#D4AF37]'
+                : 'hover:text-[#0F1D36] hover:bg-stone-50'
             }`}
           >
             Under ₹400
@@ -198,10 +198,10 @@ export default function ProductFiltersDrawer({
           <Link
             href={buildUrl({ minPrice: '400', maxPrice: '800' })}
             onClick={() => setIsOpen(false)}
-            className={`block py-1.5 px-2 rounded-md ${
+            className={`block py-1.5 px-2.5 rounded-lg transition-colors ${
               minPrice === '400' && maxPrice === '800'
-                ? 'font-bold text-[#1B4332] bg-emerald-50'
-                : 'hover:text-[#1B4332] hover:underline'
+                ? 'font-bold text-[#0F1D36] bg-[#0F1D36]/5 border-l-2 border-[#D4AF37]'
+                : 'hover:text-[#0F1D36] hover:bg-stone-50'
             }`}
           >
             ₹400 - ₹800
@@ -209,10 +209,10 @@ export default function ProductFiltersDrawer({
           <Link
             href={buildUrl({ minPrice: '800', maxPrice: '1500' })}
             onClick={() => setIsOpen(false)}
-            className={`block py-1.5 px-2 rounded-md ${
+            className={`block py-1.5 px-2.5 rounded-lg transition-colors ${
               minPrice === '800' && maxPrice === '1500'
-                ? 'font-bold text-[#1B4332] bg-emerald-50'
-                : 'hover:text-[#1B4332] hover:underline'
+                ? 'font-bold text-[#0F1D36] bg-[#0F1D36]/5 border-l-2 border-[#D4AF37]'
+                : 'hover:text-[#0F1D36] hover:bg-stone-50'
             }`}
           >
             ₹800 - ₹1,500
@@ -220,10 +220,10 @@ export default function ProductFiltersDrawer({
           <Link
             href={buildUrl({ minPrice: '1500', maxPrice: null })}
             onClick={() => setIsOpen(false)}
-            className={`block py-1.5 px-2 rounded-md ${
+            className={`block py-1.5 px-2.5 rounded-lg transition-colors ${
               minPrice === '1500' && !maxPrice
-                ? 'font-bold text-[#1B4332] bg-emerald-50'
-                : 'hover:text-[#1B4332] hover:underline'
+                ? 'font-bold text-[#0F1D36] bg-[#0F1D36]/5 border-l-2 border-[#D4AF37]'
+                : 'hover:text-[#0F1D36] hover:bg-stone-50'
             }`}
           >
             Over ₹1,500
@@ -232,22 +232,22 @@ export default function ProductFiltersDrawer({
       </div>
 
       {/* Brands & Vaidyashalas */}
-      <div className="pb-4 border-b border-stone-100">
+      <div className="pb-4 border-b border-[#EBE6DD]">
         <div className="flex items-center justify-between mb-2">
-          <h4 className="font-serif font-bold text-sm text-stone-900">
+          <h4 className="font-serif font-bold text-sm text-[#14171F]">
             Brands & Vaidyashalas
           </h4>
           {currentBrand && (
             <Link
               href={buildUrl({ brand: null })}
               onClick={() => setIsOpen(false)}
-              className="text-xs text-[#1B4332] font-bold hover:underline"
+              className="text-xs text-[#C5A059] font-bold hover:underline"
             >
               Clear
             </Link>
           )}
         </div>
-        <div className="space-y-1.5 text-xs text-stone-700 max-h-52 overflow-y-auto touch-scroll pr-1">
+        <div className="space-y-1.5 text-xs text-[#6E6761] max-h-52 overflow-y-auto touch-scroll pr-1">
           {brands.map((b) => {
             const isSelected = currentBrand === b.slug;
             return (
@@ -255,15 +255,15 @@ export default function ProductFiltersDrawer({
                 key={b._id?.toString() || b.slug}
                 href={buildUrl({ brand: isSelected ? null : b.slug })}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-2 py-1 px-1 rounded hover:text-[#1B4332] ${
-                  isSelected ? 'font-bold text-[#1B4332] bg-emerald-50/70' : ''
+                className={`flex items-center gap-2 py-1 px-1 rounded transition-colors ${
+                  isSelected ? 'font-bold text-[#0F1D36] bg-[#0F1D36]/5' : 'hover:text-[#0F1D36]'
                 }`}
               >
                 <input
                   type="checkbox"
                   checked={isSelected}
                   readOnly
-                  className="rounded text-[#1B4332] focus:ring-0"
+                  className="rounded text-[#0F1D36] focus:ring-0"
                 />
                 <span>{b.name}</span>
               </Link>
@@ -273,25 +273,25 @@ export default function ProductFiltersDrawer({
       </div>
 
       {/* Dosage Forms */}
-      <div className="pb-4 border-b border-stone-100">
-        <h4 className="font-serif font-bold text-sm text-stone-900 mb-2">
+      <div className="pb-4 border-b border-[#EBE6DD]">
+        <h4 className="font-serif font-bold text-sm text-[#14171F] mb-2">
           Dosage Form
         </h4>
-        <div className="space-y-1 text-xs text-stone-700">
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#1B4332] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+        <div className="space-y-1 text-xs text-[#6E6761]">
+          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
+            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
             <span>Churna (Powder)</span>
           </label>
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#1B4332] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
+            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
             <span>Taila (Oil Infusion)</span>
           </label>
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#1B4332] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
+            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
             <span>Vati / Gutika (Tablets)</span>
           </label>
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#1B4332] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
+            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
             <span>Avaleha (Paste / Resin)</span>
           </label>
         </div>
@@ -302,17 +302,17 @@ export default function ProductFiltersDrawer({
   return (
     <>
       {/* Mobile / Tablet Filter Trigger Button Bar (<lg) */}
-      <div className="lg:hidden flex items-center justify-between gap-2 bg-white rounded-xl border border-stone-200 p-2.5 mb-4 shadow-2xs">
+      <div className="lg:hidden flex items-center justify-between gap-2 bg-white rounded-xl border border-[#EBE6DD] p-2.5 mb-4 shadow-xs">
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="flex-1 flex items-center justify-center gap-2 bg-stone-50 hover:bg-stone-100 border border-stone-300 text-stone-800 text-xs font-semibold py-2.5 px-3 rounded-lg min-h-[44px] transition-colors"
+          className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-[#FAF8F5] border border-stone-300 text-[#14171F] text-xs font-semibold py-2.5 px-3 rounded-lg min-h-[44px] transition-colors"
           aria-label="Open Filters"
         >
-          <SlidersHorizontal className="w-4 h-4 text-[#1B4332]" />
+          <SlidersHorizontal className="w-4 h-4 text-[#0F1D36]" />
           <span>Filters</span>
           {activeFilterCount > 0 && (
-            <span className="bg-[#1B4332] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="bg-[#0F1D36] text-[#D4AF37] text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border border-[#D4AF37]/30">
               {activeFilterCount}
             </span>
           )}
@@ -321,7 +321,7 @@ export default function ProductFiltersDrawer({
         {activeFilterCount > 0 && (
           <Link
             href="/products"
-            className="text-xs font-medium text-stone-500 hover:text-red-700 px-3 py-2.5 min-h-[44px] flex items-center"
+            className="text-xs font-medium text-[#6E6761] hover:text-red-700 px-3 py-2.5 min-h-[44px] flex items-center"
           >
             Clear All
           </Link>
@@ -330,16 +330,16 @@ export default function ProductFiltersDrawer({
 
       {/* Desktop Persistent Left Sidebar (lg:block) */}
       <aside className="hidden lg:block lg:col-span-1 space-y-4">
-        <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-2xs">
-          <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
-            <h3 className="font-serif font-bold text-stone-900 text-sm flex items-center gap-1.5">
-              <Filter className="w-4 h-4 text-[#1B4332]" />
+        <div className="bg-white p-5 rounded-2xl border border-[#EBE6DD] shadow-luxury">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#EBE6DD]">
+            <h3 className="font-serif font-bold text-[#14171F] text-sm flex items-center gap-1.5">
+              <Filter className="w-4 h-4 text-[#0F1D36]" />
               <span>Filters</span>
             </h3>
             {activeFilterCount > 0 && (
               <Link
                 href="/products"
-                className="text-xs text-[#1B4332] font-semibold hover:underline"
+                className="text-xs text-[#C5A059] font-bold hover:underline"
               >
                 Clear all ({activeFilterCount})
               </Link>
@@ -362,17 +362,17 @@ export default function ProductFiltersDrawer({
           {/* Drawer Panel */}
           <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-200">
             {/* Drawer Header */}
-            <div className="flex items-center justify-between p-4 border-b border-stone-200 bg-stone-50">
+            <div className="flex items-center justify-between p-4 border-b border-[#EBE6DD] bg-[#FAF8F5]">
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="w-5 h-5 text-[#1B4332]" />
-                <h3 className="font-serif font-bold text-base text-stone-900">
+                <SlidersHorizontal className="w-5 h-5 text-[#0F1D36]" />
+                <h3 className="font-serif font-bold text-base text-[#14171F]">
                   Filters {activeFilterCount > 0 ? `(${activeFilterCount})` : ''}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-10 h-10 rounded-lg flex items-center justify-center text-stone-500 hover:text-stone-800 hover:bg-stone-200/60 transition-colors"
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-stone-500 hover:text-[#14171F] hover:bg-stone-200/60 transition-colors"
                 aria-label="Close Filters"
               >
                 <X className="w-5 h-5" />
@@ -385,12 +385,12 @@ export default function ProductFiltersDrawer({
             </div>
 
             {/* Drawer Footer Actions */}
-            <div className="p-4 border-t border-stone-200 bg-white flex items-center gap-3">
+            <div className="p-4 border-t border-[#EBE6DD] bg-white flex items-center gap-3">
               {activeFilterCount > 0 ? (
                 <Link
                   href="/products"
                   onClick={() => setIsOpen(false)}
-                  className="flex-1 text-center py-2.5 px-3 border border-stone-300 text-stone-700 rounded-lg text-xs font-semibold hover:bg-stone-50 min-h-[44px] flex items-center justify-center"
+                  className="flex-1 text-center py-2.5 px-3 border border-stone-300 text-[#14171F] rounded-xl text-xs font-semibold hover:bg-stone-50 min-h-[44px] flex items-center justify-center"
                 >
                   Clear All
                 </Link>
@@ -398,7 +398,7 @@ export default function ProductFiltersDrawer({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="flex-1 bg-[#1B4332] text-white py-2.5 px-4 rounded-lg text-xs font-bold hover:bg-[#2D6A4F] transition-colors min-h-[44px] flex items-center justify-center shadow-xs"
+                className="flex-1 bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 py-2.5 px-4 rounded-xl text-xs font-bold hover:bg-[#162238] transition-all min-h-[44px] flex items-center justify-center shadow-md active:scale-98"
               >
                 Show Results ({totalResults})
               </button>

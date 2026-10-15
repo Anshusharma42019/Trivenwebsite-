@@ -14,55 +14,58 @@ export default function AmazonPrimeBanner() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
-      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#1B4332] via-[#245842] to-[#12281E] text-white p-6 sm:p-8 shadow-lg border border-emerald-700/50">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#0F1D36] via-[#162238] to-[#1B2A4A] text-white p-7 sm:p-10 shadow-[0_12px_40px_rgba(15,29,54,0.18)] border border-[#D4AF37]/45">
+        {/* Subtle decorative gold light sweep */}
+        <div className="absolute -right-20 -top-20 w-80 h-80 bg-[radial-gradient(circle,rgba(212,175,55,0.15)_0%,transparent_70%)] pointer-events-none" />
+
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] px-3 py-1 rounded-full text-xs font-bold tracking-wide">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>TRIVEN VEDIC PRIME CLUB</span>
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 bg-[#D4AF37]/20 border border-[#D4AF37]/60 text-[#F5EDE0] px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#F3E5AB]" />
+              <span className="text-[#F3E5AB]">TRIVEN VEDIC PRIME CLUB</span>
             </div>
 
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
+            <h2 className="text-white font-serif text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight drop-shadow-sm">
               Enjoy Unlimited Free Express Delivery on All Orders
             </h2>
 
-            <p className="text-stone-200 text-xs sm:text-sm font-light leading-relaxed">
+            <p className="text-[#F5EDE0] text-sm sm:text-base font-normal leading-relaxed">
               Plus receive 15% instant off on your first order, priority Vaidya consultations, and quarterly seasonal detox guides.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-2 text-xs text-stone-300">
-              <div className="flex items-center gap-1.5">
-                <Truck className="w-4 h-4 text-[#D4AF37]" />
-                <span>Pan-India 1-2 Day Dispatch</span>
+            <div className="flex flex-wrap gap-4 pt-2 text-xs sm:text-sm">
+              <div className="flex items-center gap-2 font-medium bg-[#0B1527]/80 text-white px-3.5 py-1.5 rounded-lg border border-[#D4AF37]/35 shadow-xs">
+                <Truck className="w-4 h-4 text-[#F3E5AB] shrink-0" />
+                <span className="text-white font-semibold">Pan-India 1-2 Day Dispatch</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
-                <span>Zero Minimum Order for Prime</span>
+              <div className="flex items-center gap-2 font-medium bg-[#0B1527]/80 text-white px-3.5 py-1.5 rounded-lg border border-[#D4AF37]/35 shadow-xs">
+                <ShieldCheck className="w-4 h-4 text-[#F3E5AB] shrink-0" />
+                <span className="text-white font-semibold">Zero Minimum Order for Prime</span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end gap-3 shrink-0">
+          <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end gap-3.5 shrink-0">
             {/* Coupon Code Pill */}
-            <div className="flex items-center gap-2 bg-emerald-950/80 border border-emerald-600/60 rounded-xl p-2 px-3">
+            <div className="flex items-center gap-3 bg-[#0B1527] border-2 border-[#D4AF37]/60 rounded-2xl p-2.5 px-4 shadow-md">
               <div className="text-left">
-                <span className="block text-[10px] text-stone-400 uppercase font-semibold">Special Coupon</span>
-                <span className="text-sm font-bold text-[#D4AF37] tracking-wider">VEDIC15</span>
+                <span className="block text-[10px] text-[#EADFC9] uppercase font-bold tracking-wider">Special Coupon</span>
+                <span className="text-base font-extrabold text-[#F3E5AB] tracking-widest">VEDIC15</span>
               </div>
               <button
                 onClick={copyCode}
-                className="ml-2 bg-emerald-800 hover:bg-emerald-700 text-white p-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-1"
+                className="ml-2 bg-[#1B2A4A] hover:bg-[#253860] text-white p-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 border border-[#D4AF37]/40 shadow-xs active:scale-95 cursor-pointer"
                 aria-label="Copy Coupon"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? 'Copied' : 'Copy'}</span>
+                {copied ? <Check className="w-4 h-4 text-[#F3E5AB]" /> : <Copy className="w-4 h-4 text-stone-200" />}
+                <span className="text-white font-bold">{copied ? 'Copied!' : 'Copy'}</span>
               </button>
             </div>
 
             <Link
               href="/products"
-              className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md hover:shadow-lg text-center"
+              className="bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-110 text-[#0F1D36] font-extrabold px-8 py-3 rounded-xl text-sm transition-all shadow-[0_6px_24px_rgba(212,175,55,0.4)] text-center min-h-[44px] flex items-center justify-center tracking-wide"
             >
               Shop With Vedic Prime
             </Link>

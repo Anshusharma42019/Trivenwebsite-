@@ -30,6 +30,8 @@ import {
   Plus,
   ChevronRight,
   User,
+  ShoppingBag,
+  Check,
 } from 'lucide-react';
 import ProductImage from '@/components/store/ProductImage';
 
@@ -84,9 +86,9 @@ export default function CheckoutPage() {
     addressLine1: '',
     addressLine2: '',
     landmark: '',
-    city: 'Haridwar',
-    state: 'Uttarakhand',
-    pincode: '249401',
+    city: 'New Delhi',
+    state: 'Delhi',
+    pincode: '110001',
     addressType: 'home', // 'home' | 'work'
   });
 
@@ -136,9 +138,9 @@ export default function CheckoutPage() {
           addressLine1: defaultAddr.addressLine1,
           addressLine2: defaultAddr.addressLine2 || '',
           landmark: defaultAddr.landmark || '',
-          city: defaultAddr.city || 'Haridwar',
-          state: defaultAddr.state || 'Uttarakhand',
-          pincode: defaultAddr.pincode || '249401',
+          city: defaultAddr.city || 'New Delhi',
+          state: defaultAddr.state || 'Delhi',
+          pincode: defaultAddr.pincode || '110001',
           addressType: defaultAddr.type || 'home',
         }));
         setIsAddressConfirmed(true);
@@ -153,9 +155,9 @@ export default function CheckoutPage() {
           addressLine1: '',
           addressLine2: '',
           landmark: '',
-          city: 'Haridwar',
-          state: 'Uttarakhand',
-          pincode: '249401',
+          city: 'New Delhi',
+          state: 'Delhi',
+          pincode: '110001',
           addressType: 'home',
         }));
         setIsAddressConfirmed(false);
@@ -172,9 +174,9 @@ export default function CheckoutPage() {
       addressLine1: addr.addressLine1,
       addressLine2: addr.addressLine2 || '',
       landmark: addr.landmark || '',
-      city: addr.city || 'Haridwar',
-      state: addr.state || 'Uttarakhand',
-      pincode: addr.pincode || '249401',
+      city: addr.city || 'New Delhi',
+      state: addr.state || 'Delhi',
+      pincode: addr.pincode || '110001',
       addressType: addr.type || 'home',
     }));
     try {
@@ -265,6 +267,7 @@ export default function CheckoutPage() {
             phone: formData.phone,
             addressLine1: formData.addressLine1,
             addressLine2: formData.addressLine2,
+            landmark: formData.landmark || '',
             city: formData.city,
             state: formData.state,
             pincode: formData.pincode,
@@ -523,7 +526,7 @@ export default function CheckoutPage() {
             },
           },
           theme: {
-            color: '#1B4332', // Triven Vedic Dark Forest Green
+            color: '#0F1D36', // Royal Midnight Lapis Luxury
           },
           modal: {
             ondismiss: function () {
@@ -558,7 +561,7 @@ export default function CheckoutPage() {
   if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#1B4332]" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#C5A059]" />
       </div>
     );
   }
@@ -568,8 +571,8 @@ export default function CheckoutPage() {
       <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
         <Navbar />
         <main className="max-w-3xl mx-auto px-4 py-20 text-center flex-1">
-          <div className="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center text-3xl mx-auto mb-4 font-serif">
-            🛒
+          <div className="w-20 h-20 rounded-full bg-amber-50 border border-amber-200/60 flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <ShoppingBag className="w-9 h-9 text-[#C5A059]" />
           </div>
           <h1 className="font-serif text-3xl font-bold text-stone-900 mb-2">
             Your Cart is Empty
@@ -579,7 +582,7 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/products"
-            className="inline-block bg-[#1B4332] text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md hover:bg-[#2D6A4F] transition-all"
+            className="inline-block bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 font-bold px-6 py-3 rounded-xl text-sm shadow-md hover:bg-[#162238] transition-all"
           >
             Browse Classical Medicines
           </Link>
@@ -590,7 +593,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] selection:bg-[#C5A059]/20 selection:text-[#0F1D36]">
       {/* Standard Store Navbar with Mobile Bottom Bar */}
       <Navbar />
 
@@ -603,16 +606,16 @@ export default function CheckoutPage() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Column: 3-Step Amazon Checkout Flow (7 Cols) */}
+          {/* Left Column: 3-Step Checkout Flow (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">
             
             {/* ================= STEP 1: SIGN-IN REQUIREMENT ================= */}
-            <div className="bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden">
-              <div className="p-5 sm:p-6 border-b border-stone-100 flex items-center justify-between">
+            <div className="bg-white rounded-2xl border border-[#EBE6DD] shadow-luxury overflow-hidden">
+              <div className="p-5 sm:p-6 border-b border-[#EBE6DD] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                      user ? 'bg-emerald-100 text-emerald-800' : 'bg-[#1B4332] text-white'
+                      user ? 'bg-[#0F1D36]/10 text-[#0F1D36] border border-[#0F1D36]/25' : 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
                     }`}
                   >
                     {user ? '✓' : '1'}
@@ -624,7 +627,7 @@ export default function CheckoutPage() {
                     <p className="text-xs text-stone-500">
                       {user
                         ? `Signed in as ${user.name} (${user.email})`
-                        : 'Amazon-standard verified authentication required for doorstep delivery'}
+                        : 'Triven Ayurveda verified authentication required for doorstep delivery'}
                     </p>
                   </div>
                 </div>
@@ -632,14 +635,14 @@ export default function CheckoutPage() {
                 {user && (
                   <Link
                     href="/login?redirect=/checkout"
-                    className="text-xs text-[#1B4332] hover:underline font-semibold"
+                    className="text-xs text-[#C5A059] hover:text-[#8C5E3C] hover:underline font-semibold"
                   >
                     Switch Account
                   </Link>
                 )}
               </div>
 
-              {/* If user is NOT logged in: Show Amazon Sign-In Card */}
+              {/* If user is NOT logged in: Show Triven Sign-In Card */}
               {!user && (
                 <div className="p-6 bg-amber-50/40 space-y-5">
                   <div className="p-4 bg-white rounded-xl border border-amber-200 space-y-3">
@@ -650,7 +653,7 @@ export default function CheckoutPage() {
                           Sign In Required to Place Order
                         </h3>
                         <p className="text-xs text-stone-600 leading-relaxed mt-0.5">
-                          Amazon requires user sign-in to safeguard verified customer identity, dispatch genuine AYUSH batch formulations, and store delivery map pins.
+                          Triven Ayurveda requires user sign-in to safeguard verified customer identity, dispatch genuine AYUSH batch formulations, and store delivery map pins.
                         </p>
                       </div>
                     </div>
@@ -673,7 +676,7 @@ export default function CheckoutPage() {
                             placeholder="Mobile number or email"
                             value={loginEmail}
                             onChange={(e) => setLoginEmail(e.target.value)}
-                            className="w-full p-2 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                            className="w-full p-2 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                           />
                         </div>
                         <div>
@@ -684,7 +687,7 @@ export default function CheckoutPage() {
                             placeholder="Enter password"
                             value={loginPassword}
                             onChange={(e) => setLoginPassword(e.target.value)}
-                            className="w-full p-2 border border-stone-300 rounded-lg outline-none focus:border-[#1B4332]"
+                            className="w-full p-2 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
                           />
                         </div>
                       </div>
@@ -708,7 +711,7 @@ export default function CheckoutPage() {
                         <div className="text-xs text-center sm:text-right">
                           <Link
                             href="/login?redirect=/checkout&mode=register"
-                            className="text-[#1B4332] font-bold hover:underline"
+                            className="text-[#8C5E3C] font-bold hover:underline"
                           >
                             New to Triven? Create account →
                           </Link>
@@ -722,24 +725,24 @@ export default function CheckoutPage() {
 
             {/* ================= STEP 2: DELIVERY ADDRESS & MAP PINNING ================= */}
             <div
-              className={`bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden transition-all ${
+              className={`bg-white rounded-2xl border border-[#EBE6DD] shadow-luxury overflow-hidden transition-all ${
                 !user ? 'opacity-60 pointer-events-none' : ''
               }`}
             >
-              <div className="p-5 sm:p-6 border-b border-stone-100 flex items-center justify-between">
+              <div className="p-5 sm:p-6 border-b border-[#EBE6DD] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                      isAddressConfirmed ? 'bg-emerald-100 text-emerald-800' : 'bg-[#1B4332] text-white'
+                      isAddressConfirmed ? 'bg-[#0F1D36]/10 text-[#0F1D36] border border-[#0F1D36]/25' : 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
                     }`}
                   >
                     {isAddressConfirmed ? '✓' : '2'}
                   </span>
                   <div>
-                    <h2 className="font-serif font-bold text-base text-stone-900">
+                    <h2 className="font-serif font-bold text-base text-[#14171F]">
                       Step 2: Select a Delivery Address
                     </h2>
-                    <p className="text-xs text-stone-500">
+                    <p className="text-xs text-[#6E6761]">
                       Confirm doorstep location & pinpoint exact house on Map
                     </p>
                   </div>
@@ -748,7 +751,7 @@ export default function CheckoutPage() {
                 {isAddressConfirmed && user && (
                   <button
                     onClick={() => setIsAddressConfirmed(false)}
-                    className="inline-flex items-center gap-1 text-xs text-[#1B4332] hover:underline font-semibold"
+                    className="inline-flex items-center gap-1 text-xs text-[#8C5E3C] hover:underline font-semibold"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
                     <span>Change</span>
@@ -767,8 +770,8 @@ export default function CheckoutPage() {
 
               {/* If Address is Confirmed: Show Amazon Confirmed Summary */}
               {user && isAddressConfirmed && (
-                <div className="p-6 bg-emerald-50/30 space-y-3">
-                  <div className="bg-white p-4 rounded-xl border border-emerald-200 space-y-2">
+                <div className="p-6 bg-amber-50/30 space-y-3">
+                  <div className="bg-white p-4 rounded-xl border border-amber-200/70 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-stone-900 text-sm">
@@ -778,8 +781,8 @@ export default function CheckoutPage() {
                           {formData.addressType === 'work' ? 'Office' : 'Home'}
                         </span>
                       </div>
-                      <span className="text-xs text-emerald-700 font-bold flex items-center gap-1">
-                        <CheckCircle2 className="w-4 h-4" /> Confirmed
+                      <span className="text-xs text-amber-800 font-bold flex items-center gap-1">
+                        <CheckCircle2 className="w-4 h-4 text-amber-700" /> Confirmed
                       </span>
                     </div>
 
@@ -795,8 +798,8 @@ export default function CheckoutPage() {
 
                     {/* GPS Pinned Location Pill */}
                     {mapLocation && (
-                      <div className="mt-2 pt-2 border-t border-stone-100 flex items-center gap-2 text-[11px] text-[#1B4332] font-semibold">
-                        <MapPin className="w-3.5 h-3.5 text-[#D4AF37] fill-current" />
+                      <div className="mt-2 pt-2 border-t border-stone-100 flex items-center gap-2 text-[11px] text-[#8C5E3C] font-semibold">
+                        <MapPin className="w-3.5 h-3.5 text-[#C5A059] fill-current" />
                         <span>
                           Doorstep GPS Pinned: {mapLocation.lat.toFixed(4)}° N,{' '}
                           {mapLocation.lng.toFixed(4)}° E
@@ -826,14 +829,14 @@ export default function CheckoutPage() {
                               addressLine1: '',
                               addressLine2: '',
                               landmark: '',
-                              city: 'Haridwar',
-                              state: 'Uttarakhand',
-                              pincode: '249401',
+                              city: 'New Delhi',
+                              state: 'Delhi',
+                              pincode: '110001',
                               addressType: 'home',
                             }));
                             setIsAddingNewInCheckout(true);
                           }}
-                          className="inline-flex items-center gap-1 text-xs text-[#1B4332] font-bold hover:underline cursor-pointer"
+                          className="inline-flex items-center gap-1 text-xs text-[#8C5E3C] font-bold hover:underline cursor-pointer"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Add a new address</span>
@@ -848,23 +851,10 @@ export default function CheckoutPage() {
                           return (
                             <div
                               key={addr._id}
-                              onClick={() => {
-                                setSelectedAddressId(addr._id);
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  fullName: addr.fullName || user.name || prev.fullName,
-                                  phone: addr.phone || user.phone || prev.phone,
-                                  addressLine1: addr.addressLine1,
-                                  addressLine2: addr.addressLine2 || '',
-                                  city: addr.city || 'Haridwar',
-                                  state: addr.state || 'Uttarakhand',
-                                  pincode: addr.pincode || '249401',
-                                  addressType: addr.type || 'home',
-                                }));
-                              }}
+                              onClick={() => handleSelectAddress(addr)}
                               className={`p-4 rounded-xl border text-xs cursor-pointer transition-all ${
                                 isSelected
-                                  ? 'border-[#1B4332] bg-emerald-50/40 ring-1 ring-[#1B4332]'
+                                  ? 'border-[#C5A059] bg-amber-50/40 ring-1 ring-[#C5A059]'
                                   : 'border-stone-200 hover:border-stone-300 bg-white'
                               }`}
                             >
@@ -873,8 +863,8 @@ export default function CheckoutPage() {
                                   type="radio"
                                   name="selectedSavedAddress"
                                   checked={isSelected}
-                                  onChange={() => {}}
-                                  className="mt-0.5 text-[#1B4332] focus:ring-[#1B4332]"
+                                  onChange={() => handleSelectAddress(addr)}
+                                  className="mt-0.5 text-[#18181B] focus:ring-[#C5A059]"
                                 />
                                 <div className="flex-1">
                                   <div className="flex items-center gap-2">
@@ -885,31 +875,36 @@ export default function CheckoutPage() {
                                       {addr.type || 'home'}
                                     </span>
                                     {addr.isDefault && (
-                                      <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 px-2 py-0.5 rounded text-[#1B4332]">
+                                      <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-100 px-2 py-0.5 rounded text-[#8C5E3C] border border-amber-300">
                                         Default
                                       </span>
                                     )}
                                   </div>
                                   <p className="text-stone-700 mt-1 leading-relaxed">
                                     {addr.addressLine1}
-                                    {addr.addressLine2 ? `, ${addr.addressLine2}` : ''}, {addr.city},{' '}
+                                    {addr.addressLine2 ? `, ${addr.addressLine2}` : ''}
+                                    {addr.landmark ? `, Landmark: ${addr.landmark}` : ''}, {addr.city},{' '}
                                     {addr.state} -{' '}
                                     <strong className="font-bold">{addr.pincode}</strong>
                                   </p>
                                   <p className="text-stone-500 mt-1">Phone: {addr.phone}</p>
 
                                   {isSelected && (
-                                    <div className="mt-3 pt-3 border-t border-emerald-100/60">
+                                    <div className="mt-3 pt-3 border-t border-amber-200/50 flex items-center justify-between">
                                       <button
                                         type="button"
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           handleSelectAddress(addr);
                                         }}
-                                        className="bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold px-6 py-2 rounded-full text-xs shadow-xs transition-colors border border-[#FCD200] cursor-pointer"
+                                        className="bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold px-6 py-2 rounded-full text-xs shadow-xs transition-colors border border-[#FCD200] cursor-pointer flex items-center gap-1.5"
                                       >
-                                        Deliver to this address
+                                        <CheckCircle2 className="w-3.5 h-3.5 text-stone-900" />
+                                        <span>Deliver to this address</span>
                                       </button>
+                                      <span className="text-xs text-amber-800 font-bold flex items-center gap-1">
+                                        Selected for delivery
+                                      </span>
                                     </div>
                                   )}
                                 </div>
@@ -930,14 +925,14 @@ export default function CheckoutPage() {
                               addressLine1: '',
                               addressLine2: '',
                               landmark: '',
-                              city: 'Haridwar',
-                              state: 'Uttarakhand',
-                              pincode: '249401',
+                              city: 'New Delhi',
+                              state: 'Delhi',
+                              pincode: '110001',
                               addressType: 'home',
                             }));
                             setIsAddingNewInCheckout(true);
                           }}
-                          className="inline-flex items-center gap-1.5 text-xs text-[#1B4332] font-semibold hover:underline cursor-pointer"
+                          className="inline-flex items-center gap-1.5 text-xs text-[#8C5E3C] font-semibold hover:underline cursor-pointer"
                         >
                           <Plus className="w-4 h-4" />
                           <span>Add a new delivery address</span>
@@ -971,7 +966,7 @@ export default function CheckoutPage() {
                             value={formData.fullName}
                             onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                             placeholder="e.g. Ramesh Sharma"
-                            className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#1B4332] outline-none"
+                            className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                           />
                         </div>
 
@@ -986,7 +981,7 @@ export default function CheckoutPage() {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="9876543210"
-                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#1B4332] outline-none"
+                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                       />
                     </div>
 
@@ -1001,10 +996,10 @@ export default function CheckoutPage() {
                         <button
                           type="button"
                           onClick={() => setIsMapPickerOpen(true)}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1B4332] bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-3 py-1.5 rounded-lg transition-colors w-fit"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-900 bg-amber-50 hover:bg-amber-100 border border-[#C5A059]/40 px-3 py-1.5 rounded-lg transition-colors w-fit"
                         >
-                          <MapPin className="w-3.5 h-3.5 text-[#1B4332] fill-current" />
-                          <span>📍 Select / Pin Location on Map</span>
+                          <MapPin className="w-3.5 h-3.5 text-[#C5A059] fill-current" />
+                          <span>Select / Pin Location on Map</span>
                         </button>
                       </div>
 
@@ -1019,7 +1014,7 @@ export default function CheckoutPage() {
                             onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
                             onBlur={handlePincodeBlur}
                             placeholder="e.g. 249401"
-                            className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#1B4332] outline-none"
+                            className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                           />
                           {checkingPincode && (
                             <Loader2 className="w-4 h-4 text-stone-400 animate-spin absolute right-3 top-3" />
@@ -1028,7 +1023,7 @@ export default function CheckoutPage() {
 
                         <span className="text-[11px] text-stone-500">
                           {pincodeStatus ? (
-                            <span className={pincodeStatus.serviceable ? 'text-emerald-700 font-bold' : 'text-red-600'}>
+                            <span className={pincodeStatus.serviceable ? 'text-amber-800 font-bold' : 'text-red-600'}>
                               {pincodeStatus.message}
                             </span>
                           ) : (
@@ -1039,9 +1034,9 @@ export default function CheckoutPage() {
 
                       {/* Map Confirmation Banner if pinned */}
                       {mapLocation && (
-                        <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-stone-800 flex items-center justify-between">
+                        <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-stone-800 flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                            <CheckCircle2 className="w-4 h-4 text-amber-700" />
                             <span>
                               Exact Doorstep Pin Set: <strong>{mapLocation.locality}</strong> ({mapLocation.lat.toFixed(4)}° N, {mapLocation.lng.toFixed(4)}° E)
                             </span>
@@ -1049,7 +1044,7 @@ export default function CheckoutPage() {
                           <button
                             type="button"
                             onClick={() => setIsMapPickerOpen(true)}
-                            className="text-[11px] font-bold text-[#1B4332] underline"
+                            className="text-[11px] font-bold text-[#8C5E3C] underline"
                           >
                             Adjust Pin
                           </button>
@@ -1067,7 +1062,7 @@ export default function CheckoutPage() {
                         value={formData.addressLine1}
                         onChange={(e) => setFormData({ ...formData, addressLine1: e.target.value })}
                         placeholder="e.g. Flat 302, Shantikunj Towers, Ashram Road"
-                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#1B4332] outline-none"
+                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                       />
                     </div>
 
@@ -1080,7 +1075,7 @@ export default function CheckoutPage() {
                         value={formData.addressLine2}
                         onChange={(e) => setFormData({ ...formData, addressLine2: e.target.value })}
                         placeholder="e.g. Near Har Ki Pauri / Motichur"
-                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#1B4332] outline-none"
+                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                       />
                     </div>
 
@@ -1093,7 +1088,7 @@ export default function CheckoutPage() {
                         value={formData.landmark}
                         onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
                         placeholder="e.g. Opposite Shiv Temple / Metro Gate 2"
-                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#1B4332] outline-none"
+                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                       />
                     </div>
 
@@ -1104,8 +1099,8 @@ export default function CheckoutPage() {
                         required
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        placeholder="Haridwar"
-                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#1B4332] outline-none"
+                        placeholder="New Delhi"
+                        className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                       />
                     </div>
 
@@ -1114,7 +1109,7 @@ export default function CheckoutPage() {
                       <select
                         value={formData.state}
                         onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                        className="w-full p-2.5 rounded-xl border border-stone-300 bg-white focus:border-[#1B4332] outline-none"
+                        className="w-full p-2.5 rounded-xl border border-stone-300 bg-white focus:border-[#C5A059] outline-none"
                       >
                         <option value="Uttarakhand">Uttarakhand</option>
                         <option value="Delhi">Delhi</option>
@@ -1178,19 +1173,19 @@ export default function CheckoutPage() {
 
             {/* ================= STEP 3: PAYMENT METHOD ================= */}
             <div
-              className={`bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden transition-all ${
+              className={`bg-white rounded-2xl border border-[#EBE6DD] shadow-luxury overflow-hidden transition-all ${
                 !user || !isAddressConfirmed ? 'opacity-60 pointer-events-none' : ''
               }`}
             >
-              <div className="p-5 sm:p-6 border-b border-stone-100 flex items-center gap-3">
-                <span className="w-7 h-7 rounded-full bg-[#1B4332] text-white flex items-center justify-center text-xs font-bold">
+              <div className="p-5 sm:p-6 border-b border-[#EBE6DD] flex items-center gap-3">
+                <span className="w-7 h-7 rounded-full bg-[#0F1D36] text-[#D4AF37] flex items-center justify-center text-xs font-bold border border-[#D4AF37]/40">
                   3
                 </span>
                 <div>
-                  <h2 className="font-serif font-bold text-base text-stone-900">
+                  <h2 className="font-serif font-bold text-base text-[#14171F]">
                     Step 3: Select Payment Method
                   </h2>
-                  <p className="text-xs text-stone-500">
+                  <p className="text-xs text-[#6E6761]">
                     Choose Cash on Delivery or Instant Online Payment
                   </p>
                 </div>
@@ -1209,7 +1204,7 @@ export default function CheckoutPage() {
                     <label
                       className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
                         paymentMethod === 'cod'
-                          ? 'border-[#1B4332] bg-emerald-50/50 shadow-xs'
+                          ? 'border-[#C5A059] bg-amber-50/50 shadow-xs'
                           : 'border-stone-200 hover:bg-stone-50'
                       }`}
                     >
@@ -1223,7 +1218,7 @@ export default function CheckoutPage() {
                       />
                       <div>
                         <div className="flex items-center gap-1.5 font-bold text-xs text-stone-900">
-                          <Banknote className="w-4 h-4 text-emerald-700" />
+                          <Banknote className="w-4 h-4 text-amber-700" />
                           <span>Cash on Delivery (COD)</span>
                         </div>
                         <p className="text-[11px] text-stone-500 mt-0.5">
@@ -1236,7 +1231,7 @@ export default function CheckoutPage() {
                     <label
                       className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
                         paymentMethod === 'razorpay'
-                          ? 'border-[#1B4332] bg-emerald-50/50 shadow-xs ring-1 ring-[#1B4332]'
+                          ? 'border-[#C5A059] bg-amber-50/50 shadow-xs ring-1 ring-[#C5A059]'
                           : 'border-stone-200 hover:bg-stone-50'
                       }`}
                     >
@@ -1250,13 +1245,13 @@ export default function CheckoutPage() {
                       />
                       <div>
                         <div className="flex items-center gap-1.5 font-bold text-xs text-stone-900">
-                          <CreditCard className="w-4 h-4 text-[#D4AF37]" />
+                          <CreditCard className="w-4 h-4 text-[#C5A059]" />
                           <span>Online / Paid (Direct Google Pay, PhonePe, Paytm & UPI)</span>
                         </div>
                         <p className="text-[11px] text-stone-500 mt-0.5">
                           Directly opens Google Pay, PhonePe, Paytm app on mobile, or scan instant UPI QR code on PC.
                         </p>
-                        <div className="flex flex-wrap items-center gap-1.5 mt-2 pt-1.5 border-t border-emerald-100/70">
+                        <div className="flex flex-wrap items-center gap-1.5 mt-2 pt-1.5 border-t border-amber-200/50">
                           <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-stone-700 shadow-2xs">
                             GPay
                           </span>
@@ -1266,7 +1261,7 @@ export default function CheckoutPage() {
                           <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-sky-600 shadow-2xs">
                             Paytm
                           </span>
-                          <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-emerald-800 shadow-2xs">
+                          <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-amber-900 shadow-2xs">
                             BHIM / Any UPI
                           </span>
                         </div>
@@ -1336,7 +1331,7 @@ export default function CheckoutPage() {
                             });
                             removeFromCart(item.productId);
                           }}
-                          className="text-stone-500 hover:text-[#1B4332] py-1.5 px-2 text-[11px] font-medium transition-colors min-h-[32px] flex items-center"
+                          className="text-stone-500 hover:text-[#C5A059] py-1.5 px-2 text-[11px] font-medium transition-colors min-h-[32px] flex items-center"
                           title="Save for later in Wishlist"
                         >
                           Save for later
@@ -1360,9 +1355,9 @@ export default function CheckoutPage() {
               </div>
 
               {/* Amazon Delivery Guarantee Strip */}
-              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-stone-700 space-y-1">
-                <div className="flex items-center gap-1.5 font-bold text-[#1B4332]">
-                  <Truck className="w-4 h-4 text-[#1B4332]" />
+              <div className="p-3 bg-amber-50/60 rounded-xl border border-amber-200/70 text-xs text-stone-700 space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-stone-900">
+                  <Truck className="w-4 h-4 text-[#8C5E3C]" />
                   <span>✓ Triven Prime Free 1-Day Delivery</span>
                 </div>
                 <p className="text-[11px] text-stone-600">
@@ -1393,7 +1388,7 @@ export default function CheckoutPage() {
                   </button>
                 </div>
                 {appliedCoupon && (
-                  <p className="text-xs text-emerald-700 font-bold">
+                  <p className="text-xs text-amber-800 font-bold">
                     ✓ Promo code "{appliedCoupon}" applied successfully!
                   </p>
                 )}
@@ -1410,7 +1405,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {serverCalculation && serverCalculation.discountAmount > 0 && (
-                  <div className="flex justify-between text-emerald-700 font-bold">
+                  <div className="flex justify-between text-amber-800 font-bold">
                     <span>Vedic Promotion Savings:</span>
                     <span>-₹{serverCalculation.discountAmount}</span>
                   </div>
@@ -1420,35 +1415,63 @@ export default function CheckoutPage() {
                   <span>Shipping & Handling:</span>
                   <span>
                     {serverCalculation && serverCalculation.shippingCharge === 0 ? (
-                      <span className="text-emerald-700 font-bold">FREE (Prime)</span>
+                      <span className="text-amber-800 font-bold">FREE (Prime)</span>
                     ) : (
                       `₹${serverCalculation?.shippingCharge || 0}`
                     )}
                   </span>
                 </div>
 
-                <div className="border-t border-stone-200 pt-3 flex justify-between items-baseline">
-                  <span className="font-serif text-base font-bold text-stone-900">
+                <div className="border-t border-[#EBE6DD] pt-3 flex justify-between items-baseline">
+                  <span className="font-serif text-base font-bold text-[#14171F]">
                     Order Total:
                   </span>
                   <div className="text-right">
-                    <span className="font-serif text-2xl font-black text-[#1B4332]">
+                    <span className="font-serif text-2xl font-black text-[#0F1D36]">
                       ₹{serverCalculation ? serverCalculation.totalAmount : '...'}
                     </span>
-                    <span className="block text-[10px] text-stone-400">Inclusive of all AYUSH taxes</span>
+                    <span className="block text-[10px] text-[#6E6761]">Inclusive of all AYUSH taxes</span>
                   </div>
                 </div>
               </div>
+
+              {/* Selected Delivery Address Review */}
+              {isAddressConfirmed && formData.addressLine1 && (
+                <div className="p-3 bg-amber-50/50 rounded-xl border border-amber-200/70 text-xs space-y-1">
+                  <div className="flex items-center justify-between text-stone-600 text-[10px] font-bold uppercase tracking-wider">
+                    <span className="flex items-center gap-1 text-[#8C5E3C]">
+                      <MapPin className="w-3 h-3 text-[#C5A059]" />
+                      <span>Delivering to</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setIsAddressConfirmed(false)}
+                      className="text-[#8C5E3C] hover:underline normal-case font-bold"
+                    >
+                      Change
+                    </button>
+                  </div>
+                  <p className="font-bold text-stone-900">{formData.fullName || user?.name}</p>
+                  <p className="text-stone-700 leading-snug">
+                    {formData.addressLine1}{formData.addressLine2 ? `, ${formData.addressLine2}` : ''}
+                    {formData.landmark ? `, Landmark: ${formData.landmark}` : ''}
+                  </p>
+                  <p className="text-stone-900 font-semibold">
+                    {formData.city}, {formData.state} - <strong>{formData.pincode}</strong>
+                  </p>
+                  <p className="text-stone-500 text-[11px]">Phone: {formData.phone}</p>
+                </div>
+              )}
 
               {/* Amazon Gold "Place Your Order" CTA */}
               <button
                 type="button"
                 onClick={handlePlaceOrder}
                 disabled={placingOrder || calculating || !user || !isAddressConfirmed}
-                className={`w-full py-3.5 px-6 rounded-full font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${
+                className={`w-full py-3.5 px-6 rounded-2xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${
                   !user || !isAddressConfirmed
                     ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
-                    : 'bg-[#FFD814] hover:bg-[#F7CA00] active:scale-98 text-stone-900 border border-[#FCD200]'
+                    : 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 active:scale-98 text-[#0F1D36] border border-[#D4AF37]/50 shadow-[0_4px_20px_rgba(212,175,55,0.35)]'
                 }`}
               >
                 {placingOrder ? (
@@ -1475,7 +1498,7 @@ export default function CheckoutPage() {
               </button>
 
               <div className="text-center text-[11px] text-stone-500 flex items-center justify-center gap-2 pt-1">
-                <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
                 <span>100% Genuine Samhita Guarantee • Doorstep Delivery</span>
               </div>
             </div>

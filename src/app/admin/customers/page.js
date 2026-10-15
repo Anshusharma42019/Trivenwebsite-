@@ -125,8 +125,8 @@ export default function AdminCustomersPage() {
       </div>
 
       {msg && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-          <Check className="w-4 h-4 text-emerald-600" />
+        <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold flex items-center gap-2">
+          <Check className="w-4 h-4 text-amber-700" />
           <span>{msg}</span>
         </div>
       )}
@@ -163,7 +163,7 @@ export default function AdminCustomersPage() {
               {loading ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-stone-400">
-                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#1B4332]" />
+                    <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#C5A059]" />
                     <span>Loading customers...</span>
                   </td>
                 </tr>
@@ -192,7 +192,7 @@ export default function AdminCustomersPage() {
                     </td>
                     <td className="py-3 px-4">
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                        c.status === 'active' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                        c.status === 'active' ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-red-100 text-red-800'
                       }`}>
                         {c.status}
                       </span>
@@ -210,7 +210,7 @@ export default function AdminCustomersPage() {
                           className={`p-1.5 rounded-lg ${
                             c.status === 'active'
                               ? 'text-red-600 hover:bg-red-50'
-                              : 'text-emerald-700 hover:bg-emerald-50'
+                              : 'text-amber-800 hover:bg-amber-50'
                           }`}
                           title={c.status === 'active' ? 'Suspend Account' : 'Reactivate Account'}
                         >
@@ -284,7 +284,7 @@ export default function AdminCustomersPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-[#1B4332] text-white rounded-xl font-bold"
+                  className="px-4 py-1.5 bg-[#18181B] hover:bg-stone-900 text-[#C5A059] border border-[#C5A059]/40 rounded-xl font-bold"
                 >
                   Save Note
                 </button>

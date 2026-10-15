@@ -445,13 +445,13 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
               </span>
             </div>
 
-            {/* Amazon's Choice Tag */}
+            {/* Triven's Choice Tag */}
             <div className="flex items-center gap-2">
-              <div className="bg-[#232F3E] text-white text-[11px] font-bold px-2 py-0.5 rounded-[2px] flex items-center gap-1">
-                <span>Amazon's</span>
-                <span className="text-[#FFA41C]">Choice</span>
+              <div className="bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-[11px] font-bold px-2.5 py-0.5 rounded-md flex items-center gap-1 shadow-2xs">
+                <span>Triven's</span>
+                <span className="text-white">Choice</span>
               </div>
-              <span className="text-xs text-stone-600">in Ayurvedic Rasayanas</span>
+              <span className="text-xs text-stone-600">in Classical Ayurvedic Formulations</span>
             </div>
 
             <div className="text-xs text-stone-700">
@@ -619,7 +619,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
               <h3 className="font-serif font-bold text-sm text-stone-900">About this item</h3>
               <ul className="list-disc pl-4 space-y-1 text-xs text-stone-700 leading-relaxed">
                 <li>Formulated strictly according to classical Charaka and Sushruta Samhita procedures.</li>
-                <li>Wild-crafted in the pristine foothills of Haridwar, Uttarakhand using chemical-free traditional methods.</li>
+                <li>Wild-crafted in pristine Himalayan foothills using chemical-free traditional methods.</li>
                 <li>Batch certified by independent NABL-accredited laboratory for zero heavy metals (Lead, Mercury, Arsenic).</li>
                 <li>Recommended with warm cow milk or honey for optimal bioavailability and Ojas development.</li>
               </ul>
@@ -633,7 +633,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
               <div>
                 <span className="text-2xl font-bold text-stone-900">₹{product.sellingPrice}</span>
                 <div className="text-xs text-stone-600 mt-1">
-                  <span className="font-bold text-[#1B4332]">✓ Triven Prime</span>
+                  <span className="font-bold text-[#C5A059]">✓ Triven Prime</span>
                 </div>
               </div>
 
@@ -654,7 +654,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                   <span className="text-sm font-bold text-red-600">Currently unavailable</span>
                 ) : (
                   <div>
-                    <span className="text-sm font-bold text-emerald-700">In Stock</span>
+                    <span className="text-sm font-bold text-stone-900">In Stock</span>
                     {product.stock <= 10 && (
                       <span className="block text-xs text-red-600 font-medium mt-0.5">
                         Only {product.stock} left in stock - order soon.
@@ -694,19 +694,19 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                     isOutOfStock
                       ? 'bg-stone-200 text-stone-500 cursor-not-allowed'
                       : added
-                      ? 'bg-emerald-700 text-white'
-                      : 'bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] active:scale-95'
+                      ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
+                      : 'bg-[#0F1D36] hover:bg-[#162238] text-[#C5A059] border border-[#C5A059]/40 hover:border-[#C5A059] active:scale-98 shadow-sm'
                   }`}
                 >
                   {added ? (
                     <>
-                      <Check className="w-4 h-4" />
-                      <span>Added to Cart</span>
+                      <Check className="w-4 h-4 text-[#C5A059]" />
+                      <span>Added to Bag</span>
                     </>
                   ) : (
                     <>
-                      <ShoppingBag className="w-4 h-4" />
-                      <span>Add to Cart</span>
+                      <ShoppingBag className="w-4 h-4 text-[#C5A059]" />
+                      <span>Add to Bag</span>
                     </>
                   )}
                 </button>
@@ -714,9 +714,9 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                 <button
                   onClick={handleBuyNow}
                   disabled={isOutOfStock}
-                  className="w-full min-h-[44px] py-3 px-4 rounded-xl text-xs font-bold bg-[#FFA41C] hover:bg-[#fa8900] text-stone-900 transition-colors shadow-xs active:scale-95"
+                  className="w-full min-h-[44px] py-3 px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] transition-all shadow-[0_4px_18px_rgba(212,175,55,0.35)] active:scale-98"
                 >
-                  Buy Now
+                  Instant Royal Checkout
                 </button>
 
                 {/* Amazon 'Add to Wish List' Button */}
@@ -745,7 +745,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                   <span>Sold by</span>
                   <span className="text-stone-800 font-medium">{product.brand?.name || 'Triven Pure Heritage'}</span>
                 </div>
-                <div className="pt-1 text-emerald-700 font-semibold">
+                <div className="pt-1 text-[#8C5E3C] font-semibold">
                   ✓ Cash on Delivery Available
                 </div>
               </div>
@@ -789,13 +789,13 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             <div className="space-y-2 lg:text-right">
               <div className="flex items-baseline gap-2 lg:justify-end">
                 <span className="text-xs text-stone-600">Total price for all 3:</span>
-                <span className="text-2xl font-bold text-[#1B4332]">
+                <span className="text-2xl font-bold text-stone-900">
                   ₹{product.sellingPrice + relatedProducts[0].sellingPrice + relatedProducts[1].sellingPrice}
                 </span>
               </div>
               <button
                 onClick={handleAddBundle}
-                className="bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] font-bold px-6 py-2.5 rounded-xl text-xs transition-colors shadow-xs"
+                className="bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold px-6 py-2.5 rounded-xl text-xs transition-colors shadow-md"
               >
                 Add all 3 to Cart
               </button>
@@ -804,15 +804,15 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
 
           <div className="pt-4 mt-4 border-t border-stone-100 space-y-1.5 text-xs text-stone-700">
             <label className="flex items-center gap-2">
-              <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+              <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
               <span><strong>This item:</strong> {product.name} (₹{product.sellingPrice})</span>
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+              <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
               <span>{relatedProducts[0].name} (₹{relatedProducts[0].sellingPrice})</span>
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" defaultChecked className="rounded text-[#1B4332]" />
+              <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
               <span>{relatedProducts[1].name} (₹{relatedProducts[1].sellingPrice})</span>
             </label>
           </div>
@@ -834,8 +834,8 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
           <thead>
             <tr className="border-b border-stone-200">
               <th className="p-3 bg-stone-50 font-serif font-bold text-stone-900 w-1/4">Parameters</th>
-              <th className="p-3 bg-emerald-50/50 font-serif font-bold text-[#1B4332] w-1/4 border-x border-stone-200">
-                <span className="block text-[10px] text-emerald-800 uppercase font-sans">This Item</span>
+              <th className="p-3 bg-amber-50/50 font-serif font-bold text-stone-900 w-1/4 border-x border-stone-200">
+                <span className="block text-[10px] text-[#8C5E3C] uppercase font-sans">This Item</span>
                 {product.name}
               </th>
               <th className="p-3 bg-stone-50 font-serif font-bold text-stone-800 w-1/4 border-r border-stone-200">
@@ -850,10 +850,14 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             <tr>
               <td className="p-3 font-semibold text-stone-600 bg-stone-50/40">Customer Rating</td>
               <td className="p-3 border-x border-stone-200 font-bold text-amber-600">
-                ⭐ {product.rating || 4.9} ({product.numReviews || 24})
+                <span className="inline-flex items-center gap-1"><Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" /> {product.rating || 4.9} ({product.numReviews || 24})</span>
               </td>
-              <td className="p-3 border-r border-stone-200 text-amber-600">⭐ 4.9 (31)</td>
-              <td className="p-3 text-amber-600">⭐ 5.0 (38)</td>
+              <td className="p-3 border-r border-stone-200 text-amber-600">
+                <span className="inline-flex items-center gap-1"><Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" /> 4.9 (31)</span>
+              </td>
+              <td className="p-3 text-amber-600">
+                <span className="inline-flex items-center gap-1"><Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" /> 5.0 (38)</span>
+              </td>
             </tr>
             <tr>
               <td className="p-3 font-semibold text-stone-600 bg-stone-50/40">Price</td>
@@ -877,9 +881,9 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             </tr>
             <tr>
               <td className="p-3 font-semibold text-stone-600 bg-stone-50/40">AYUSH Certified</td>
-              <td className="p-3 border-x border-stone-200 text-emerald-700 font-bold">✓ 100% Genuine</td>
-              <td className="p-3 border-r border-stone-200 text-emerald-700 font-bold">✓ 100% Genuine</td>
-              <td className="p-3 text-emerald-700 font-bold">✓ 100% Genuine</td>
+              <td className="p-3 border-x border-stone-200 text-stone-900 font-bold">✓ 100% Genuine</td>
+              <td className="p-3 border-r border-stone-200 text-stone-900 font-bold">✓ 100% Genuine</td>
+              <td className="p-3 text-stone-900 font-bold">✓ 100% Genuine</td>
             </tr>
             <tr>
               <td className="p-3 font-semibold text-stone-600 bg-stone-50/40">Sold By</td>
@@ -889,9 +893,9 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             </tr>
             <tr>
               <td className="p-3 font-semibold text-stone-600 bg-stone-50/40">Prime Fast Delivery</td>
-              <td className="p-3 border-x border-stone-200 text-[#1B4332] font-bold">✓ Tomorrow</td>
-              <td className="p-3 border-r border-stone-200 text-[#1B4332] font-bold">✓ Tomorrow</td>
-              <td className="p-3 text-[#1B4332] font-bold">✓ Tomorrow</td>
+              <td className="p-3 border-x border-stone-200 text-[#C5A059] font-bold">✓ Tomorrow</td>
+              <td className="p-3 border-r border-stone-200 text-[#C5A059] font-bold">✓ Tomorrow</td>
+              <td className="p-3 text-[#C5A059] font-bold">✓ Tomorrow</td>
             </tr>
           </tbody>
         </table>
@@ -902,7 +906,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-100">
           <div>
             <h3 className="font-serif font-bold text-stone-900 text-lg sm:text-xl flex items-center gap-2">
-              <HelpCircle className="w-5 h-5 text-[#1B4332]" />
+              <HelpCircle className="w-5 h-5 text-[#C5A059]" />
               <span>Customer Questions & Answers</span>
             </h3>
             <p className="text-xs text-stone-500 mt-1">
@@ -918,7 +922,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
               placeholder="Have a question? Search for answers..."
               value={qaSearch}
               onChange={(e) => setQaSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-stone-50 border border-stone-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#1B4332]"
+              className="w-full pl-9 pr-4 py-2 bg-stone-50 border border-stone-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
             />
           </div>
         </div>
@@ -938,7 +942,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                 </div>
 
                 <div className="flex items-start gap-2 text-xs pl-0 sm:pl-2">
-                  <span className="font-bold text-emerald-800 shrink-0">Answer:</span>
+                  <span className="font-bold text-[#8C5E3C] shrink-0">Answer:</span>
                   <div className="space-y-1.5 text-stone-700 leading-relaxed">
                     <p>{qa.a}</p>
                     <div className="flex flex-wrap items-center gap-3 text-[11px] text-stone-500 pt-1">
@@ -948,9 +952,9 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                       <span>•</span>
                       <button
                         onClick={() => handleVoteHelpful(qa.id)}
-                        className="inline-flex items-center gap-1 text-stone-600 hover:text-[#1B4332] font-semibold transition-colors"
+                        className="inline-flex items-center gap-1 text-stone-600 hover:text-[#8C5E3C] font-semibold transition-colors"
                       >
-                        <ThumbsUp className="w-3 h-3 text-[#1B4332]" />
+                        <ThumbsUp className="w-3 h-3 text-[#8C5E3C]" />
                         <span>Helpful ({qa.helpful + (helpfulVotes[qa.id] || 0)})</span>
                       </button>
                     </div>
@@ -1012,11 +1016,11 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                     onChange={(e) => setReviewRating(Number(e.target.value))}
                     className="w-full bg-stone-50 border border-stone-300 rounded-lg p-2 text-xs"
                   >
-                    <option value={5}>⭐⭐⭐⭐⭐ (5 Stars - Excellent)</option>
-                    <option value={4}>⭐⭐⭐⭐ (4 Stars - Good)</option>
-                    <option value={3}>⭐⭐⭐ (3 Stars - Average)</option>
-                    <option value={2}>⭐⭐ (2 Stars - Poor)</option>
-                    <option value={1}>⭐ (1 Star - Terrible)</option>
+                    <option value={5}>5 Stars - Excellent</option>
+                    <option value={4}>4 Stars - Good</option>
+                    <option value={3}>3 Stars - Average</option>
+                    <option value={2}>2 Stars - Poor</option>
+                    <option value={1}>1 Star - Needs Improvement</option>
                   </select>
                 </div>
 
@@ -1033,7 +1037,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                 </div>
 
                 {reviewMsg && (
-                  <p className="text-xs text-emerald-700 font-medium bg-emerald-50 p-2 rounded-lg">
+                  <p className="text-xs text-stone-900 font-medium bg-amber-50/80 border border-amber-200 p-2 rounded-lg">
                     {reviewMsg}
                   </p>
                 )}
@@ -1071,7 +1075,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                     onClick={() => setActiveReviewTag(pill.id)}
                     className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
                       activeReviewTag === pill.id
-                        ? 'bg-[#1B4332] text-white shadow-xs'
+                        ? 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/30 shadow-xs'
                         : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                     }`}
                   >
@@ -1090,7 +1094,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                 {reviews.map((rev, i) => (
                   <div key={rev._id || i} className="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-[#1B4332] text-white flex items-center justify-center text-[10px] font-bold">
+                      <div className="w-6 h-6 rounded-full bg-[#0F1D36] text-[#D4AF37] flex items-center justify-center text-[10px] font-bold">
                         {rev.user?.name ? rev.user.name.charAt(0).toUpperCase() : 'V'}
                       </div>
                       <span className="text-xs font-semibold text-stone-800">
@@ -1116,13 +1120,13 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                       {rev.comment}
                     </p>
 
-                    {/* Amazon Review Helpful Bar */}
+                    {/* Review Helpful Bar */}
                     <div className="flex items-center gap-3 pt-1 text-[11px] text-stone-500 border-t border-stone-200/60">
                       <span>14 people found this helpful</span>
                       <span>•</span>
                       <button
                         onClick={() => handleVoteHelpful(`rev_${i}`)}
-                        className="inline-flex items-center gap-1 text-stone-700 hover:text-[#1B4332] font-semibold border border-stone-300 rounded px-2 py-0.5 hover:bg-white transition-colors"
+                        className="inline-flex items-center gap-1 text-stone-700 hover:text-[#8C5E3C] font-semibold border border-stone-300 rounded px-2 py-0.5 hover:bg-white transition-colors"
                       >
                         <ThumbsUp className="w-3 h-3 text-stone-500" />
                         <span>Helpful ({14 + (helpfulVotes[`rev_${i}`] || 0)})</span>
@@ -1150,7 +1154,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
               <span className="text-xs text-stone-400 line-through">₹{product.mrp}</span>
             )}
           </div>
-          <span className="text-[11px] font-bold text-[#1B4332] block truncate">
+          <span className="text-[11px] font-bold text-[#C5A059] block truncate">
             ✓ Prime • 1-Day Delivery
           </span>
         </div>
@@ -1169,12 +1173,12 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             type="button"
             onClick={handleAddToCart}
             disabled={isOutOfStock || added}
-            className={`min-h-[44px] px-5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-xs ${
+            className={`min-h-[44px] px-5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md ${
               isOutOfStock
                 ? 'bg-stone-200 text-stone-500 cursor-not-allowed'
                 : added
-                ? 'bg-emerald-700 text-white'
-                : 'bg-[#D4AF37] hover:bg-[#c49e29] text-[#1B4332] active:scale-95'
+                ? 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
+                : 'bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 active:scale-95'
             }`}
           >
             {added ? (
@@ -1203,7 +1207,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             <div>
               <h3 className="font-serif font-bold text-base sm:text-xl text-stone-100">{product.name}</h3>
               <p className="text-xs text-[#D4AF37] font-medium">
-                Angle {activeImageIndex + 1} of {productImages.length} • Amazon Multi-Angle High-Resolution View
+                Angle {activeImageIndex + 1} of {productImages.length} • Triven Ayurveda High-Resolution Studio View
               </p>
             </div>
             <button

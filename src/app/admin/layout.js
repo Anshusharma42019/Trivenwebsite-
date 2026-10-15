@@ -96,18 +96,18 @@ export default function AdminLayout({ children }) {
   return (
     <div className="min-h-screen flex bg-stone-100 text-stone-900 font-sans">
       {/* DESKTOP SIDEBAR */}
-      <aside className="hidden lg:flex flex-col w-64 bg-[#1B4332] text-stone-200 border-r border-emerald-950 shrink-0">
+      <aside className="hidden lg:flex flex-col w-64 bg-[#18181B] text-stone-200 border-r border-stone-800 shrink-0">
         {/* Brand header */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-emerald-900/60">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-stone-800">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#D4AF37] text-[#1B4332] flex items-center justify-center font-serif text-lg font-bold">
+            <div className="w-8 h-8 rounded-lg bg-[#C5A059] text-[#18181B] flex items-center justify-center font-serif text-lg font-bold">
               ॐ
             </div>
             <div>
               <span className="font-serif font-bold text-white text-base tracking-wide">
                 TRIVEN ERP
               </span>
-              <span className="block text-[9px] font-mono tracking-widest text-emerald-300 uppercase">
+              <span className="block text-[9px] font-mono tracking-widest text-[#C5A059] uppercase">
                 Master Control
               </span>
             </div>
@@ -126,11 +126,11 @@ export default function AdminLayout({ children }) {
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all min-h-[40px] ${
                   isActive
-                    ? 'bg-[#D4AF37] text-[#1B4332] shadow-sm font-bold'
-                    : 'text-stone-300 hover:bg-emerald-900/60 hover:text-white'
+                    ? 'bg-[#C5A059] text-[#18181B] shadow-sm font-bold'
+                    : 'text-stone-300 hover:bg-stone-800 hover:text-white'
                 }`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#1B4332]' : 'text-[#D4AF37]'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#18181B]' : 'text-[#C5A059]'}`} />
                 <span>{item.label}</span>
               </Link>
             );
@@ -138,22 +138,22 @@ export default function AdminLayout({ children }) {
         </nav>
 
         {/* Staff footer */}
-        <div className="p-4 border-t border-emerald-900/60 bg-emerald-950/40">
+        <div className="p-4 border-t border-stone-800 bg-stone-900/60">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center font-bold text-xs">
+              <div className="w-8 h-8 rounded-full bg-stone-800 text-[#C5A059] border border-[#C5A059]/30 flex items-center justify-center font-bold text-xs">
                 {user.name.charAt(0).toUpperCase()}
               </div>
               <div className="max-w-[110px]">
                 <p className="text-xs font-bold text-white truncate">{user.name}</p>
-                <p className="text-[10px] text-emerald-300 capitalize truncate">{user.role.replace('_', ' ')}</p>
+                <p className="text-[10px] text-stone-400 capitalize truncate">{user.role.replace('_', ' ')}</p>
               </div>
             </div>
             <button
               onClick={logout}
               title="Sign Out"
               aria-label="Sign Out"
-              className="p-2 rounded-lg text-stone-400 hover:text-red-400 hover:bg-emerald-900 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
+              className="p-2 rounded-lg text-stone-400 hover:text-red-400 hover:bg-stone-800 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -162,10 +162,10 @@ export default function AdminLayout({ children }) {
           <Link
             href="/"
             target="_blank"
-            className="flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 text-stone-200 text-[11px] font-semibold transition-colors min-h-[36px]"
+            className="flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-[11px] font-semibold transition-colors min-h-[36px]"
           >
             <span>Visit Customer Store</span>
-            <ExternalLink className="w-3 h-3 text-[#D4AF37]" />
+            <ExternalLink className="w-3 h-3 text-[#C5A059]" />
           </Link>
         </div>
       </aside>
@@ -188,14 +188,14 @@ export default function AdminLayout({ children }) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4 text-xs">
-            <span className="hidden sm:inline bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-md font-mono">
+            <span className="hidden sm:inline bg-amber-50 text-amber-900 border border-amber-300 px-2.5 py-1 rounded-md font-mono">
               ROLE: {user.role.toUpperCase()}
             </span>
 
             <Link
               href="/"
               target="_blank"
-              className="flex items-center gap-1 font-semibold text-[#1B4332] hover:underline p-1.5 min-h-[36px]"
+              className="flex items-center gap-1 font-semibold text-[#8C5E3C] hover:text-stone-900 hover:underline p-1.5 min-h-[36px]"
             >
               <span className="hidden xs:inline">Storefront</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -211,18 +211,18 @@ export default function AdminLayout({ children }) {
               onClick={() => setSidebarOpen(false)}
               aria-hidden="true"
             />
-            <div className="relative w-72 max-w-[85vw] bg-[#1B4332] text-white flex flex-col z-50 shadow-2xl animate-in slide-in-from-left duration-200">
+            <div className="relative w-72 max-w-[85vw] bg-[#18181B] text-white flex flex-col z-50 shadow-2xl animate-in slide-in-from-left duration-200">
               {/* Mobile Drawer Header */}
-              <div className="h-16 flex items-center justify-between px-5 border-b border-emerald-900 bg-emerald-950/50">
+              <div className="h-16 flex items-center justify-between px-5 border-b border-stone-800 bg-stone-900">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-[#D4AF37] text-[#1B4332] flex items-center justify-center font-serif text-base font-bold">
+                  <div className="w-7 h-7 rounded-lg bg-[#C5A059] text-[#18181B] flex items-center justify-center font-serif text-base font-bold">
                     ॐ
                   </div>
                   <span className="font-serif font-bold text-base text-white">TRIVEN ERP</span>
                 </div>
                 <button
                   onClick={() => setSidebarOpen(false)}
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-stone-300 hover:text-white hover:bg-emerald-900/80 transition-colors"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center text-stone-300 hover:text-white hover:bg-stone-800 transition-colors"
                   aria-label="Close navigation"
                 >
                   <X className="w-5 h-5" />
@@ -242,11 +242,11 @@ export default function AdminLayout({ children }) {
                       onClick={() => setSidebarOpen(false)}
                       className={`flex items-center gap-3 px-3 py-3 rounded-xl text-xs font-semibold transition-all min-h-[44px] ${
                         isActive
-                          ? 'bg-[#D4AF37] text-[#1B4332] shadow-sm font-bold'
-                          : 'text-stone-200 hover:bg-emerald-900/60 hover:text-white'
+                          ? 'bg-[#C5A059] text-[#18181B] shadow-sm font-bold'
+                          : 'text-stone-200 hover:bg-stone-800 hover:text-white'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#1B4332]' : 'text-[#D4AF37]'}`} />
+                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#18181B]' : 'text-[#C5A059]'}`} />
                       <span>{item.label}</span>
                     </Link>
                   );
@@ -254,20 +254,20 @@ export default function AdminLayout({ children }) {
               </nav>
 
               {/* Mobile Staff Profile & Logout */}
-              <div className="p-4 border-t border-emerald-900/80 bg-emerald-950/60">
+              <div className="p-4 border-t border-stone-800 bg-stone-900">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-stone-800 text-[#C5A059] border border-[#C5A059]/30 flex items-center justify-center font-bold text-xs shrink-0">
                       {user.name.charAt(0).toUpperCase()}
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs font-bold text-white truncate">{user.name}</p>
-                      <p className="text-[10px] text-emerald-300 capitalize truncate">{user.role.replace('_', ' ')}</p>
+                      <p className="text-[10px] text-stone-400 capitalize truncate">{user.role.replace('_', ' ')}</p>
                     </div>
                   </div>
                   <button
                     onClick={logout}
-                    className="p-2 rounded-lg text-stone-400 hover:text-red-400 hover:bg-emerald-900 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center shrink-0"
+                    className="p-2 rounded-lg text-stone-400 hover:text-red-400 hover:bg-stone-800 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center shrink-0"
                     aria-label="Sign Out"
                   >
                     <LogOut className="w-4 h-4" />
@@ -277,10 +277,10 @@ export default function AdminLayout({ children }) {
                 <Link
                   href="/"
                   target="_blank"
-                  className="flex items-center justify-center gap-1.5 w-full py-2.5 px-3 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 text-stone-200 text-xs font-semibold transition-colors min-h-[44px]"
+                  className="flex items-center justify-center gap-1.5 w-full py-2.5 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold transition-colors min-h-[44px]"
                 >
                   <span>Visit Customer Store</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <ExternalLink className="w-3.5 h-3.5 text-[#C5A059]" />
                 </Link>
               </div>
             </div>

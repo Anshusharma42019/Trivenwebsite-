@@ -54,44 +54,44 @@ export default function WishlistPage() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] selection:bg-[#C5A059]/20 selection:text-[#0F1D36]">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
-        {/* Amazon Wishlist Breadcrumb */}
-        <div className="flex items-center gap-1.5 text-xs text-stone-500 mb-4">
-          <Link href="/" className="hover:text-[#1B4332] hover:underline">
+        {/* Wishlist Breadcrumb */}
+        <div className="flex items-center gap-1.5 text-xs text-[#6E6761] mb-4">
+          <Link href="/" className="hover:text-[#C5A059] hover:underline">
             Home
           </Link>
           <span>›</span>
-          <Link href="/account" className="hover:text-[#1B4332] hover:underline">
+          <Link href="/account" className="hover:text-[#C5A059] hover:underline">
             Your Account
           </Link>
           <span>›</span>
-          <span className="text-stone-800 font-semibold">Your Wish List</span>
+          <span className="text-[#14171F] font-semibold">Your Wish List</span>
         </div>
 
-        {/* Amazon Wishlist Header Layout */}
-        <div className="bg-white rounded-2xl border border-stone-200 p-6 mb-8 shadow-xs">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-100">
+        {/* Wishlist Header Layout */}
+        <div className="bg-white rounded-2xl border border-[#EBE6DD] p-6 mb-8 shadow-luxury">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#EBE6DD]">
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+                <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#14171F]">
                   Your Wish List
                 </h1>
-                <span className="inline-flex items-center gap-1 text-[11px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded-full font-medium">
+                <span className="inline-flex items-center gap-1 text-[11px] bg-stone-100 text-[#6E6761] px-2 py-0.5 rounded-full font-medium">
                   <Lock className="w-3 h-3" /> Private List
                 </span>
               </div>
-              <p className="text-xs text-stone-500 mt-1">
-                Curated by <strong className="text-stone-800">{user?.name || 'Vedic Enthusiast'}</strong> • {wishlist.length} {wishlist.length === 1 ? 'item' : 'items'} saved
+              <p className="text-xs text-[#6E6761] mt-1">
+                Curated by <strong className="text-[#14171F]">{user?.name || 'Vedic Enthusiast'}</strong> • {wishlist.length} {wishlist.length === 1 ? 'item' : 'items'} saved
               </p>
             </div>
 
             <div className="flex items-center gap-3">
               <button
                 onClick={handleShareList}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-stone-300 rounded-lg text-xs font-semibold text-stone-700 hover:bg-stone-50 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-stone-300 rounded-xl text-xs font-semibold text-[#14171F] hover:bg-stone-50 transition-colors"
               >
                 <Share2 className="w-3.5 h-3.5 text-stone-500" />
                 <span>{shareCopied ? 'Link Copied! ✓' : 'Send list to others'}</span>
@@ -109,12 +109,12 @@ export default function WishlistPage() {
                   placeholder="Search this list..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 bg-stone-50 border border-stone-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#1B4332]"
+                  className="w-full pl-9 pr-4 py-2 bg-[#FAF8F5] border border-stone-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 />
               </div>
 
-              <div className="text-xs text-stone-500">
-                Filter & Sort: <strong className="text-stone-800">Date Added (Newest)</strong>
+              <div className="text-xs text-[#6E6761]">
+                Filter & Sort: <strong className="text-[#14171F]">Date Added (Newest)</strong>
               </div>
             </div>
           )}
@@ -122,20 +122,20 @@ export default function WishlistPage() {
 
         {/* Wishlist Items List */}
         {wishlist.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-stone-200 p-12 text-center max-w-2xl mx-auto shadow-xs space-y-4">
+          <div className="bg-white rounded-2xl border border-[#EBE6DD] p-12 text-center max-w-2xl mx-auto shadow-luxury space-y-4">
             <div className="w-16 h-16 rounded-full bg-red-50 text-red-500 flex items-center justify-center mx-auto shadow-inner">
               <Heart className="w-8 h-8 fill-current" />
             </div>
-            <h2 className="font-serif text-2xl font-bold text-stone-900">
+            <h2 className="font-serif text-2xl font-bold text-[#14171F]">
               Your Wish List is currently empty
             </h2>
-            <p className="text-xs text-stone-500 max-w-md mx-auto leading-relaxed">
+            <p className="text-xs text-[#6E6761] max-w-md mx-auto leading-relaxed">
               Explore classical Ayurvedic single herbs, rasayanas, and oils. Click the heart icon on any formulation to save it for later review or gifting.
             </p>
             <div className="pt-2">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white text-xs font-bold px-6 py-3 rounded-xl transition-all shadow-md"
+                className="inline-flex items-center gap-2 bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 text-xs font-bold px-6 py-3 rounded-xl transition-all shadow-md active:scale-98"
               >
                 <span>Explore Today's Deals & Bestsellers</span>
                 <ArrowRight className="w-4 h-4 text-[#D4AF37]" />
@@ -143,7 +143,7 @@ export default function WishlistPage() {
             </div>
           </div>
         ) : filteredItems.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center text-xs text-stone-500">
+          <div className="bg-white rounded-2xl border border-[#EBE6DD] p-8 text-center text-xs text-[#6E6761]">
             No items matched "{searchTerm}".
           </div>
         ) : (
@@ -151,7 +151,7 @@ export default function WishlistPage() {
             {filteredItems.map((item) => (
               <div
                 key={item._id}
-                className="bg-white rounded-xl border border-stone-200 p-4 sm:p-6 shadow-xs hover:border-stone-300 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+                className="bg-white rounded-2xl border border-[#EBE6DD] p-4 sm:p-6 shadow-luxury hover:border-[#D4AF37]/40 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
               >
                 {/* Product Thumbnail & Details */}
                 <div className="flex items-start gap-4 flex-1">
@@ -169,27 +169,27 @@ export default function WishlistPage() {
                   <div className="space-y-1.5 flex-1 min-w-0">
                     <Link
                       href={`/products/${item.slug}`}
-                      className="font-serif font-bold text-stone-900 hover:text-[#1B4332] text-sm sm:text-base line-clamp-2"
+                      className="font-serif font-bold text-[#14171F] hover:text-[#C5A059] text-sm sm:text-base line-clamp-2"
                     >
                       {item.name}
                     </Link>
 
                     <div className="flex items-center gap-2 text-xs">
-                      <span className="text-emerald-700 font-bold text-[11px] bg-emerald-50 px-2 py-0.5 rounded">
+                      <span className="text-[#0F1D36] font-bold text-[11px] bg-[#0F1D36]/5 px-2 py-0.5 rounded-full border border-[#0F1D36]/15">
                         ✓ In Stock
                       </span>
                       <span className="text-stone-400">•</span>
-                      <span className="text-stone-500 text-[11px]">
+                      <span className="text-[#6E6761] text-[11px]">
                         {item.dosageForm || 'Classical'} • {item.netQuantity || 'Standard Pack'}
                       </span>
                     </div>
 
-                    {/* Amazon Prime Badge */}
+                    {/* Prime Badge */}
                     <div className="flex items-center gap-1.5 pt-0.5">
-                      <span className="text-[11px] font-black italic text-[#1B4332]">
-                        triven<span className="text-[#D4AF37]">prime</span>
+                      <span className="text-[11px] font-black italic text-[#14171F]">
+                        triven<span className="text-[#C5A059]">prime</span>
                       </span>
-                      <span className="text-[11px] text-stone-500">
+                      <span className="text-[11px] text-[#6E6761]">
                         FREE Delivery by <strong>Tomorrow</strong>
                       </span>
                     </div>
@@ -197,7 +197,7 @@ export default function WishlistPage() {
                     {/* Price Block */}
                     <div className="flex items-baseline gap-2 pt-1">
                       <span className="text-xs font-medium text-stone-500">₹</span>
-                      <span className="font-serif text-lg font-black text-stone-900">
+                      <span className="font-serif text-lg font-black text-[#14171F]">
                         {item.sellingPrice}
                       </span>
                       {item.mrp > item.sellingPrice && (
@@ -213,10 +213,10 @@ export default function WishlistPage() {
                 </div>
 
                 {/* Right Action Column */}
-                <div className="w-full sm:w-56 shrink-0 flex flex-col gap-2 pt-4 sm:pt-0 border-t sm:border-t-0 border-stone-100">
+                <div className="w-full sm:w-56 shrink-0 flex flex-col gap-2 pt-4 sm:pt-0 border-t sm:border-t-0 border-[#EBE6DD]">
                   <button
                     onClick={() => handleMoveToCart(item)}
-                    className="w-full bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-stone-900 font-bold py-2.5 px-4 rounded-full text-xs shadow-xs transition-colors flex items-center justify-center gap-2 border border-[#FCD200]"
+                    className="w-full bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold py-2.5 px-4 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2 active:scale-98"
                   >
                     <ShoppingCart className="w-3.5 h-3.5" />
                     <span>Move to Cart</span>
@@ -224,7 +224,7 @@ export default function WishlistPage() {
 
                   <button
                     onClick={() => removeFromWishlist(item._id)}
-                    className="w-full text-stone-500 hover:text-red-600 text-xs py-1.5 transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full text-[#6E6761] hover:text-red-600 text-xs py-1.5 transition-colors flex items-center justify-center gap-1.5"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     <span>Delete</span>

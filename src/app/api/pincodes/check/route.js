@@ -41,7 +41,7 @@ export async function GET(request) {
     else if (p2 === '16') { city = 'Chandigarh'; state = 'Chandigarh'; }
     else if (p2 === '20') { city = 'Noida'; state = 'Uttar Pradesh'; }
     else if (p2 === '22') { city = 'Lucknow'; state = 'Uttar Pradesh'; }
-    else if (p2 === '24') { city = 'Haridwar'; state = 'Uttarakhand'; }
+    else if (p2 === '24') { city = 'Rishikesh'; state = 'Uttarakhand'; }
     else if (p2 === '26') { city = 'Dehradun'; state = 'Uttarakhand'; }
     else if (p2 === '28') { city = 'Agra'; state = 'Uttar Pradesh'; }
     else if (p2 === '30' || p2 === '31') { city = 'Jaipur'; state = 'Rajasthan'; }
