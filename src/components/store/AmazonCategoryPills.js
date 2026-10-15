@@ -61,7 +61,7 @@ export default function AmazonCategoryPills({ categories: initialCategories = nu
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 xxs:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-5">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5 sm:gap-5">
           {categories.map((cat, idx) => {
             const IconComponent = CATEGORY_ICONS[idx % CATEGORY_ICONS.length];
             const hasUploadedImage = Boolean(cat.image && cat.image.trim() !== '');
@@ -72,7 +72,7 @@ export default function AmazonCategoryPills({ categories: initialCategories = nu
                 href={cat.slug ? `/products?category=${cat.slug}` : '/products'}
                 className="flex flex-col items-center text-center group min-w-0"
               >
-                <div className="w-20 h-20 xxs:w-24 xxs:h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-stone-200/90 group-hover:border-[#C5A059] group-hover:shadow-[0_8px_25px_rgba(212,175,55,0.25)] transition-all duration-300 p-1 bg-[#FAF8F5] mb-2.5 flex items-center justify-center">
+                <div className="w-18 h-18 xxs:w-20 xxs:h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-stone-200/90 group-hover:border-[#C5A059] group-hover:shadow-[0_8px_25px_rgba(212,175,55,0.25)] transition-all duration-300 p-1 bg-[#FAF8F5] mb-2 flex items-center justify-center">
                   {hasUploadedImage ? (
                     <img
                       src={cat.image}
@@ -81,15 +81,15 @@ export default function AmazonCategoryPills({ categories: initialCategories = nu
                     />
                   ) : (
                     <div className="w-full h-full rounded-full bg-amber-500/10 flex flex-col items-center justify-center text-[#8C5E3C] group-hover:bg-[#0F1D36] group-hover:text-[#C5A059] transition-all duration-300 p-2">
-                      <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:scale-110" />
+                      <IconComponent className="w-5 h-5 sm:w-7 sm:h-7 transition-transform group-hover:scale-110" />
                     </div>
                   )}
                 </div>
-                <h3 className="text-xs sm:text-sm font-serif font-bold text-stone-900 group-hover:text-[#8C5E3C] transition-colors leading-tight line-clamp-2">
+                <h3 className="text-[11px] sm:text-xs md:text-sm font-serif font-bold text-stone-900 group-hover:text-[#8C5E3C] transition-colors leading-tight line-clamp-2">
                   {cat.name}
                 </h3>
                 {cat.description && (
-                  <span className="text-[10px] sm:text-[11px] text-stone-500 mt-0.5 line-clamp-1">
+                  <span className="text-[9.5px] sm:text-[11px] text-stone-500 mt-0.5 line-clamp-1 hidden xs:block">
                     {cat.description}
                   </span>
                 )}

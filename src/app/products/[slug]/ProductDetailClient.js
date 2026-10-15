@@ -273,7 +273,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
   const isOutOfStock = product.stock <= 0;
 
   return (
-    <div className="space-y-8 sm:space-y-10 pb-20 lg:pb-0">
+    <div className="space-y-8 sm:space-y-10 pb-36 lg:pb-0">
       {/* 3-COLUMN AMAZON PRODUCT DETAIL LAYOUT */}
       <div className="bg-white rounded-xl border border-stone-200 p-3.5 sm:p-6 lg:p-8 shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -1146,7 +1146,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
       </div>
 
       {/* Sticky Mobile Add-to-Cart Bar (<lg) */}
-      <div className="lg:hidden fixed bottom-[54px] md:bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-2.5 z-40 flex items-center justify-between gap-3 shadow-lg">
+      <div className="lg:hidden fixed bottom-[calc(60px+env(safe-area-inset-bottom,0px))] md:bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-2.5 z-40 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
         <div className="min-w-0">
           <div className="flex items-baseline gap-1.5">
             <span className="text-base font-bold text-stone-900">₹{product.sellingPrice}</span>

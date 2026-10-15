@@ -236,19 +236,19 @@ export default function AccountPage() {
         </div>
 
         {/* AMAZON 6-TILE ACCOUNT HUB */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5 mb-8 sm:mb-10">
           
           {/* Tile 1: Your Orders */}
           <Link
             href="/orders"
-            className="p-5 rounded-xl border border-stone-200 bg-white hover:border-[#C5A059] hover:shadow-md transition-all flex items-start gap-4 group"
+            className="p-4 sm:p-5 rounded-2xl border border-stone-200/90 bg-white hover:border-[#C5A059] hover:shadow-md transition-all flex items-start gap-3.5 sm:gap-4 group shadow-2xs"
           >
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] group-hover:bg-[#0F1D36] group-hover:text-[#D4AF37] transition-colors flex items-center justify-center shrink-0">
-              <Package className="w-6 h-6" />
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] group-hover:bg-[#0F1D36] group-hover:text-[#D4AF37] transition-colors flex items-center justify-center shrink-0">
+              <Package className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <h2 className="font-serif font-bold text-stone-900 text-base group-hover:text-stone-900 transition-colors">Your Orders</h2>
-              <p className="text-xs text-stone-500 mt-1 leading-relaxed">
+              <h2 className="font-serif font-bold text-stone-900 text-sm sm:text-base group-hover:text-stone-900 transition-colors">Your Orders</h2>
+              <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">
                 Track, return, or buy classical medicines again
               </p>
             </div>
@@ -257,27 +257,27 @@ export default function AccountPage() {
           {/* Tile 2: Your Wish List */}
           <Link
             href="/wishlist"
-            className="p-5 rounded-xl border border-stone-200 bg-white hover:border-red-400 hover:shadow-md transition-all flex items-start gap-4 group"
+            className="p-4 sm:p-5 rounded-2xl border border-stone-200/90 bg-white hover:border-red-400 hover:shadow-md transition-all flex items-start gap-3.5 sm:gap-4 group shadow-2xs"
           >
-            <div className="w-12 h-12 rounded-xl bg-red-50 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors flex items-center justify-center shrink-0">
-              <Heart className="w-6 h-6" />
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-red-50 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors flex items-center justify-center shrink-0">
+              <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <h2 className="font-serif font-bold text-stone-900 text-base group-hover:text-red-700 transition-colors">Your Wish List</h2>
-              <p className="text-xs text-stone-500 mt-1 leading-relaxed">
+              <h2 className="font-serif font-bold text-stone-900 text-sm sm:text-base group-hover:text-red-700 transition-colors">Your Wish List</h2>
+              <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">
                 View saved herbal formulations & move to cart
               </p>
             </div>
           </Link>
 
           {/* Tile 3: Prime Membership */}
-          <div className="p-5 rounded-xl border border-stone-200 bg-white hover:border-stone-300 hover:shadow-xs transition-all flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-50 text-[#D4AF37] flex items-center justify-center shrink-0">
-              <Sparkles className="w-6 h-6" />
+          <div className="p-4 sm:p-5 rounded-2xl border border-stone-200/90 bg-white hover:border-stone-300 hover:shadow-xs transition-all flex items-start gap-3.5 sm:gap-4 shadow-2xs">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-50 text-[#D4AF37] flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <h2 className="font-serif font-bold text-stone-900 text-base">Vedic Prime Club</h2>
-              <p className="text-xs text-stone-500 mt-1 leading-relaxed">
+              <h2 className="font-serif font-bold text-stone-900 text-sm sm:text-base">Vedic Prime Club</h2>
+              <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">
                 Manage benefits and 1-Day free delivery
               </p>
             </div>
@@ -286,27 +286,27 @@ export default function AccountPage() {
           {/* Tile 4: Your Addresses */}
           <button
             onClick={() => setActiveTab('addresses')}
-            className={`p-5 rounded-xl border text-left transition-all flex items-start gap-4 cursor-pointer group ${
+            className={`p-4 sm:p-5 rounded-2xl border text-left transition-all flex items-start gap-3.5 sm:gap-4 cursor-pointer group shadow-2xs ${
               activeTab === 'addresses'
                 ? 'border-[#C5A059] bg-amber-50/40 shadow-sm'
-                : 'border-stone-200 bg-white hover:border-[#C5A059] hover:shadow-xs'
+                : 'border-stone-200/90 bg-white hover:border-[#C5A059] hover:shadow-xs'
             }`}
           >
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] group-hover:bg-[#0F1D36] group-hover:text-[#D4AF37] transition-colors flex items-center justify-center shrink-0">
-              <MapPin className="w-6 h-6" />
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] group-hover:bg-[#0F1D36] group-hover:text-[#D4AF37] transition-colors flex items-center justify-center shrink-0">
+              <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <h2 className="font-serif font-bold text-stone-900 text-base group-hover:text-stone-900 transition-colors">Your Addresses</h2>
-              <p className="text-xs text-stone-500 mt-1 leading-relaxed">
+              <h2 className="font-serif font-bold text-stone-900 text-sm sm:text-base group-hover:text-stone-900 transition-colors">Your Addresses</h2>
+              <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">
                 {user.addresses?.length || 0} saved delivery {user.addresses?.length === 1 ? 'address' : 'addresses'}
               </p>
             </div>
           </button>
 
           {/* Tile 5: Payment Options */}
-          <div className="p-5 rounded-xl border border-stone-200 bg-white hover:border-stone-300 hover:shadow-xs transition-all flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] flex items-center justify-center shrink-0">
-              <CreditCard className="w-6 h-6" />
+          <div className="p-4 sm:p-5 rounded-2xl border border-stone-200/90 bg-white hover:border-stone-300 hover:shadow-xs transition-all flex items-start gap-3.5 sm:gap-4 shadow-2xs">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-500/10 text-[#8C5E3C] flex items-center justify-center shrink-0">
+              <CreditCard className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
               <h2 className="font-serif font-bold text-stone-900 text-base">Payment Options</h2>

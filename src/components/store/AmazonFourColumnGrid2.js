@@ -14,8 +14,8 @@ export default function AmazonFourColumnGrid2({ products = [] }) {
   const featured = products.slice(0, 4);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 my-8 sm:my-12">
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {featured.map((product, idx) => {
           const discountPercent =
             product.mrp > product.sellingPrice
@@ -25,7 +25,7 @@ export default function AmazonFourColumnGrid2({ products = [] }) {
           return (
             <div
               key={product._id || idx}
-              className="bg-white rounded-xl shadow-xs border border-stone-200 p-4 sm:p-5 flex flex-col justify-between hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl shadow-sm border border-stone-200/90 p-4 sm:p-5 flex flex-col justify-between hover:shadow-md transition-shadow"
             >
               <div>
                 <h3 className="font-serif font-bold text-stone-900 text-base sm:text-lg leading-tight mb-1 line-clamp-1">

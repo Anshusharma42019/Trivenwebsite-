@@ -100,9 +100,11 @@ export default function AdminLayout({ children }) {
         {/* Brand header */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-stone-800">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#C5A059] text-[#18181B] flex items-center justify-center font-serif text-lg font-bold">
-              ॐ
-            </div>
+            <img
+              src="/logo-icon.png"
+              alt="Triven Ayurveda"
+              className="w-8 h-8 object-contain drop-shadow-sm brightness-110"
+            />
             <div>
               <span className="font-serif font-bold text-white text-base tracking-wide">
                 TRIVEN ERP
@@ -214,10 +216,12 @@ export default function AdminLayout({ children }) {
             <div className="relative w-72 max-w-[85vw] bg-[#18181B] text-white flex flex-col z-50 shadow-2xl animate-in slide-in-from-left duration-200">
               {/* Mobile Drawer Header */}
               <div className="h-16 flex items-center justify-between px-5 border-b border-stone-800 bg-stone-900">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-[#C5A059] text-[#18181B] flex items-center justify-center font-serif text-base font-bold">
-                    ॐ
-                  </div>
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src="/logo-icon.png"
+                    alt="Triven Ayurveda"
+                    className="w-7 h-7 object-contain drop-shadow-sm brightness-110"
+                  />
                   <span className="font-serif font-bold text-base text-white">TRIVEN ERP</span>
                 </div>
                 <button

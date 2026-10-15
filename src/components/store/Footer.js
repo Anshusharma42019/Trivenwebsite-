@@ -23,12 +23,12 @@ export default function Footer() {
       </button>
 
       {/* Main Multi-Column Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-8 pb-12 border-b border-stone-800 text-xs text-center sm:text-left">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-7 sm:gap-y-8 pb-10 sm:pb-12 border-b border-stone-800 text-xs text-left">
           
           {/* Column 1: Get to Know Us */}
-          <div className="space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <h4 className="font-serif font-bold text-white text-sm tracking-wide">
+          <div className="space-y-2.5 sm:space-y-3 flex flex-col items-start text-left">
+            <h4 className="font-serif font-bold text-white text-xs sm:text-sm tracking-wide">
               Get to Know Us
             </h4>
             <ul className="space-y-2 text-stone-400 w-full">
@@ -61,8 +61,8 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Connect with Us */}
-          <div className="space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <h4 className="font-serif font-bold text-white text-sm tracking-wide">
+          <div className="space-y-2.5 sm:space-y-3 flex flex-col items-start text-left">
+            <h4 className="font-serif font-bold text-white text-xs sm:text-sm tracking-wide">
               Connect with Us
             </h4>
             <ul className="space-y-2 text-stone-400 w-full">
@@ -90,8 +90,8 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Partner with Us */}
-          <div className="space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <h4 className="font-serif font-bold text-white text-sm tracking-wide">
+          <div className="space-y-2.5 sm:space-y-3 flex flex-col items-start text-left">
+            <h4 className="font-serif font-bold text-white text-xs sm:text-sm tracking-wide">
               Partner with Us
             </h4>
             <ul className="space-y-2 text-stone-400 w-full">
@@ -119,8 +119,8 @@ export default function Footer() {
           </div>
 
           {/* Column 4: Let Us Help You */}
-          <div className="space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <h4 className="font-serif font-bold text-white text-sm tracking-wide">
+          <div className="space-y-2.5 sm:space-y-3 flex flex-col items-start text-left">
+            <h4 className="font-serif font-bold text-white text-xs sm:text-sm tracking-wide">
               Let Us Help You
             </h4>
             <ul className="space-y-2 text-stone-400 w-full">
@@ -156,13 +156,20 @@ export default function Footer() {
 
         {/* Brand & Language Middle Bar */}
         <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-stone-800 text-center sm:text-left">
-          <Link href="/" className="flex items-center justify-center sm:justify-start gap-2 group">
-            <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#0F1D36] flex items-center justify-center font-serif text-lg font-bold shadow-sm">
-              ॐ
+          <Link href="/" className="flex items-center justify-center sm:justify-start gap-3 group">
+            <img
+              src="/logo-icon.png"
+              alt="Triven Ayurveda"
+              className="w-10 h-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform brightness-110"
+            />
+            <div className="flex flex-col text-left">
+              <span className="font-serif text-lg font-bold text-white tracking-wide group-hover:text-[#D4AF37] transition-colors">
+                TRIVEN AYURVEDA
+              </span>
+              <span className="text-[9px] tracking-widest uppercase font-semibold text-[#D4AF37]">
+                The Gift of Wellness
+              </span>
             </div>
-            <span className="font-serif text-lg font-bold text-white tracking-wide">
-              TRIVEN AYURVEDA
-            </span>
           </Link>
 
           <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2 sm:gap-3 text-xs">

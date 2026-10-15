@@ -205,21 +205,19 @@ export default async function ProductsPage({ searchParams }) {
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 sm:gap-5">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2.5 sm:gap-5">
                 {products.map((p, idx) => (
                   <div key={p._id.toString()} className="relative min-w-0">
-                    {/* Amazon-style 'Overall Pick' / 'Best Seller' Tag on First items */}
-                    {idx === 0 && (
-                      <div className="absolute top-2.5 left-2.5 z-20 bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs tracking-wider">
-                        ✦ Overall Pick
-                      </div>
-                    )}
-                    {idx === 1 && p.isBestseller && (
-                      <div className="absolute top-2.5 left-2.5 z-20 bg-[#D4AF37] text-[#0F1D36] text-[9px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-xs tracking-wider">
-                        ★ #1 Best Seller
-                      </div>
-                    )}
-                    <ProductCard product={p} />
+                    <ProductCard
+                      product={p}
+                      badge={
+                        idx === 0
+                          ? '✦ Overall Pick'
+                          : idx === 1 && p.isBestseller
+                          ? '★ #1 Best Seller'
+                          : null
+                      }
+                    />
                   </div>
                 ))}
               </div>

@@ -208,8 +208,8 @@ export default function OrdersPage() {
                 className="bg-white rounded-xl border border-stone-300 overflow-hidden shadow-xs"
               >
                 {/* TRIVEN ORDER METADATA HEADER STRIP */}
-                <div className="bg-stone-100 px-4 sm:px-6 py-3 border-b border-stone-200 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-600">
-                  <div className="flex flex-wrap items-center gap-6 sm:gap-10">
+                <div className="bg-stone-100 px-3.5 sm:px-6 py-3 border-b border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 text-xs text-stone-600">
+                  <div className="grid grid-cols-2 xs:flex xs:flex-wrap items-center gap-3.5 sm:gap-10">
                     <div>
                       <span className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold">
                         Order Placed
@@ -232,7 +232,7 @@ export default function OrdersPage() {
                       </span>
                     </div>
 
-                    <div className="relative group">
+                    <div className="relative group col-span-2 xs:col-span-1">
                       <span className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold">
                         Ship To
                       </span>
@@ -350,7 +350,7 @@ export default function OrdersPage() {
                         </div>
 
                         {/* Action buttons on the right */}
-                        <div className="flex flex-wrap sm:flex-col items-center sm:items-stretch gap-2 w-full sm:w-44 shrink-0">
+                        <div className="flex flex-row sm:flex-col items-center sm:items-stretch gap-2 w-full sm:w-44 shrink-0 pt-2 sm:pt-0">
                           <button
                             onClick={() => {
                               addToCart(
@@ -365,14 +365,14 @@ export default function OrdersPage() {
                               );
                               router.push('/checkout');
                             }}
-                            className="flex-1 sm:flex-none bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold py-1.5 px-3 rounded-full text-xs transition-colors text-center border border-[#FCD200]"
+                            className="flex-1 sm:flex-none bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold py-2 px-3 rounded-full text-xs transition-colors text-center border border-[#FCD200] min-h-[38px] flex items-center justify-center"
                           >
                             Buy it again
                           </button>
 
                           <Link
                             href={`/orders/${order.orderNumber}`}
-                            className="flex-1 sm:flex-none border border-stone-300 hover:bg-stone-50 text-stone-700 font-medium py-1.5 px-3 rounded-full text-xs transition-colors text-center"
+                            className="flex-1 sm:flex-none border border-stone-300 hover:bg-stone-50 text-stone-700 font-medium py-2 px-3 rounded-full text-xs transition-colors text-center min-h-[38px] flex items-center justify-center"
                           >
                             View your item
                           </Link>

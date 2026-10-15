@@ -31,20 +31,20 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
-      <div className="bg-white rounded-xl shadow-xs border border-stone-200 p-5 sm:p-6">
+    <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 my-6 sm:my-10">
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200/90 p-4 sm:p-6">
         {/* Header with Title and Scroll Controls */}
         <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-stone-100">
           <div>
             <div className="flex items-center flex-wrap gap-2">
-              <h2 className="font-serif font-bold text-stone-900 text-lg sm:text-2xl">
+              <h2 className="font-serif font-bold text-stone-900 text-base sm:text-2xl">
                 {title}
               </h2>
               <span className="bg-red-100 text-red-800 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded">
                 Limited Time Deals
               </span>
             </div>
-            <p className="text-xs text-stone-500 mt-0.5">{subtitle}</p>
+            <p className="text-[11px] sm:text-xs text-stone-500 mt-0.5">{subtitle}</p>
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -57,18 +57,18 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
 
             <button
               onClick={() => scroll('left')}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-stone-200 bg-stone-50 hover:bg-white text-stone-700 flex items-center justify-center hover:shadow-xs transition-all min-w-[36px] min-h-[36px]"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-stone-200 bg-stone-50 hover:bg-white text-stone-700 flex items-center justify-center hover:shadow-xs transition-all min-w-[32px] min-h-[32px] sm:min-w-[36px] sm:min-h-[36px]"
               aria-label="Scroll left"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             <button
               onClick={() => scroll('right')}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-stone-200 bg-stone-50 hover:bg-white text-stone-700 flex items-center justify-center hover:shadow-xs transition-all min-w-[36px] min-h-[36px]"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-stone-200 bg-stone-50 hover:bg-white text-stone-700 flex items-center justify-center hover:shadow-xs transition-all min-w-[32px] min-h-[32px] sm:min-w-[36px] sm:min-h-[36px]"
               aria-label="Scroll right"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
         {/* Horizontal Scroll Track */}
         <div
           ref={scrollRef}
-          className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-none scroll-smooth pb-2 -mx-1 px-1 touch-scroll"
+          className="flex gap-2.5 sm:gap-4 overflow-x-auto scrollbar-none scroll-smooth pb-2 -mx-1 px-1 touch-scroll snap-x snap-mandatory"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {products.map((product) => {
@@ -90,7 +90,7 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
             return (
               <div
                 key={product._id}
-                className="w-[175px] xs:w-[210px] sm:w-[240px] md:w-[260px] shrink-0 bg-stone-50/50 hover:bg-white rounded-xl border border-stone-200 hover:border-[#C5A059] transition-all p-2.5 sm:p-3 flex flex-col justify-between group hover:shadow-md"
+                className="w-[155px] xxs:w-[175px] xs:w-[205px] sm:w-[240px] md:w-[260px] shrink-0 snap-start bg-stone-50/50 hover:bg-white rounded-2xl border border-stone-200/90 hover:border-[#C5A059] transition-all p-2.5 sm:p-3 flex flex-col justify-between group hover:shadow-md"
               >
                 <div>
                   {/* Thumbnail */}
@@ -126,7 +126,7 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
 
                   {/* Title */}
                   <Link href={`/products/${product.slug}`} className="block group-hover:text-[#8C5E3C] transition-colors mb-1">
-                    <h3 className="text-xs sm:text-sm font-medium text-stone-800 line-clamp-2 leading-snug">
+                    <h3 className="text-[11px] sm:text-sm font-medium text-stone-800 line-clamp-2 leading-tight h-7 sm:h-9">
                       {product.name}
                     </h3>
                   </Link>

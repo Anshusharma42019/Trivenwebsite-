@@ -239,24 +239,25 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 shadow-xs">
-      {/* Main Luxury Navigation Bar */}
-      <div className="bg-white/95 backdrop-blur-md text-stone-900 border-b border-stone-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18 gap-3 sm:gap-5">
+      {/* Slim Luxury Navigation Bar (Sticky across all devices) */}
+      <header className="sticky top-0 z-30 shadow-xs bg-white/95 backdrop-blur-md text-stone-900 border-b border-stone-200/80">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16 md:h-18 gap-1.5 sm:gap-4">
 
             {/* Logo */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              <Link href="/" className="flex items-center gap-2 sm:gap-2.5 shrink-0 group py-1 px-1 sm:px-2 rounded-lg hover:bg-stone-50 transition-all">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#C5A059] text-white flex items-center justify-center font-serif text-lg sm:text-xl font-bold shadow-xs group-hover:scale-105 transition-transform">
-                  ॐ
-                </div>
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+              <Link href="/" className="flex items-center gap-1.5 sm:gap-3 shrink-0 group py-1 px-0.5 sm:px-2 rounded-lg hover:bg-stone-50 transition-all">
+                <img
+                  src="/logo-icon.png"
+                  alt="Triven Ayurveda"
+                  className="w-7 h-7 xxs:w-8 xxs:h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
+                />
                 <div className="flex flex-col">
-                  <span className="font-serif text-lg sm:text-2xl font-bold tracking-tight text-stone-900 leading-none">
-                    TRIVEN
+                  <span className="font-serif text-[13px] xxs:text-[15px] sm:text-xl md:text-2xl font-bold tracking-tight text-[#1a4d2e] leading-none group-hover:text-[#143e24] transition-colors whitespace-nowrap">
+                    TRIVEN AYURVEDA
                   </span>
-                  <span className="text-[8px] sm:text-[9px] tracking-widest uppercase font-semibold text-[#C5A059] mt-0.5">
-                    Ayurveda • Classical & Pure
+                  <span className="hidden xxs:block text-[7px] sm:text-[9px] tracking-widest uppercase font-semibold text-[#b8860b] mt-0.5 sm:mt-1 whitespace-nowrap">
+                    The Gift of Wellness
                   </span>
                 </div>
               </Link>
@@ -369,7 +370,7 @@ export default function Navbar() {
             </div>
 
             {/* Right Side Actions */}
-            <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+            <div className="flex items-center gap-0.5 sm:gap-2.5 shrink-0">
               
               {/* Language / Region */}
               <div className="hidden xl:flex items-center gap-1.5 text-xs font-semibold py-1 px-2.5 rounded-lg border border-stone-200/80 hover:border-[#C5A059] bg-stone-50/50 cursor-pointer text-[#14171F]">
@@ -380,7 +381,7 @@ export default function Navbar() {
               {/* Wishlist Heart Icon - Accessible on all screen sizes */}
               <Link
                 href="/wishlist"
-                className="flex items-center justify-center min-w-[40px] min-h-[44px] py-1 px-2 rounded-lg hover:bg-stone-100 transition-all text-xs"
+                className="flex items-center justify-center min-w-[36px] sm:min-w-[40px] min-h-[40px] sm:min-h-[44px] py-1 px-1.5 sm:px-2 rounded-lg hover:bg-stone-100 transition-all text-xs"
                 title="Your Wishlist"
                 aria-label="Wishlist"
               >
@@ -406,12 +407,12 @@ export default function Navbar() {
               {/* Shopping Cart */}
               <Link
                 href="/checkout"
-                className="flex items-center gap-1.5 min-w-[44px] min-h-[44px] py-1 px-2 sm:px-2.5 rounded-lg hover:bg-stone-100 transition-all group"
+                className="flex items-center gap-1 min-w-[38px] sm:min-w-[44px] min-h-[40px] sm:min-h-[44px] py-1 px-1.5 sm:px-2.5 rounded-lg hover:bg-stone-100 transition-all group"
                 aria-label="View Cart"
               >
                 <div className="relative">
-                  <ShoppingBag className="w-6 h-6 text-stone-800 group-hover:text-[#C5A059] transition-colors" />
-                  <span className="absolute -top-1.5 -right-2 bg-[#0F1D36] text-[#C5A059] text-xs font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md border border-[#C5A059]/40">
+                  <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6 text-stone-800 group-hover:text-[#C5A059] transition-colors" />
+                  <span className="absolute -top-1.5 -right-2 bg-[#0F1D36] text-[#C5A059] text-[10px] sm:text-xs font-black w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shadow-md border border-[#C5A059]/40">
                     {cartCount}
                   </span>
                 </div>
@@ -421,18 +422,26 @@ export default function Navbar() {
               </Link>
 
               {/* User Account Menu (Positioned on the Far Right) */}
-              <div className="relative">
+              <div className="hidden xs:flex relative">
                 {user ? (
                   <div>
                     <button
                       onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                      className="flex flex-col text-left py-1 px-2 rounded-lg hover:bg-stone-100 transition-all text-xs focus:outline-none min-h-[44px] justify-center"
+                      className="flex items-center justify-center py-1 px-1 sm:px-2 rounded-lg hover:bg-stone-100 transition-all text-xs focus:outline-none min-h-[40px] sm:min-h-[44px]"
+                      aria-label="User account"
                     >
-                      <span className="text-[10px] text-stone-500">Hello, {user.name.split(' ')[0]}</span>
-                      <div className="flex items-center gap-1 font-bold text-stone-900">
-                        <span className="hidden sm:inline">Account & Lists</span>
-                        <User className="w-4 h-4 sm:hidden" />
-                        <ChevronDown className="w-3 h-3 text-stone-400" />
+                      {/* Desktop text display */}
+                      <div className="hidden sm:flex flex-col text-left">
+                        <span className="text-[10px] text-stone-500">Hello, {user.name.split(' ')[0]}</span>
+                        <div className="flex items-center gap-1 font-bold text-stone-900">
+                          <span>Account & Lists</span>
+                          <ChevronDown className="w-3 h-3 text-stone-400" />
+                        </div>
+                      </div>
+
+                      {/* Mobile compact luxury avatar */}
+                      <div className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full bg-[#0F1D36] text-[#D4AF37] font-serif font-bold text-xs ring-1 ring-[#D4AF37]/50 shadow-xs">
+                        {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                       </div>
                     </button>
 
@@ -493,13 +502,15 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/login"
-                    className="flex flex-col text-left py-1 px-2.5 rounded-lg hover:bg-stone-100 transition-colors text-xs min-h-[44px] justify-center"
+                    className="flex items-center justify-center py-1 px-1 sm:px-2.5 rounded-lg hover:bg-stone-100 transition-colors text-xs min-h-[40px] sm:min-h-[44px]"
+                    aria-label="Sign in"
                   >
-                    <span className="text-[10px] text-stone-500 hidden sm:block">Hello, Sign in</span>
-                    <span className="font-bold text-stone-900 hidden sm:block">Account & Lists</span>
-                    <div className="sm:hidden flex items-center gap-1 font-bold text-stone-900">
+                    <div className="hidden sm:flex flex-col text-left">
+                      <span className="text-[10px] text-stone-500">Hello, Sign in</span>
+                      <span className="font-bold text-stone-900">Account & Lists</span>
+                    </div>
+                    <div className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full bg-stone-100 text-stone-700 hover:text-[#0F1D36]">
                       <User className="w-4 h-4" />
-                      <span className="text-[11px]">Login</span>
                     </div>
                   </Link>
                 )}
@@ -507,126 +518,125 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Dedicated Mobile Search & Location Bar (Hidden on md and above) */}
-        <div className="md:hidden px-3 sm:px-4 pb-2.5 pt-1 border-t border-stone-800/60 bg-[#0F1D36]">
-          <div className="flex items-center justify-between gap-2 mb-2 text-[11px] text-stone-200">
-            <button
-              onClick={() => setLocationModalOpen(true)}
-              className="flex items-center gap-1.5 hover:text-[#D4AF37] transition-colors text-left py-1"
-              aria-label="Choose delivery location"
-            >
-              <MapPin className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
-              <span>Deliver to <strong>{user?.name ? (user.name.startsWith('Dr.') ? user.name.split(' ').slice(0, 2).join(' ') : user.name.split(' ')[0]) + ' - ' : ''}{currentCity} {currentPincode}</strong></span>
-              <span className="text-[#D4AF37] font-bold">›</span>
-            </button>
-          </div>
-
-          <form onSubmit={handleSearch} className="flex shadow-xs relative">
-            <input
-              type="text"
-              placeholder="Search classical herbs, formulations..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-              className="w-full bg-[#FAF8F5] border border-stone-300 text-[#14171F] px-3 py-2 text-xs rounded-l-md focus:outline-none min-h-[40px]"
-            />
-            <button
-              type="submit"
-              className="bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border-y border-r border-[#D4AF37]/40 px-4 py-2 rounded-r-md transition-colors flex items-center justify-center font-bold min-w-[44px] min-h-[40px]"
-              aria-label="Search formulations"
-            >
-              <Search className="w-4 h-4 text-[#D4AF37] stroke-[2.5]" />
-            </button>
-          </form>
-
-          {/* Mobile Search Suggestions Dropdown */}
-          {showSuggestions && suggestions.length > 0 && (
-            <div className="mt-1 bg-white rounded-xl shadow-2xl border border-stone-200 overflow-hidden text-stone-900 divide-y divide-stone-100 max-h-64 overflow-y-auto">
-              {suggestions.map((p) => (
-                <Link
-                  key={p._id}
-                  href={`/products/${p.slug}`}
-                  onClick={() => setShowSuggestions(false)}
-                  className="flex items-center gap-3 p-2.5 hover:bg-amber-50/60 transition-colors"
-                >
-                  <div className="w-9 h-9 rounded-md bg-stone-100 overflow-hidden shrink-0 border border-stone-200 flex items-center justify-center">
-                    {p.images && p.images[0] ? (
-                      <img
-                        src={p.images[0]}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-bold text-stone-900 truncate">{p.name}</p>
-                    <span className="text-[10px] text-stone-500">{p.netQuantity} • ₹{p.sellingPrice}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+      {/* Dedicated Mobile Search & Location Bar (Relative in document flow, scrolls naturally!) */}
+      <div className="md:hidden relative z-20 px-3 sm:px-4 pb-2 pt-1.5 bg-[#0F1D36] border-t border-stone-800/40 shadow-xs">
+        <div className="flex items-center justify-between gap-2 mb-1 text-[11px] text-stone-200">
+          <button
+            onClick={() => setLocationModalOpen(true)}
+            className="flex items-center gap-1.5 hover:text-[#D4AF37] transition-colors text-left py-0.5 truncate max-w-full"
+            aria-label="Choose delivery location"
+          >
+            <MapPin className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+            <span className="truncate">Deliver to <strong>{user?.name ? (user.name.startsWith('Dr.') ? user.name.split(' ').slice(0, 2).join(' ') : user.name.split(' ')[0]) + ' - ' : ''}{currentCity} {currentPincode}</strong></span>
+            <span className="text-[#D4AF37] font-bold shrink-0">›</span>
+          </button>
         </div>
-      </div>
 
-      {/* Sub-Navigation Bar (Utility Bar with ☰ All Drawer Trigger) */}
-      <div className="bg-[#FAF8F5] text-stone-700 border-b border-stone-200/80 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-9 overflow-x-auto scrollbar-none gap-2">
-            
-            <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-              {/* The Iconic '☰ All' Drawer Trigger */}
-              <button
-                type="button"
-                onClick={() => setAllDrawerOpen(true)}
-                className="flex items-center gap-1.5 font-bold text-[#D4AF37] py-1 px-2.5 rounded-lg transition-all cursor-pointer bg-[#0F1D36] hover:bg-[#162238] border border-[#D4AF37]/30 shadow-xs"
+        <form onSubmit={handleSearch} className="flex shadow-xs relative">
+          <input
+            type="text"
+            placeholder="Search classical medicines, herbs..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+            className="w-full bg-[#FAF8F5] border border-stone-300 text-[#14171F] px-3 py-1.5 text-xs rounded-l-lg focus:outline-none min-h-[38px] placeholder:text-stone-400"
+          />
+          <button
+            type="submit"
+            className="bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border-y border-r border-[#D4AF37]/40 px-3.5 py-1.5 rounded-r-lg transition-colors flex items-center justify-center font-bold min-w-[42px] min-h-[38px]"
+            aria-label="Search formulations"
+          >
+            <Search className="w-4 h-4 text-[#D4AF37] stroke-[2.5]" />
+          </button>
+        </form>
+
+        {/* Mobile Search Suggestions Dropdown */}
+        {showSuggestions && suggestions.length > 0 && (
+          <div className="mt-1 bg-white rounded-xl shadow-2xl border border-stone-200 overflow-hidden text-stone-900 divide-y divide-stone-100 max-h-64 overflow-y-auto">
+            {suggestions.map((p) => (
+              <Link
+                key={p._id}
+                href={`/products/${p.slug}`}
+                onClick={() => setShowSuggestions(false)}
+                className="flex items-center gap-3 p-2.5 hover:bg-amber-50/60 transition-colors"
               >
-                <Menu className="w-4 h-4 text-[#D4AF37]" />
-                <span>All Medicines</span>
-              </button>
-
-              <Link href="/products?bestseller=true" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950">
-                Bestsellers
+                <div className="w-9 h-9 rounded-md bg-stone-100 overflow-hidden shrink-0 border border-stone-200 flex items-center justify-center">
+                  {p.images && p.images[0] ? (
+                    <img
+                      src={p.images[0]}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-stone-900 truncate">{p.name}</p>
+                  <span className="text-[10px] text-stone-500">{p.netQuantity} • ₹{p.sellingPrice}</span>
+                </div>
               </Link>
-
-              <Link href="/products" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950">
-                Today's Deals
-              </Link>
-
-              <Link href="/products?category=herbal-supplements" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden sm:inline-block">
-                Herbal Supplements
-              </Link>
-
-              <Link href="/products?category=ayurvedic-oils" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden md:inline-block">
-                Classical Oils
-              </Link>
-
-              <Link href="/products?category=digestive-wellness" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block">
-                Gut Wellness
-              </Link>
-
-              <Link href="/products?category=immunity-rasayana" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block">
-                Rasayanas
-              </Link>
-
-              <Link href="/products" className="py-1 px-2 rounded hover:bg-amber-100/50 transition-all font-semibold text-[#8C5E3C] hover:text-[#5C3E28]">
-                Consult a Vaidya
-              </Link>
-            </div>
-
-            {/* Right Prime Badge */}
-            <div className="hidden sm:flex items-center gap-1 text-[11px] text-[#C5A059] font-bold shrink-0">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Vedic Prime: 1-Day Delivery</span>
-            </div>
-
+            ))}
           </div>
+        )}
+      </div>
+
+    {/* Sub-Navigation Bar (Utility Bar with ☰ All Drawer Trigger) */}
+    <div className="bg-[#FAF8F5] text-stone-700 border-b border-stone-200/80 text-xs">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-9 overflow-x-auto touch-scroll scrollbar-none gap-2">
+          
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+            {/* The Iconic '☰ All' Drawer Trigger */}
+            <button
+              type="button"
+              onClick={() => setAllDrawerOpen(true)}
+              className="flex items-center gap-1.5 font-bold text-[#D4AF37] py-1 px-2.5 rounded-lg transition-all cursor-pointer bg-[#0F1D36] hover:bg-[#162238] border border-[#D4AF37]/30 shadow-xs shrink-0 whitespace-nowrap"
+            >
+              <Menu className="w-4 h-4 text-[#D4AF37]" />
+              <span>All Medicines</span>
+            </button>
+
+            <Link href="/products?bestseller=true" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 shrink-0 whitespace-nowrap">
+              Bestsellers
+            </Link>
+
+            <Link href="/products" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 shrink-0 whitespace-nowrap">
+              Today's Deals
+            </Link>
+
+            <Link href="/products?category=herbal-supplements" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden sm:inline-block shrink-0 whitespace-nowrap">
+              Herbal Supplements
+            </Link>
+
+            <Link href="/products?category=ayurvedic-oils" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden md:inline-block shrink-0 whitespace-nowrap">
+              Classical Oils
+            </Link>
+
+            <Link href="/products?category=digestive-wellness" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block shrink-0 whitespace-nowrap">
+              Gut Wellness
+            </Link>
+
+            <Link href="/products?category=immunity-rasayana" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block shrink-0 whitespace-nowrap">
+              Rasayanas
+            </Link>
+
+            <Link href="/products" className="py-1 px-2 rounded hover:bg-amber-100/50 transition-all font-semibold text-[#8C5E3C] hover:text-[#5C3E28] shrink-0 whitespace-nowrap">
+              Consult a Vaidya
+            </Link>
+          </div>
+
+          {/* Right Prime Badge */}
+          <div className="hidden sm:flex items-center gap-1 text-[11px] text-[#C5A059] font-bold shrink-0">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Vedic Prime: 1-Day Delivery</span>
+          </div>
+
         </div>
       </div>
-    </header>
+    </div>
 
       {/* ============================================================ */}
       {/* ☰ THE ICONIC AMAZON SLIDE-OVER CATEGORY DRAWER              */}

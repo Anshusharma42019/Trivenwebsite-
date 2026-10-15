@@ -1160,7 +1160,7 @@ export default function CheckoutPage() {
                   <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
                     <button
                       type="submit"
-                      className="bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold px-7 py-2.5 rounded-full text-xs shadow-xs transition-colors border border-[#FCD200]"
+                      className="w-full sm:w-auto text-center bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold px-7 py-3 sm:py-2.5 rounded-full text-xs shadow-xs transition-colors border border-[#FCD200] min-h-[44px] flex items-center justify-center"
                     >
                       Use this address & Proceed to Payment
                     </button>

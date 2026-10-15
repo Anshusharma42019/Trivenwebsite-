@@ -22,23 +22,23 @@ export default function AmazonMultiCardGrid({ products = [] }) {
   }, []);
 
   const card1Products = products.slice(0, 4);
-  const card2Products = products.slice(4, 8);
+  const card2Products = products.length > 4 ? products.slice(4, 8) : (products.length > 0 ? products.slice(0, 4) : []);
   const dealProduct = products[0] || null;
 
   return (
-    <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-20 md:-mt-28 lg:-mt-32 mb-8 sm:mb-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+    <div className="relative z-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mt-2 sm:-mt-20 md:-mt-28 lg:-mt-32 mb-6 sm:mb-12">
+      <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5 overflow-x-auto sm:overflow-visible touch-scroll snap-x snap-mandatory pb-3 sm:pb-0 scrollbar-none">
         
         {/* CARD 1: 4-Quadrant Daily Essentials */}
-        <div className="bg-white rounded-xl shadow-md border border-stone-200 p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg transition-shadow">
+        <div className="w-[86vw] max-w-[340px] sm:w-auto shrink-0 snap-center bg-white rounded-2xl shadow-sm border border-stone-200/90 p-3.5 sm:p-5 flex flex-col justify-between hover:shadow-md transition-shadow">
           <div>
-            <h2 className="font-serif font-bold text-stone-900 text-lg leading-tight mb-1">
+            <h2 className="font-serif font-bold text-stone-900 text-base sm:text-lg leading-tight mb-1">
               Revitalize Your Health
             </h2>
-            <p className="text-xs text-stone-500 mb-4">Daily classical wellness essentials</p>
+            <p className="text-xs text-stone-500 mb-3 sm:mb-4">Daily classical wellness essentials</p>
 
             {card1Products.length > 0 ? (
-              <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mb-3 sm:mb-4">
                 {card1Products.map((p) => (
                   <Link key={p._id} href={`/products/${p.slug}`} className="group">
                     <div className="aspect-square bg-stone-50 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
@@ -48,10 +48,10 @@ export default function AmazonMultiCardGrid({ products = [] }) {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       />
                     </div>
-                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#8C5E3C]">
+                    <p className="text-[11px] sm:text-xs font-medium text-stone-800 line-clamp-2 leading-tight group-hover:text-[#8C5E3C] h-7 sm:h-8 mb-0.5">
                       {p.name}
                     </p>
-                    <span className="text-[11px] text-stone-900 font-bold">
+                    <span className="text-[11px] text-stone-900 font-bold block">
                       ₹{p.sellingPrice}
                     </span>
                   </Link>
@@ -66,7 +66,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
           <Link
             href="/products"
-            className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
+            className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2.5 border-t border-stone-100"
           >
             <span>See all classical remedies</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -74,17 +74,17 @@ export default function AmazonMultiCardGrid({ products = [] }) {
         </div>
 
         {/* CARD 2: 4-Quadrant Classical Formulations */}
-        <div className="bg-white rounded-xl shadow-md border border-stone-200 p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg transition-shadow">
+        <div className="w-[86vw] max-w-[340px] sm:w-auto shrink-0 snap-center bg-white rounded-2xl shadow-sm border border-stone-200/90 p-3.5 sm:p-5 flex flex-col justify-between hover:shadow-md transition-shadow">
           <div>
-            <h2 className="font-serif font-bold text-stone-900 text-lg leading-tight mb-1">
+            <h2 className="font-serif font-bold text-stone-900 text-base sm:text-lg leading-tight mb-1">
               Classical Samhita Remedies
             </h2>
-            <p className="text-xs text-stone-500 mb-4">Time-honored Vedic preparations</p>
+            <p className="text-xs text-stone-500 mb-3 sm:mb-4">Time-honored Vedic preparations</p>
 
             {card2Products.length > 0 ? (
-              <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mb-3 sm:mb-4">
                 {card2Products.map((p) => (
-                  <Link key={p._id} href={`/products/${p.slug}`} className="group">
+                  <Link key={`card2-${p._id}`} href={`/products/${p.slug}`} className="group">
                     <div className="aspect-square bg-stone-50 rounded-lg overflow-hidden border border-stone-200 mb-1.5">
                       <ProductImage
                         src={p.images && p.images[0] ? p.images[0] : null}
@@ -92,10 +92,10 @@ export default function AmazonMultiCardGrid({ products = [] }) {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       />
                     </div>
-                    <p className="text-xs font-medium text-stone-800 line-clamp-1 group-hover:text-[#8C5E3C]">
+                    <p className="text-[11px] sm:text-xs font-medium text-stone-800 line-clamp-2 leading-tight group-hover:text-[#8C5E3C] h-7 sm:h-8 mb-0.5">
                       {p.name}
                     </p>
-                    <span className="text-[11px] text-stone-900 font-bold">
+                    <span className="text-[11px] text-stone-900 font-bold block">
                       ₹{p.sellingPrice}
                     </span>
                   </Link>
@@ -110,7 +110,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
 
           <Link
             href="/products"
-            className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2 border-t border-stone-100"
+            className="text-xs font-semibold text-stone-900 hover:text-[#8C5E3C] hover:underline flex items-center gap-1 pt-2.5 border-t border-stone-100"
           >
             <span>Explore all formulations</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -118,7 +118,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
         </div>
 
         {/* CARD 3: Lightning Deal Feature (Using real deal product) */}
-        <div className="bg-white rounded-xl shadow-md border border-stone-200 p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg transition-shadow">
+        <div className="w-[86vw] max-w-[340px] sm:w-auto shrink-0 snap-center bg-white rounded-2xl shadow-sm border border-stone-200/90 p-3.5 sm:p-5 flex flex-col justify-between hover:shadow-md transition-shadow">
           <div>
             <div className="flex items-center justify-between gap-2 mb-1">
               <span className="bg-red-700 text-white text-[11px] font-bold px-2 py-0.5 rounded tracking-wide uppercase">
@@ -182,7 +182,7 @@ export default function AmazonMultiCardGrid({ products = [] }) {
         </div>
 
         {/* CARD 4: Free Vaidya Consultation & Dosha Assessment */}
-        <div className="bg-gradient-to-br from-[#0F1D36] via-[#142038] to-[#1B2A4A] text-white rounded-2xl shadow-[0_10px_35px_rgba(15,29,54,0.18)] border border-[#D4AF37]/45 p-5 sm:p-6 flex flex-col justify-between hover:shadow-[0_15px_45px_rgba(15,29,54,0.25)] transition-all duration-300">
+        <div className="w-[86vw] max-w-[340px] sm:w-auto shrink-0 snap-center bg-gradient-to-br from-[#0F1D36] via-[#142038] to-[#1B2A4A] text-white rounded-2xl shadow-[0_10px_35px_rgba(15,29,54,0.18)] border border-[#D4AF37]/45 p-4 sm:p-6 flex flex-col justify-between hover:shadow-[0_15px_45px_rgba(15,29,54,0.25)] transition-all duration-300">
           <div>
             <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase mb-2.5">
               <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />

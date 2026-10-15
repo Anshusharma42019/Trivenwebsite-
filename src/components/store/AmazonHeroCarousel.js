@@ -84,7 +84,7 @@ export default function AmazonHeroCarousel() {
 
                 {/* Slide Content */}
                 <div className="relative max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
-                  <div className="max-w-xl space-y-2.5 sm:space-y-4 pb-14 sm:pb-24">
+                  <div className="max-w-xl space-y-2.5 sm:space-y-4 pb-8 sm:pb-20">
                     {/* Badge */}
                     <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#0F1D36]/70 border border-[#D4AF37]/50 text-[#D4AF37] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide backdrop-blur-xs">
                       <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
@@ -148,7 +148,7 @@ export default function AmazonHeroCarousel() {
               </button>
 
               {/* Dots Indicator */}
-              <div className="absolute bottom-20 sm:bottom-28 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2">
+              <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2">
                 {slides.map((_, i) => (
                   <button
                     key={i}
@@ -167,16 +167,16 @@ export default function AmazonHeroCarousel() {
         </div>
       ) : (
         /* Clean branded hero with luxury Royal Midnight Lapis and 24K Gold gradient */
-        <div className="relative h-[340px] sm:h-[420px] w-full flex items-center justify-center text-center px-4 bg-gradient-to-br from-[#0F1D36] via-[#142038] to-[#1B2A4A] overflow-hidden">
+        <div className="relative min-h-[300px] sm:h-[400px] md:h-[440px] w-full flex items-center justify-center text-center px-4 py-8 bg-gradient-to-br from-[#0F1D36] via-[#142038] to-[#1B2A4A] overflow-hidden">
           {/* Subtle gold radial aura */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.12)_0%,transparent_70%)] pointer-events-none" />
 
-          <div className="max-w-2xl space-y-4 z-10 py-8 relative">
-            <div className="inline-flex items-center gap-2 bg-[#0F1D36]/80 border border-[#D4AF37]/50 text-[#D4AF37] px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase backdrop-blur-md shadow-sm">
+          <div className="max-w-2xl space-y-3.5 sm:space-y-4 z-10 py-6 sm:py-8 relative">
+            <div className="inline-flex items-center gap-2 bg-[#0F1D36]/80 border border-[#D4AF37]/50 text-[#D4AF37] px-3.5 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase backdrop-blur-md shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
               <span>AYUSH Certified Classical Samhita Formulations</span>
             </div>
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-white drop-shadow-lg tracking-tight">
+            <h1 className="font-serif text-2xl xxs:text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-white drop-shadow-lg tracking-tight">
               Triven Ayurveda
             </h1>
             <p className="text-[#EADFC9] text-xs sm:text-base max-w-lg mx-auto font-medium leading-relaxed">
@@ -185,7 +185,7 @@ export default function AmazonHeroCarousel() {
             <div className="pt-2 flex items-center justify-center gap-3">
               <Link
                 href="/products"
-                className="bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] font-bold px-6 sm:px-8 py-3 rounded-xl text-xs sm:text-sm transition-all shadow-[0_4px_20px_rgba(212,175,55,0.35)] flex items-center gap-2"
+                className="bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm transition-all shadow-[0_4px_20px_rgba(212,175,55,0.35)] flex items-center gap-2 min-h-[42px]"
               >
                 <span>Explore Formulations</span>
                 <ArrowRight className="w-4 h-4 text-[#0F1D36]" />
@@ -196,7 +196,7 @@ export default function AmazonHeroCarousel() {
       )}
 
       {/* The Amazon-style Gradient Bleed into Overlapping Cards */}
-      <div className="absolute bottom-0 inset-x-0 h-28 sm:h-36 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/85 to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 inset-x-0 h-16 sm:h-32 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/85 to-transparent pointer-events-none z-10" />
     </div>
   );
 }

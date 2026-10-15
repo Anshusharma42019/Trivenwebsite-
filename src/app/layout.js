@@ -27,7 +27,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] font-sans antialiased selection:bg-[#C5A059]/25 selection:text-[#0F1D36] pb-16 md:pb-0">
+      <body className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] font-sans antialiased selection:bg-[#C5A059]/25 selection:text-[#0F1D36] pb-20 md:pb-0">
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>

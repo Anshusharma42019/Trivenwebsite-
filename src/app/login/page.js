@@ -305,7 +305,7 @@ export default function LoginPage() {
 
       {/* Auth Footer */}
       <div className="border-t border-[#EBE6DD] py-6 bg-white/70 backdrop-blur-xs text-center text-xs text-[#6E6761] space-y-2">
-        <div className="flex justify-center gap-6">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-6 px-4">
           <Link href="/products" className="hover:underline hover:text-[#C5A059]">
             Conditions of Use
           </Link>
