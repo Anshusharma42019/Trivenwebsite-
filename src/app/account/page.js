@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import AddressMapPicker from '@/components/store/AddressMapPicker';
 import ProductImage from '@/components/store/ProductImage';
+import { INDIAN_STATES } from '@/lib/constants';
 
 export default function AccountPage() {
   const router = useRouter();
@@ -562,17 +563,26 @@ export default function AccountPage() {
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-stone-700 mb-1">
-                          State *
+                          State / Union Territory *
                         </label>
-                        <input
-                          type="text"
+                        <select
                           required
                           value={newAddressForm.state}
                           onChange={(e) =>
                             setNewAddressForm({ ...newAddressForm, state: e.target.value })
                           }
                           className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:border-[#C5A059] bg-white"
-                        />
+                        >
+                          <option value="" disabled>Select State / Union Territory</option>
+                          {INDIAN_STATES.map((st) => (
+                            <option key={st} value={st}>
+                              {st}
+                            </option>
+                          ))}
+                          {newAddressForm.state && !INDIAN_STATES.includes(newAddressForm.state) && (
+                            <option value={newAddressForm.state}>{newAddressForm.state}</option>
+                          )}
+                        </select>
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-stone-700 mb-1">

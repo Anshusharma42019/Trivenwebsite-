@@ -34,6 +34,7 @@ import {
   Check,
 } from 'lucide-react';
 import ProductImage from '@/components/store/ProductImage';
+import { INDIAN_STATES } from '@/lib/constants';
 
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
@@ -86,9 +87,9 @@ export default function CheckoutPage() {
     addressLine1: '',
     addressLine2: '',
     landmark: '',
-    city: 'New Delhi',
-    state: 'Delhi',
-    pincode: '110001',
+    city: '',
+    state: '',
+    pincode: '',
     addressType: 'home', // 'home' | 'work'
   });
 
@@ -184,9 +185,9 @@ export default function CheckoutPage() {
           addressLine1: '',
           addressLine2: '',
           landmark: '',
-          city: 'New Delhi',
-          state: 'Delhi',
-          pincode: '110001',
+          city: '',
+          state: '',
+          pincode: '',
           addressType: 'home',
         }));
         setIsAddressConfirmed(false);
@@ -203,9 +204,9 @@ export default function CheckoutPage() {
       addressLine1: addr.addressLine1,
       addressLine2: addr.addressLine2 || '',
       landmark: addr.landmark || '',
-      city: addr.city || 'New Delhi',
-      state: addr.state || 'Delhi',
-      pincode: addr.pincode || '110001',
+      city: addr.city || '',
+      state: addr.state || '',
+      pincode: addr.pincode || '',
       addressType: addr.type || 'home',
     }));
     try {
@@ -219,31 +220,37 @@ export default function CheckoutPage() {
     }
   };
 
-  // Check pincode serviceability
-  const handlePincodeBlur = async () => {
-    if (formData.pincode && formData.pincode.length === 6) {
+  // Instant PIN Code change handler with auto-fill for City & State
+  const handlePincodeChange = async (val) => {
+    const cleaned = val.replace(/\D/g, '').slice(0, 6);
+    setFormData((prev) => ({ ...prev, pincode: cleaned }));
+
+    if (cleaned.length === 6) {
       setCheckingPincode(true);
       setPincodeStatus(null);
       try {
-        const res = await fetch(`/api/pincodes/check?pincode=${formData.pincode}`);
+        const res = await fetch(`/api/pincodes/check?pincode=${cleaned}`);
         const data = await res.json();
         if (res.ok && data.data?.serviceable) {
           setPincodeStatus(data.data);
-          if (data.data.city && data.data.city !== 'India') {
-            setFormData((prev) => ({
-              ...prev,
-              city: data.data.city,
-              state: data.data.state || prev.state,
-            }));
-          }
+          const autoCity = data.data.city && data.data.city !== 'India' ? data.data.city : '';
+          const autoState = data.data.state || '';
+          setFormData((prev) => ({
+            ...prev,
+            pincode: cleaned,
+            city: autoCity || prev.city,
+            state: autoState || prev.state,
+          }));
         } else {
-          setPincodeStatus({ serviceable: false, message: data.error });
+          setPincodeStatus({ serviceable: false, message: data.error || 'PIN code not serviceable' });
         }
       } catch (e) {
         setPincodeStatus({ serviceable: true, message: 'Standard 1-Day delivery available' });
       } finally {
         setCheckingPincode(false);
       }
+    } else {
+      setPincodeStatus(null);
     }
   };
 
@@ -859,16 +866,17 @@ export default function CheckoutPage() {
                           onClick={() => {
                             setFormData((prev) => ({
                               ...prev,
-                              fullName: user.name || '',
-                              phone: user.phone || '',
+                              fullName: user?.name || '',
+                              phone: user?.phone || '',
                               addressLine1: '',
                               addressLine2: '',
                               landmark: '',
-                              city: 'New Delhi',
-                              state: 'Delhi',
-                              pincode: '110001',
+                              city: '',
+                              state: '',
+                              pincode: '',
                               addressType: 'home',
                             }));
+                            setPincodeStatus(null);
                             setSelectedAddressId(null);
                             setIsAddingNewInCheckout(true);
                           }}
@@ -956,16 +964,17 @@ export default function CheckoutPage() {
                           onClick={() => {
                             setFormData((prev) => ({
                               ...prev,
-                              fullName: user.name || '',
-                              phone: user.phone || '',
+                              fullName: user?.name || '',
+                              phone: user?.phone || '',
                               addressLine1: '',
                               addressLine2: '',
                               landmark: '',
-                              city: 'New Delhi',
-                              state: 'Delhi',
-                              pincode: '110001',
+                              city: '',
+                              state: '',
+                              pincode: '',
                               addressType: 'home',
                             }));
+                            setPincodeStatus(null);
                             setSelectedAddressId(null);
                             setIsAddingNewInCheckout(true);
                           }}
@@ -1050,11 +1059,15 @@ export default function CheckoutPage() {
                             type="text"
                             required
                             maxLength={6}
-                            pattern="[0-9]{6}"
+                            inputMode="numeric"
                             value={formData.pincode}
-                            onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                            onBlur={handlePincodeBlur}
-                            placeholder="e.g. 249401"
+                            onChange={(e) => handlePincodeChange(e.target.value)}
+                            onBlur={() => {
+                              if (formData.pincode && formData.pincode.length === 6 && !formData.city) {
+                                handlePincodeChange(formData.pincode);
+                              }
+                            }}
+                            placeholder="Enter 6-digit PIN code (e.g. 208020)"
                             className="w-full p-2.5 rounded-xl border border-stone-300 focus:border-[#C5A059] outline-none"
                           />
                           {checkingPincode && (
@@ -1146,24 +1159,21 @@ export default function CheckoutPage() {
                     </div>
 
                     <div>
-                      <label className="block text-stone-700 mb-1 font-bold">State *</label>
+                      <label className="block text-stone-700 mb-1 font-bold">State / Union Territory *</label>
                       <select
                         value={formData.state}
                         onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                         className="w-full p-2.5 rounded-xl border border-stone-300 bg-white focus:border-[#C5A059] outline-none"
                       >
-                        <option value="Uttarakhand">Uttarakhand</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option value="Other">Other State</option>
+                        <option value="" disabled>Select State / Union Territory</option>
+                        {INDIAN_STATES.map((st) => (
+                          <option key={st} value={st}>
+                            {st}
+                          </option>
+                        ))}
+                        {formData.state && !INDIAN_STATES.includes(formData.state) && (
+                          <option value={formData.state}>{formData.state}</option>
+                        )}
                       </select>
                     </div>
 
