@@ -15,43 +15,61 @@ export async function POST(request) {
     }
 
     const { name, email, password, phone } = validation.data;
-    const cleanPhone = (phone || '').replace(/[^0-9]/g, '').slice(-10);
+    const rawPhoneDigits = (phone || '').replace(/[^0-9]/g, '');
+    const cleanPhone = rawPhoneDigits.length >= 10 ? rawPhoneDigits.slice(-10) : null;
+    const cleanEmail = email && typeof email === 'string' && email.trim() ? email.toLowerCase().trim() : null;
 
-    if (!cleanPhone || cleanPhone.length !== 10) {
-      return errorResponse('Please provide a valid 10-digit Indian mobile number.', 400);
+    if (!cleanPhone && !cleanEmail) {
+      return errorResponse('Please provide either a valid 10-digit mobile number or an email address to register.', 400);
+    }
+
+    if (phone && phone.trim() && !cleanPhone) {
+      return errorResponse('Mobile number must be a valid 10-digit number.', 400);
+    }
+
+    if (email && email.trim() && !/^\S+@\S+\.\S+$/.test(cleanEmail)) {
+      return errorResponse('Please enter a valid email address.', 400);
     }
 
     await connectDB();
 
-    // Check if an account already exists with this mobile number
-    const existingPhone = await User.findOne({ phone: cleanPhone });
-    if (existingPhone) {
-      return errorResponse('An account with this mobile number already exists. Please sign in.', 409);
+    // Check uniqueness for phone if provided
+    if (cleanPhone) {
+      const existingPhone = await User.findOne({ phone: cleanPhone });
+      if (existingPhone) {
+        return errorResponse('An account with this mobile number already exists. Please sign in.', 409);
+      }
     }
 
-    // Check email uniqueness only if an email was provided
-    const cleanEmail = email && typeof email === 'string' && email.trim() ? email.toLowerCase().trim() : undefined;
+    // Check uniqueness for email if provided
     if (cleanEmail) {
       const existingEmail = await User.findOne({ email: cleanEmail });
       if (existingEmail) {
-        return errorResponse('An account with this email address already exists.', 409);
+        return errorResponse('An account with this email address already exists. Please sign in.', 409);
       }
     }
 
     const hashedPassword = await hashPassword(password);
 
-    const user = await User.create({
-      name,
-      phone: cleanPhone,
-      email: cleanEmail,
+    // Only set fields that are actually provided so sparse unique MongoDB indexes work
+    const userData = {
+      name: name.trim(),
       password: hashedPassword,
       role: 'customer',
       status: 'active',
-    });
+    };
+    if (cleanPhone) {
+      userData.phone = cleanPhone;
+    }
+    if (cleanEmail) {
+      userData.email = cleanEmail;
+    }
+
+    const user = await User.create(userData);
 
     const token = signToken({
       userId: user._id,
-      phone: user.phone,
+      phone: user.phone || '',
       email: user.email || '',
       role: user.role,
     });

@@ -48,13 +48,23 @@ function LoginFormContent() {
 
     try {
       if (isRegistering) {
-        if (!formData.phone || formData.phone.length !== 10) {
-          throw new Error('Please enter a valid 10-digit Indian mobile number');
+        const cleanPhone = (formData.phone || '').replace(/[^0-9]/g, '');
+        const cleanEmail = (formData.email || '').trim();
+
+        if (!cleanPhone && !cleanEmail) {
+          throw new Error('Please provide either your Mobile number or Email address to register.');
         }
+        if (cleanPhone && cleanPhone.length !== 10) {
+          throw new Error('Please enter a valid 10-digit Indian mobile number.');
+        }
+        if (cleanEmail && !/^\S+@\S+\.\S+$/.test(cleanEmail)) {
+          throw new Error('Please enter a valid email address.');
+        }
+
         await register({
-          name: formData.name,
-          phone: formData.phone,
-          email: formData.email.trim() || '',
+          name: formData.name.trim(),
+          phone: cleanPhone || '',
+          email: cleanEmail || '',
           password: formData.password,
         });
         router.push(redirectUrl || '/account');
@@ -121,8 +131,11 @@ function LoginFormContent() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#14171F] mb-1">
-                  Mobile number *
+                <label className="block text-xs font-bold text-[#14171F] mb-1 flex items-center justify-between">
+                  <span>Mobile number</span>
+                  <span className="text-[11px] font-normal text-[#6E6761]">
+                    {formData.email ? '(Optional)' : '(Or Email below)'}
+                  </span>
                 </label>
                 <div className="relative flex">
                   <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-stone-300 bg-stone-100 text-stone-600 text-xs font-semibold select-none">
@@ -130,9 +143,6 @@ function LoginFormContent() {
                   </span>
                   <input
                     type="tel"
-                    required
-                    pattern="[0-9]{10}"
-                    maxLength={10}
                     value={formData.phone}
                     onChange={(e) =>
                       setFormData({
@@ -144,23 +154,26 @@ function LoginFormContent() {
                     className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-r-xl text-sm outline-none transition-all"
                   />
                 </div>
-                <p className="mt-1 text-[11px] text-[#6E6761]">
-                  Required for delivery tracking & OTP notifications.
-                </p>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-[#14171F] mb-1 flex items-center justify-between">
                   <span>Email address</span>
-                  <span className="text-[11px] font-normal text-[#6E6761]">(Optional)</span>
+                  <span className="text-[11px] font-normal text-[#6E6761]">
+                    {formData.phone ? '(Optional)' : '(Or Mobile above)'}
+                  </span>
                 </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="name@example.com (optional)"
+                  placeholder="name@example.com"
                   className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-xl text-sm outline-none transition-all"
                 />
+              </div>
+
+              <div className="text-[11px] text-stone-500 bg-stone-50 border border-stone-200/80 rounded-lg p-2.5 leading-tight">
+                Enter your <strong>Mobile number</strong> or <strong>Email address</strong> (either one is sufficient).
               </div>
             </>
           ) : (

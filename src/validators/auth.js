@@ -1,21 +1,33 @@
 import { z } from 'zod';
 
-export const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters').max(100),
-  phone: z
-    .string()
-    .min(10, 'Mobile number must be at least 10 digits')
-    .refine((val) => /^[0-9]{10}$/.test(val.replace(/[^0-9]/g, '').slice(-10)), {
-      message: 'Please enter a valid 10-digit mobile number',
-    }),
-  email: z
-    .string()
-    .email('Please enter a valid email address')
-    .optional()
-    .or(z.literal(''))
-    .nullable(),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
+export const registerSchema = z
+  .object({
+    name: z.string().min(2, 'Name must be at least 2 characters').max(100),
+    phone: z
+      .string()
+      .optional()
+      .or(z.literal(''))
+      .nullable(),
+    email: z
+      .string()
+      .optional()
+      .or(z.literal(''))
+      .nullable(),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+  })
+  .refine(
+    (data) => {
+      const cleanPhone = (data.phone || '').replace(/[^0-9]/g, '').slice(-10);
+      const cleanEmail = (data.email || '').trim();
+      const hasPhone = cleanPhone.length === 10;
+      const hasEmail = cleanEmail.length > 0 && /^\S+@\S+\.\S+$/.test(cleanEmail);
+      return hasPhone || hasEmail;
+    },
+    {
+      message: 'Please provide either a valid 10-digit mobile number or an email address to register.',
+      path: ['phone'],
+    }
+  );
 
 export const loginSchema = z.object({
   email: z.string().optional(),

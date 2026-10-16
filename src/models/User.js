@@ -33,7 +33,6 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       sparse: true,
       index: true,
-      default: '',
     },
     role: {
       type: String,
@@ -96,12 +95,14 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.pre('validate', function (next) {
-  if (this.email === '' || (typeof this.email === 'string' && !this.email.trim())) {
+  if (!this.email || (typeof this.email === 'string' && !this.email.trim())) {
     this.email = undefined;
   }
-  if (this.phone) {
+  if (!this.phone || (typeof this.phone === 'string' && !this.phone.trim())) {
+    this.phone = undefined;
+  } else if (this.phone) {
     const digits = this.phone.replace(/[^0-9]/g, '');
-    this.phone = digits.length >= 10 ? digits.slice(-10) : digits;
+    this.phone = digits.length >= 10 ? digits.slice(-10) : undefined;
   }
   next();
 });
