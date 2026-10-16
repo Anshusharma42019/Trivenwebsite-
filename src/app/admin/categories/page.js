@@ -285,7 +285,7 @@ export default function AdminCategoriesPage() {
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-stone-400 hover:text-stone-700 hover:bg-stone-100"
                 aria-label="Close dialog"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleSaveCategory} className="space-y-3 text-xs">
@@ -323,7 +323,7 @@ export default function AdminCategoriesPage() {
                       onClick={() => setCatForm({ ...catForm, image: '' })}
                       className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]"
                     >
-                      ✕
+                      <X className="w-3 h-3" />
                     </button>
                   </div>
                 )}
@@ -394,7 +394,7 @@ export default function AdminCategoriesPage() {
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-stone-400 hover:text-stone-700 hover:bg-stone-100"
                 aria-label="Close dialog"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleCreateBrand} className="space-y-3 text-xs">

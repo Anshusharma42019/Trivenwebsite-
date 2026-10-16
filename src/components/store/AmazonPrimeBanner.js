@@ -37,7 +37,7 @@ export default function AmazonPrimeBanner() {
             <div className="flex flex-col xs:flex-row flex-wrap gap-2.5 sm:gap-4 pt-1 sm:pt-2 text-xs sm:text-sm">
               <div className="flex items-center gap-2 font-medium bg-[#0B1527]/80 text-white px-3.5 py-1.5 rounded-lg border border-[#D4AF37]/35 shadow-xs">
                 <Truck className="w-4 h-4 text-[#F3E5AB] shrink-0" />
-                <span className="text-white font-semibold">Pan-India 1-2 Day Dispatch</span>
+                <span className="text-white font-semibold">Delivery in 4-5 Days (4 se 5 Din)</span>
               </div>
               <div className="flex items-center gap-2 font-medium bg-[#0B1527]/80 text-white px-3.5 py-1.5 rounded-lg border border-[#D4AF37]/35 shadow-xs">
                 <ShieldCheck className="w-4 h-4 text-[#F3E5AB] shrink-0" />

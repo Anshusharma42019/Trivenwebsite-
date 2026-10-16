@@ -130,8 +130,9 @@ export default async function ProductsPage({ searchParams }) {
                   </span>
                 )}
                 {bestseller && (
-                  <span className="inline-flex items-center gap-1 text-[11px] bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 px-3 py-0.5 rounded-full font-bold shadow-xs">
-                    <span>✦ Triven #1 Best Sellers</span>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 px-3 py-0.5 rounded-full font-bold shadow-xs">
+                    <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+                    <span>Triven #1 Best Sellers</span>
                   </span>
                 )}
               </div>
@@ -212,9 +213,9 @@ export default async function ProductsPage({ searchParams }) {
                       product={p}
                       badge={
                         idx === 0
-                          ? '✦ Overall Pick'
+                          ? 'Overall Pick'
                           : idx === 1 && p.isBestseller
-                          ? '★ #1 Best Seller'
+                          ? '#1 Best Seller'
                           : null
                       }
                     />

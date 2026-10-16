@@ -12,6 +12,7 @@ import {
   Filter,
   Loader2,
   Calendar,
+  X,
 } from 'lucide-react';
 
 export default function AdminInventoryPage() {
@@ -324,7 +325,7 @@ export default function AdminInventoryPage() {
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-stone-400 hover:text-stone-700 hover:bg-stone-100"
                 aria-label="Close dialog"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
             <div>

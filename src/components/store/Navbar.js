@@ -583,13 +583,13 @@ export default function Navbar() {
         )}
       </div>
 
-    {/* Sub-Navigation Bar (Utility Bar with ☰ All Drawer Trigger) */}
+    {/* Sub-Navigation Bar (Utility Bar with All Drawer Trigger) */}
     <div className="bg-[#FAF8F5] text-stone-700 border-b border-stone-200/80 text-xs">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-9 overflow-x-auto touch-scroll scrollbar-none gap-2">
           
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            {/* The Iconic '☰ All' Drawer Trigger */}
+            {/* The Iconic 'All' Drawer Trigger */}
             <button
               type="button"
               onClick={() => setAllDrawerOpen(true)}
@@ -639,7 +639,7 @@ export default function Navbar() {
     </div>
 
       {/* ============================================================ */}
-      {/* ☰ THE ICONIC AMAZON SLIDE-OVER CATEGORY DRAWER              */}
+      {/* THE ICONIC AMAZON SLIDE-OVER CATEGORY DRAWER                 */}
       {/* ============================================================ */}
       {allDrawerOpen && (
         <div className="fixed inset-0 z-50 flex">
@@ -804,7 +804,7 @@ export default function Navbar() {
       )}
 
       {/* ============================================================ */}
-      {/* 📍 AMAZON DELIVERY LOCATION / PINCODE MODAL                   */}
+      {/* AMAZON DELIVERY LOCATION / PINCODE MODAL                     */}
       {/* ============================================================ */}
       {locationModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -929,7 +929,10 @@ export default function Navbar() {
 
               <div className="text-xs text-stone-500 flex items-center justify-between">
                 <span>Current: <strong>{currentPincode} ({currentCity})</strong></span>
-                <span className="text-amber-800 font-semibold">✓ Free Prime Delivery</span>
+                <span className="text-amber-800 font-semibold inline-flex items-center gap-1">
+                  <Check className="w-3.5 h-3.5 text-amber-800 shrink-0" />
+                  <span>Free Prime Delivery</span>
+                </span>
               </div>
             </div>
           </div>

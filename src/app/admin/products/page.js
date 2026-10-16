@@ -832,7 +832,7 @@ export default function AdminProductsPage() {
                                     title="Delete photo"
                                     className="w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] shadow cursor-pointer hover:bg-red-700"
                                   >
-                                    ✕
+                                    <X className="w-3 h-3" />
                                   </button>
                                 </div>
                                 <div className="absolute bottom-0 inset-x-0 bg-stone-900/80 backdrop-blur-2xs text-white p-1 text-[10px] flex items-center justify-between z-10">
@@ -845,7 +845,10 @@ export default function AdminProductsPage() {
                                       Set Hero
                                     </button>
                                   ) : (
-                                    <span className="text-[#D4AF37] font-bold">★ Hero</span>
+                                    <span className="text-[#D4AF37] font-bold inline-flex items-center gap-0.5">
+                                      <Sparkles className="w-2.5 h-2.5" />
+                                      <span>Hero</span>
+                                    </span>
                                   )}
                                   <div className="flex items-center gap-1">
                                     <button
@@ -912,7 +915,7 @@ export default function AdminProductsPage() {
                               onClick={() => handleRemoveImage(actualIdx)}
                               className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] shadow cursor-pointer"
                             >
-                              ✕
+                              <X className="w-3 h-3" />
                             </button>
                             <div className="absolute bottom-0 inset-x-0 bg-stone-900/80 backdrop-blur-2xs text-white p-1 text-[10px] flex items-center justify-between z-10">
                               <button

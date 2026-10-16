@@ -94,7 +94,16 @@ export default function WishlistPage() {
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-stone-300 rounded-xl text-xs font-semibold text-[#14171F] hover:bg-stone-50 transition-colors"
               >
                 <Share2 className="w-3.5 h-3.5 text-stone-500" />
-                <span>{shareCopied ? 'Link Copied! ✓' : 'Send list to others'}</span>
+                <span className="inline-flex items-center gap-1">
+                  {shareCopied ? (
+                    <>
+                      <span>Link Copied!</span>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    </>
+                  ) : (
+                    'Send list to others'
+                  )}
+                </span>
               </button>
             </div>
           </div>
@@ -175,8 +184,9 @@ export default function WishlistPage() {
                     </Link>
 
                     <div className="flex items-center gap-2 text-xs">
-                      <span className="text-[#0F1D36] font-bold text-[11px] bg-[#0F1D36]/5 px-2 py-0.5 rounded-full border border-[#0F1D36]/15">
-                        ✓ In Stock
+                      <span className="text-[#0F1D36] font-bold text-[11px] bg-[#0F1D36]/5 px-2 py-0.5 rounded-full border border-[#0F1D36]/15 inline-flex items-center gap-1">
+                        <Check className="w-3 h-3 text-emerald-700" />
+                        <span>In Stock</span>
                       </span>
                       <span className="text-stone-400">•</span>
                       <span className="text-[#6E6761] text-[11px]">

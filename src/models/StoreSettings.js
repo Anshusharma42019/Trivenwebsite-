@@ -32,19 +32,19 @@ const StoreSettingsSchema = new mongoose.Schema(
     },
     freeShippingThreshold: {
       type: Number,
-      default: 999, // Orders above ₹999 get free shipping
+      default: 0, // 0 = 100% Free Shipping on all orders
     },
     defaultShippingFee: {
       type: Number,
-      default: 70, // Standard shipping charge
+      default: 0, // Free delivery
     },
     codEnabled: {
       type: Boolean,
-      default: true,
+      default: false, // Cash on delivery disabled by default
     },
     codFee: {
       type: Number,
-      default: 40,
+      default: 0, // Zero extra COD charge
     },
     maintenanceMode: {
       type: Boolean,
@@ -52,7 +52,7 @@ const StoreSettingsSchema = new mongoose.Schema(
     },
     announcementBar: {
       enabled: { type: Boolean, default: true },
-      text: { type: String, default: 'Authentic AYUSH Certified Formulations • Free Delivery on orders over ₹999' },
+      text: { type: String, default: 'Authentic AYUSH Certified Formulations • Free Doorstep Delivery on All Orders' },
     },
   },
   {

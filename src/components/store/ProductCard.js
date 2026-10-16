@@ -2,16 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
-import { Star, ShoppingBag, Check, ShieldCheck, Sparkles, Heart } from 'lucide-react';
+import { Star, ShoppingBag, Check, ShieldCheck, Sparkles, Heart, Zap, Loader2 } from 'lucide-react';
 
 import ProductImage from './ProductImage';
 
 export default function ProductCard({ product, rank = null, badge = null }) {
+  const router = useRouter();
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [added, setAdded] = useState(false);
+  const [isOrdering, setIsOrdering] = useState(false);
 
   const discountPercent =
     product.mrp > product.sellingPrice
@@ -26,6 +29,15 @@ export default function ProductCard({ product, rank = null, badge = null }) {
     addToCart(product, 1);
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
+  };
+
+  const handleOrderNow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isOutOfStock) return;
+    setIsOrdering(true);
+    addToCart(product, 1);
+    router.push('/checkout');
   };
 
   const handleToggleWishlist = (e) => {
@@ -56,8 +68,9 @@ export default function ProductCard({ product, rank = null, badge = null }) {
 
         {/* Special Custom Badge */}
         {badge && !rank && (
-          <span className="absolute top-2 left-2 z-10 bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs tracking-wider">
-            {badge}
+          <span className="absolute top-2 left-2 z-10 bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs tracking-wider inline-flex items-center gap-1">
+            <Sparkles className="w-2.5 h-2.5 text-[#D4AF37] shrink-0" />
+            <span>{badge}</span>
           </span>
         )}
 
@@ -132,39 +145,69 @@ export default function ProductCard({ product, rank = null, badge = null }) {
 
           {/* Prime Tag */}
           <div className="text-[9.5px] sm:text-[11px] flex items-center gap-1 mb-2.5 sm:mb-3 truncate">
-            <span className="font-bold text-[#C5A059] flex items-center gap-0.5">
-              <span>✦</span> Triven Prime
+            <span className="font-bold text-[#C5A059] flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-[#C5A059] shrink-0" />
+              <span>Triven Prime</span>
             </span>
             <span className="text-stone-400 text-[9.5px] sm:text-[10px]">• AYUSH Certified</span>
           </div>
 
-          {/* Add to Cart Button */}
-          <button
-            onClick={handleAdd}
-            disabled={isOutOfStock || added}
-            className={`w-full py-2 px-2.5 sm:py-2.5 sm:px-3 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 min-h-[38px] sm:min-h-[44px] ${
-              isOutOfStock
-                ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
-                : added
-                ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
-                : 'bg-[#0F1D36] hover:bg-[#162238] text-[#C5A059] border border-[#C5A059]/40 hover:border-[#C5A059] active:scale-98 shadow-sm'
-            }`}
-            aria-label={isOutOfStock ? "Out of Stock" : `Add ${product.name} to Cart`}
-          >
-            {isOutOfStock ? (
-              <span>Out of Stock</span>
-            ) : added ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-[#C5A059]" />
-                <span>Added to Bag</span>
-              </>
-            ) : (
-              <>
-                <ShoppingBag className="w-3.5 h-3.5 text-[#C5A059]" />
-                <span>Add to Bag</span>
-              </>
-            )}
-          </button>
+          {/* Action Buttons: Order Now + Add to Bag */}
+          <div className="space-y-1.5 mt-2">
+            {/* Primary Order Now Button */}
+            <button
+              onClick={handleOrderNow}
+              disabled={isOutOfStock || isOrdering}
+              className={`w-full py-2 px-2.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm min-h-[38px] active:scale-98 ${
+                isOutOfStock
+                  ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                  : isOrdering
+                  ? 'bg-[#C5A059] text-[#0F1D36] opacity-90'
+                  : 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] shadow-[0_3px_12px_rgba(212,175,55,0.3)]'
+              }`}
+              aria-label={isOutOfStock ? "Out of Stock" : `Order ${product.name} Now`}
+            >
+              {isOrdering ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0F1D36]" />
+                  <span>Proceeding...</span>
+                </>
+              ) : isOutOfStock ? (
+                <span>Out of Stock</span>
+              ) : (
+                <>
+                  <Zap className="w-3.5 h-3.5 fill-[#0F1D36] text-[#0F1D36] shrink-0" />
+                  <span>Order Now</span>
+                </>
+              )}
+            </button>
+
+            {/* Secondary Add to Bag Button */}
+            <button
+              onClick={handleAdd}
+              disabled={isOutOfStock || added}
+              className={`w-full py-1.5 px-2.5 rounded-xl text-[10.5px] sm:text-[11px] font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 min-h-[32px] ${
+                isOutOfStock
+                  ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
+                  : added
+                  ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
+                  : 'bg-white hover:bg-stone-50 text-stone-800 border border-stone-200 hover:border-stone-400 active:scale-98'
+              }`}
+              aria-label={isOutOfStock ? "Out of Stock" : `Add ${product.name} to Cart`}
+            >
+              {added ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>Added to Bag</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="w-3.5 h-3.5 text-stone-600" />
+                  <span>Add to Bag</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

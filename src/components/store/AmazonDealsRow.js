@@ -1,15 +1,18 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, Star, ShoppingBag, ShieldCheck, Check } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ChevronLeft, ChevronRight, Star, ShoppingBag, ShieldCheck, Check, Sparkles, Zap, Loader2 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import ProductImage from './ProductImage';
 
 export default function AmazonDealsRow({ products = [], title = "Today's Deals in Classical Medicines", subtitle = "Authentic AYUSH certified remedies with same-day dispatch" }) {
+  const router = useRouter();
   const scrollRef = useRef(null);
   const { addToCart } = useCart();
-  const [addedId, setAddedId] = React.useState(null);
+  const [addedId, setAddedId] = useState(null);
+  const [orderingId, setOrderingId] = useState(null);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -28,6 +31,15 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
     addToCart(product, 1);
     setAddedId(product._id);
     setTimeout(() => setAddedId(null), 1800);
+  };
+
+  const handleOrderNow = (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (product.stock <= 0) return;
+    setOrderingId(product._id);
+    addToCart(product, 1);
+    router.push('/checkout');
   };
 
   return (
@@ -142,40 +154,70 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
 
                   {/* Amazon Prime Tag */}
                   <div className="text-[10px] sm:text-[11px] flex items-center gap-1 mb-2.5 truncate">
-                    <span className="font-bold text-[#C5A059] flex items-center gap-0.5">
-                      <span>✦</span> Prime
+                    <span className="font-bold text-[#C5A059] flex items-center gap-1">
+                      <Sparkles className="w-3 h-3 text-[#C5A059] shrink-0" />
+                      <span>Prime</span>
                     </span>
                     <span className="text-stone-400 text-[10px]">• Express Dispatch</span>
                   </div>
                 </div>
 
-                {/* Quick Add Button */}
-                <button
-                  onClick={(e) => handleAdd(e, product)}
-                  disabled={isJustAdded || product.stock <= 0}
-                  className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm min-h-[40px] sm:min-h-[42px] ${
-                    product.stock <= 0
-                      ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
-                      : isJustAdded
-                      ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
-                      : 'bg-[#0F1D36] hover:bg-[#162238] text-[#C5A059] border border-[#C5A059]/40 hover:border-[#C5A059] active:scale-98'
-                  }`}
-                  aria-label={product.stock <= 0 ? "Out of Stock" : `Add ${product.name} to Cart`}
-                >
-                  {isJustAdded ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-[#C5A059]" />
-                      <span>Added to Bag</span>
-                    </>
-                  ) : product.stock <= 0 ? (
-                    <span>Out of Stock</span>
-                  ) : (
-                    <>
-                      <ShoppingBag className="w-3.5 h-3.5 text-[#C5A059]" />
-                      <span>Add to Bag</span>
-                    </>
-                  )}
-                </button>
+                {/* Action Buttons: Order Now (Instant Checkout) + Add to Bag */}
+                <div className="space-y-1.5 mt-auto pt-2">
+                  {/* Primary Order Now Button */}
+                  <button
+                    onClick={(e) => handleOrderNow(e, product)}
+                    disabled={orderingId === product._id || product.stock <= 0}
+                    className={`w-full py-2 px-2.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm min-h-[38px] active:scale-98 ${
+                      product.stock <= 0
+                        ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                        : orderingId === product._id
+                        ? 'bg-[#C5A059] text-[#0F1D36] opacity-90'
+                        : 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 text-[#0F1D36] shadow-[0_3px_12px_rgba(212,175,55,0.3)]'
+                    }`}
+                    aria-label={product.stock <= 0 ? "Out of Stock" : `Order ${product.name} Now`}
+                  >
+                    {orderingId === product._id ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0F1D36]" />
+                        <span>Proceeding...</span>
+                      </>
+                    ) : product.stock <= 0 ? (
+                      <span>Out of Stock</span>
+                    ) : (
+                      <>
+                        <Zap className="w-3.5 h-3.5 fill-[#0F1D36] text-[#0F1D36] shrink-0" />
+                        <span>Order Now</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Secondary Add to Bag Button */}
+                  <button
+                    onClick={(e) => handleAdd(e, product)}
+                    disabled={isJustAdded || product.stock <= 0}
+                    className={`w-full py-1.5 px-2.5 rounded-xl text-[11px] font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 min-h-[32px] ${
+                      product.stock <= 0
+                        ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
+                        : isJustAdded
+                        ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
+                        : 'bg-white hover:bg-stone-50 text-stone-800 border border-stone-200 hover:border-stone-400 active:scale-98'
+                    }`}
+                    aria-label={product.stock <= 0 ? "Out of Stock" : `Add ${product.name} to Cart`}
+                  >
+                    {isJustAdded ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-[#C5A059]" />
+                        <span>Added to Bag</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="w-3.5 h-3.5 text-stone-600" />
+                        <span>Add to Bag</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             );
           })}

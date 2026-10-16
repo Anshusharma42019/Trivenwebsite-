@@ -76,8 +76,8 @@ export default function BootstrapSuperAdminPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-stone-900 text-stone-100 p-4">
       <div className="max-w-md w-full bg-stone-800/80 backdrop-blur-md p-8 rounded-3xl border border-stone-700 shadow-2xl space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-[#18181B] text-[#C5A059] flex items-center justify-center font-serif text-2xl font-bold mx-auto border border-[#C5A059]/40 shadow-lg">
-            ॐ
+          <div className="w-14 h-14 rounded-2xl bg-[#18181B] text-[#C5A059] flex items-center justify-center mx-auto border border-[#C5A059]/40 shadow-lg">
+            <ShieldCheck className="w-8 h-8 text-[#C5A059]" />
           </div>
           <h1 className="font-serif text-2xl font-bold text-white">
             Secure Super Admin Bootstrap
@@ -111,8 +111,9 @@ export default function BootstrapSuperAdminPage() {
             )}
 
             {success ? (
-              <div className="p-4 rounded-xl bg-stone-900 border border-[#C5A059]/50 text-[#C5A059] text-xs text-center font-bold">
-                ✓ Super Admin account initialized! Redirecting to Master Control...
+              <div className="p-4 rounded-xl bg-stone-900 border border-[#C5A059]/50 text-[#C5A059] text-xs text-center font-bold flex items-center justify-center gap-2">
+                <Check className="w-4 h-4 text-[#C5A059] shrink-0" />
+                <span>Super Admin account initialized! Redirecting to Master Control...</span>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 text-xs">

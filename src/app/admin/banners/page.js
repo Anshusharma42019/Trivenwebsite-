@@ -376,7 +376,14 @@ export default function AdminBannersPage() {
                         : 'bg-stone-200 text-stone-600 hover:bg-stone-300'
                     }`}
                   >
-                    {b.isActive ? '✓ Active' : 'Inactive'}
+                    {b.isActive ? (
+                      <span className="inline-flex items-center gap-1">
+                        <Check className="w-3 h-3 text-amber-900" />
+                        <span>Active</span>
+                      </span>
+                    ) : (
+                      'Inactive'
+                    )}
                   </button>
 
                   <button

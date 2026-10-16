@@ -56,21 +56,16 @@ export async function GET(request) {
     else { city = 'India'; }
   }
 
-  const zonePrefix = pincode.charAt(0);
-  let estimatedDays = '2 - 3 business days';
-  if (['1', '2', '3', '4'].includes(zonePrefix)) {
-    estimatedDays = '1 - 2 business days';
-  } else if (['7', '8'].includes(zonePrefix)) {
-    estimatedDays = '3 - 5 business days';
-  }
+  const estimatedDays = '4 - 5 business days (4 se 5 din)';
 
   return successResponse({
     pincode,
     city,
     state,
     serviceable: true,
-    codAvailable: true,
+    codAvailable: false,
+    onlinePaymentAvailable: true,
     estimatedDelivery: estimatedDays,
-    message: `Delivery available to ${city}${state ? `, ${state}` : ''}. Fast Triven Prime dispatch supported.`,
+    message: `Delivery available to ${city}${state ? `, ${state}` : ''} in 4-5 days. Online payment available (COD not available).`,
   });
 }

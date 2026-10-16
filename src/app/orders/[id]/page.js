@@ -84,12 +84,17 @@ export default async function OrderConfirmationPage({ params }) {
 
         {/* Shipment Tracker Card */}
         <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#EBE6DD] shadow-luxury space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-[#EBE6DD]">
-            <h2 className="font-serif font-bold text-lg text-[#14171F] flex items-center gap-2">
-              <Truck className="w-5 h-5 text-[#C5A059]" />
-              Fulfillment & Dispatch Tracker
-            </h2>
-            <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-[#0F1D36]/5 text-[#0F1D36] border border-[#0F1D36]/20">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#EBE6DD] gap-2">
+            <div>
+              <h2 className="font-serif font-bold text-lg text-[#14171F] flex items-center gap-2">
+                <Truck className="w-5 h-5 text-[#C5A059]" />
+                Fulfillment & Dispatch Tracker
+              </h2>
+              <p className="text-xs text-emerald-800 font-semibold mt-1">
+                Estimated Delivery: 4 se 5 din lagega (4 - 5 Business Days)
+              </p>
+            </div>
+            <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-[#0F1D36]/5 text-[#0F1D36] border border-[#0F1D36]/20 self-start sm:self-auto">
               Status: {order.status}
             </span>
           </div>

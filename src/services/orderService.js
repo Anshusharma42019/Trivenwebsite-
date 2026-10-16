@@ -71,10 +71,19 @@ export async function calculateOrderTotals({ items, couponCode, paymentMethod, u
     };
   }
 
-  // Shipping calculation
-  let shippingCharge = subtotal >= settings.freeShippingThreshold ? 0 : settings.defaultShippingFee;
-  if (paymentMethod === 'cod' && settings.codFee) {
-    shippingCharge += settings.codFee;
+  // Shipping calculation (100% Free Shipping when default fee or threshold is 0)
+  let shippingCharge = 0;
+  if (settings.defaultShippingFee > 0 && settings.freeShippingThreshold > 0 && subtotal < settings.freeShippingThreshold) {
+    shippingCharge = settings.defaultShippingFee;
+  }
+
+  if (paymentMethod === 'cod') {
+    if (settings.codEnabled === false) {
+      throw new Error('Cash on Delivery (COD) is currently not available. Please choose an online payment method (UPI, Cards, NetBanking).');
+    }
+    if (settings.codFee > 0) {
+      shippingCharge += settings.codFee;
+    }
   }
 
   // Coupon validation & discount calculation

@@ -489,7 +489,7 @@ export default function AdminOrdersPage() {
                           </span>
 
                           <span
-                            className={`block text-[9px] font-bold uppercase tracking-wider ${
+                            className={`inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider ${
                               ord.paymentStatus === 'paid'
                                 ? 'text-emerald-700'
                                 : ord.paymentStatus === 'failed'
@@ -497,7 +497,8 @@ export default function AdminOrdersPage() {
                                 : 'text-stone-500'
                             }`}
                           >
-                            ● {ord.paymentStatus}
+                            <span className="w-1.5 h-1.5 rounded-full bg-current shrink-0" />
+                            <span>{ord.paymentStatus}</span>
                           </span>
                         </div>
                       </td>

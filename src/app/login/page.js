@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { ShieldCheck, AlertCircle, Loader2, ArrowRight, Lock } from 'lucide-react';
+import { ShieldCheck, AlertCircle, Loader2, ArrowRight, Lock, HelpCircle } from 'lucide-react';
 
 function LoginFormContent() {
   const router = useRouter();
@@ -241,7 +241,10 @@ function LoginFormContent() {
           ) : (
             <div className="space-y-3">
               <p className="text-[#6E6761]">
-                <span className="text-[#C5A059] hover:underline cursor-pointer">▸ Need help?</span>
+                <span className="text-[#C5A059] hover:underline cursor-pointer inline-flex items-center gap-1.5">
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  <span>Need help?</span>
+                </span>
               </p>
             </div>
           )}
@@ -278,8 +281,8 @@ export default function LoginPage() {
       <div className="flex-1 flex flex-col items-center pt-8 pb-12 px-4 sm:px-6">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 mb-6 group">
-          <div className="w-11 h-11 rounded-full bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/35 flex items-center justify-center font-serif text-2xl font-bold shadow-md group-hover:scale-105 transition-transform">
-            ॐ
+          <div className="w-11 h-11 rounded-full bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/35 flex items-center justify-center p-2 shadow-md group-hover:scale-105 transition-transform">
+            <img src="/logo-icon.png" alt="Triven Ayurveda" className="w-7 h-7 object-contain brightness-110" />
           </div>
           <div className="flex flex-col text-left">
             <span className="font-serif text-2xl font-bold tracking-tight text-[#14171F]">

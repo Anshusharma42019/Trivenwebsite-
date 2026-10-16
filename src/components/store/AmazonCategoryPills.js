@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sparkles, HeartPulse, Droplets, Shield, Flame, Activity } from 'lucide-react';
+import { Sparkles, HeartPulse, Droplets, Shield, Flame, Activity, ArrowRight } from 'lucide-react';
 
 const CATEGORY_ICONS = [Sparkles, HeartPulse, Droplets, Shield, Flame, Activity];
 
@@ -42,8 +42,9 @@ export default function AmazonCategoryPills({ categories: initialCategories = nu
       <div className="bg-white rounded-2xl shadow-[0_4px_30px_rgba(15,29,54,0.05)] border border-[#C5A059]/25 p-5 sm:p-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-6 sm:mb-8 pb-4 border-b border-stone-100">
           <div>
-            <span className="text-[11px] font-bold tracking-widest uppercase text-[#C5A059] block mb-0.5">
-              ✦ Classical Categories ✦
+            <span className="text-[11px] font-bold tracking-widest uppercase text-[#C5A059] block mb-0.5 inline-flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+              <span>Classical Categories</span>
             </span>
             <h2 className="font-serif font-bold text-stone-900 text-lg sm:text-2xl">
               Shop by Ayurvedic Health Need
@@ -57,7 +58,7 @@ export default function AmazonCategoryPills({ categories: initialCategories = nu
             className="text-xs font-semibold text-[#8C5E3C] hover:text-[#0F1D36] hover:underline self-start sm:self-auto min-h-[32px] flex items-center gap-1"
           >
             <span>View all categories</span>
-            <span>→</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 

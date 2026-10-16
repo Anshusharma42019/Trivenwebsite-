@@ -109,8 +109,8 @@ export default function CheckoutPage() {
   const [couponError, setCouponError] = useState(null);
   const [applyingCoupon, setApplyingCoupon] = useState(false);
 
-  // Payment method
-  const [paymentMethod, setPaymentMethod] = useState('cod');
+  // Payment method (Prepaid Online: Razorpay UPI/Cards/GPay/PhonePe)
+  const [paymentMethod, setPaymentMethod] = useState('razorpay');
 
   // Authoritative server calculation state
   const [serverCalculation, setServerCalculation] = useState(null);
@@ -618,7 +618,7 @@ export default function CheckoutPage() {
                       user ? 'bg-[#0F1D36]/10 text-[#0F1D36] border border-[#0F1D36]/25' : 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
                     }`}
                   >
-                    {user ? '✓' : '1'}
+                    {user ? <Check className="w-4 h-4 stroke-[2.5]" /> : '1'}
                   </span>
                   <div>
                     <h2 className="font-serif font-bold text-base text-stone-900">
@@ -736,7 +736,7 @@ export default function CheckoutPage() {
                       isAddressConfirmed ? 'bg-[#0F1D36]/10 text-[#0F1D36] border border-[#0F1D36]/25' : 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
                     }`}
                   >
-                    {isAddressConfirmed ? '✓' : '2'}
+                    {isAddressConfirmed ? <Check className="w-4 h-4 stroke-[2.5]" /> : '2'}
                   </span>
                   <div>
                     <h2 className="font-serif font-bold text-base text-[#14171F]">
@@ -1200,38 +1200,11 @@ export default function CheckoutPage() {
               ) : (
                 <div className="p-6 space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* COD */}
-                    <label
-                      className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
-                        paymentMethod === 'cod'
-                          ? 'border-[#C5A059] bg-amber-50/50 shadow-xs'
-                          : 'border-stone-200 hover:bg-stone-50'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="cod"
-                        checked={paymentMethod === 'cod'}
-                        onChange={() => setPaymentMethod('cod')}
-                        className="mt-1"
-                      />
-                      <div>
-                        <div className="flex items-center gap-1.5 font-bold text-xs text-stone-900">
-                          <Banknote className="w-4 h-4 text-amber-700" />
-                          <span>Cash on Delivery (COD)</span>
-                        </div>
-                        <p className="text-[11px] text-stone-500 mt-0.5">
-                          Pay cash or scan UPI with delivery executive at doorstep.
-                        </p>
-                      </div>
-                    </label>
-
-                    {/* Online / Razorpay */}
+                    {/* Online / Razorpay (AVAILABLE) */}
                     <label
                       className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
                         paymentMethod === 'razorpay'
-                          ? 'border-[#C5A059] bg-amber-50/50 shadow-xs ring-1 ring-[#C5A059]'
+                          ? 'border-[#C5A059] bg-amber-50/50 shadow-xs ring-2 ring-[#C5A059]'
                           : 'border-stone-200 hover:bg-stone-50'
                       }`}
                     >
@@ -1241,19 +1214,22 @@ export default function CheckoutPage() {
                         value="razorpay"
                         checked={paymentMethod === 'razorpay'}
                         onChange={() => setPaymentMethod('razorpay')}
-                        className="mt-1"
+                        className="mt-1 accent-[#0F1D36]"
                       />
                       <div>
-                        <div className="flex items-center gap-1.5 font-bold text-xs text-stone-900">
+                        <div className="flex items-center gap-2 font-bold text-xs text-stone-900">
                           <CreditCard className="w-4 h-4 text-[#C5A059]" />
-                          <span>Online / Paid (Direct Google Pay, PhonePe, Paytm & UPI)</span>
+                          <span>Online Payment</span>
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                            Available • Free Delivery
+                          </span>
                         </div>
-                        <p className="text-[11px] text-stone-500 mt-0.5">
-                          Directly opens Google Pay, PhonePe, Paytm app on mobile, or scan instant UPI QR code on PC.
+                        <p className="text-[11px] text-stone-600 mt-1">
+                          Directly pay via Google Pay, PhonePe, Paytm, Any UPI app, or Debit/Credit Cards. Fast dispatch in 4-5 days.
                         </p>
-                        <div className="flex flex-wrap items-center gap-1.5 mt-2 pt-1.5 border-t border-amber-200/50">
+                        <div className="flex flex-wrap items-center gap-1.5 mt-2.5 pt-2 border-t border-amber-200/50">
                           <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-stone-700 shadow-2xs">
-                            GPay
+                            Google Pay
                           </span>
                           <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-purple-700 shadow-2xs">
                             PhonePe
@@ -1262,11 +1238,38 @@ export default function CheckoutPage() {
                             Paytm
                           </span>
                           <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-amber-900 shadow-2xs">
-                            BHIM / Any UPI
+                            Any UPI
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-white border border-stone-200 text-[10px] font-bold text-emerald-800 shadow-2xs">
+                            Cards / NetBanking
                           </span>
                         </div>
                       </div>
                     </label>
+
+                    {/* COD (NOT AVAILABLE) */}
+                    <div className="flex items-start gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/70 opacity-75 cursor-not-allowed">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="cod"
+                        disabled
+                        checked={false}
+                        className="mt-1 cursor-not-allowed"
+                      />
+                      <div>
+                        <div className="flex items-center gap-2 font-bold text-xs text-stone-600">
+                          <Banknote className="w-4 h-4 text-stone-400" />
+                          <span>Cash on Delivery (COD)</span>
+                          <span className="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 border border-red-200">
+                            Not Available
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-stone-500 mt-1">
+                          Cash on Delivery is currently unavailable. Please select Online Payment above to place your order with free delivery.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1279,7 +1282,9 @@ export default function CheckoutPage() {
             <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm space-y-6">
               <h2 className="font-serif font-bold text-base text-stone-900 pb-3 border-b border-stone-100 flex items-center justify-between">
                 <span>Items in Order ({items.length})</span>
-                <span className="text-xs text-stone-500 font-normal">Triven Prime Express</span>
+                <span className="text-xs text-emerald-800 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  Delivery: 4 se 5 din lagega
+                </span>
               </h2>
 
               {/* Items List */}
@@ -1358,7 +1363,10 @@ export default function CheckoutPage() {
               <div className="p-3 bg-amber-50/60 rounded-xl border border-amber-200/70 text-xs text-stone-700 space-y-1">
                 <div className="flex items-center gap-1.5 font-bold text-stone-900">
                   <Truck className="w-4 h-4 text-[#8C5E3C]" />
-                  <span>✓ Triven Prime Free 1-Day Delivery</span>
+                  <span className="inline-flex items-center gap-1">
+                    <Check className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Triven Prime Free 1-Day Delivery</span>
+                  </span>
                 </div>
                 <p className="text-[11px] text-stone-600">
                   Guaranteed delivery by <strong>Tomorrow, 2:00 PM – 6:00 PM</strong>
@@ -1388,8 +1396,9 @@ export default function CheckoutPage() {
                   </button>
                 </div>
                 {appliedCoupon && (
-                  <p className="text-xs text-amber-800 font-bold">
-                    ✓ Promo code "{appliedCoupon}" applied successfully!
+                  <p className="text-xs text-amber-800 font-bold inline-flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    <span>Promo code "{appliedCoupon}" applied successfully!</span>
                   </p>
                 )}
                 {couponError && (
@@ -1412,10 +1421,10 @@ export default function CheckoutPage() {
                 )}
 
                 <div className="flex justify-between text-stone-600">
-                  <span>Shipping & Handling:</span>
+                  <span>Shipping & Delivery:</span>
                   <span>
                     {serverCalculation && serverCalculation.shippingCharge === 0 ? (
-                      <span className="text-amber-800 font-bold">FREE (Prime)</span>
+                      <span className="text-emerald-700 font-bold">FREE (4 se 5 din)</span>
                     ) : (
                       `₹${serverCalculation?.shippingCharge || 0}`
                     )}

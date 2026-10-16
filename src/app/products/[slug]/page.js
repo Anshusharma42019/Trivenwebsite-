@@ -38,15 +38,25 @@ export default async function ProductDetailPage({ params }) {
 
   await connectDB();
 
-  // Fetch reviews & related products in category
+  // Fetch reviews & related products in category (or store fallback)
   const [rawReviews, relatedData] = await Promise.all([
     Review.find({ product: product._id, status: 'approved' }).sort({ createdAt: -1 }).limit(10).lean(),
-    getProducts({ limit: 4, category: product.category?._id?.toString() || null }),
+    getProducts({ limit: 8, category: product.category?._id?.toString() || null }),
   ]);
 
   const reviews = rawReviews ? JSON.parse(JSON.stringify(rawReviews)) : [];
-  const relatedProducts = relatedData?.products || [];
-  const filteredRelated = relatedProducts.filter((p) => String(p._id) !== String(product._id)).slice(0, 3);
+  let relatedProducts = relatedData?.products || [];
+  let filteredRelated = relatedProducts.filter((p) => String(p._id) !== String(product._id));
+
+  // If fewer than 2 related products found in exact category, supplement with other published admin products
+  if (filteredRelated.length < 2) {
+    const fallbackData = await getProducts({ limit: 8 });
+    const additional = (fallbackData?.products || []).filter(
+      (p) => String(p._id) !== String(product._id) && !filteredRelated.some((r) => String(r._id) === String(p._id))
+    );
+    filteredRelated = [...filteredRelated, ...additional];
+  }
+  filteredRelated = filteredRelated.slice(0, 3);
 
   // Structured Data Schema for SEO
   const jsonLd = {

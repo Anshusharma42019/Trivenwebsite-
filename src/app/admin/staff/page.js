@@ -183,7 +183,10 @@ export default function AdminStaffPage() {
                     </td>
                     <td className="py-3 px-4 text-stone-500 text-[11px]">
                       {s.role === 'super_admin' ? (
-                        <span className="text-[#8C5E3C] font-bold">★ Full Master Privileges</span>
+                        <span className="text-[#8C5E3C] font-bold inline-flex items-center gap-1">
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
+                          <span>Full Master Privileges</span>
+                        </span>
                       ) : (
                         <span>Standard Role Permissions</span>
                       )}
@@ -215,7 +218,7 @@ export default function AdminStaffPage() {
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-stone-400 hover:text-stone-700 hover:bg-stone-100"
                 aria-label="Close dialog"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 

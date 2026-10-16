@@ -87,7 +87,10 @@ export default function ProductFiltersDrawer({
         </h4>
         <label className="flex items-center gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#8C5E3C]">
           <input type="checkbox" defaultChecked className="rounded text-[#18181B] focus:ring-0" />
-          <span className="font-bold text-[#C5A059]">✓ Triven Prime</span>
+          <span className="font-bold text-[#C5A059] inline-flex items-center gap-1">
+            <Check className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
+            <span>Triven Prime</span>
+          </span>
           <span className="text-[11px] text-stone-500">• 1-Day Delivery</span>
         </label>
       </div>
