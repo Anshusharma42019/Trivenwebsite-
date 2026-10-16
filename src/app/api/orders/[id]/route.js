@@ -41,7 +41,8 @@ export async function GET(request, { params }) {
     if (user) {
       const isOwner =
         (order.user && String(order.user) === String(user._id)) ||
-        order.customerDetails.email === user.email;
+        (user.email && order.customerDetails?.email === user.email) ||
+        (user.phone && order.customerDetails?.phone === user.phone);
 
       if (!isOwner && !hasPermission(user, PERMISSIONS.ORDERS_VIEW)) {
         return errorResponse('Unauthorized to view this order', 403);

@@ -57,7 +57,7 @@ const OrderSchema = new mongoose.Schema(
     },
     customerDetails: {
       name: { type: String, required: true },
-      email: { type: String, required: true, index: true },
+      email: { type: String, default: '' },
       phone: { type: String, required: true },
     },
     items: [OrderItemSchema],

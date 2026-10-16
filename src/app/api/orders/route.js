@@ -38,7 +38,8 @@ export async function POST(request) {
           receipt: order.orderNumber,
           notes: {
             orderId: order._id.toString(),
-            customerEmail: order.customerDetails.email,
+            customerEmail: order.customerDetails?.email || '',
+            customerPhone: order.customerDetails?.phone || '',
           },
         });
 
@@ -54,7 +55,7 @@ export async function POST(request) {
 
     await logAuditEvent({
       userId: user?._id || null,
-      userEmail: order.customerDetails.email,
+      userEmail: order.customerDetails?.email || user.email || user.phone || 'customer',
       action: 'ORDER_PLACED',
       entity: 'Order',
       entityId: order._id,
@@ -99,7 +100,14 @@ export async function GET(request) {
 
     // If regular customer, show only their orders
     if (user.role === 'customer') {
-      query.$or = [{ user: user._id }, { 'customerDetails.email': user.email }];
+      const customerFilters = [{ user: user._id }];
+      if (user.email && typeof user.email === 'string' && user.email.trim()) {
+        customerFilters.push({ 'customerDetails.email': user.email.trim() });
+      }
+      if (user.phone && typeof user.phone === 'string' && user.phone.trim()) {
+        customerFilters.push({ 'customerDetails.phone': user.phone.trim() });
+      }
+      query.$or = customerFilters;
     } else {
       // Staff view: check permission
       if (!hasPermission(user, PERMISSIONS.ORDERS_VIEW)) {

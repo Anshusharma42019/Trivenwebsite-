@@ -111,8 +111,8 @@ export async function calculateOrderTotals({ items, couponCode, paymentMethod, u
       throw new Error(`Coupon "${code}" usage limit has been reached.`);
     }
 
-    if (userEmail && coupon.perUserLimit) {
-      const timesUsed = coupon.usedBy.filter((u) => u.email === userEmail).length;
+    if (userEmail && coupon.perUserLimit && Array.isArray(coupon.usedBy)) {
+      const timesUsed = coupon.usedBy.filter((u) => u && u.email && u.email.toLowerCase() === String(userEmail).toLowerCase()).length;
       if (timesUsed >= coupon.perUserLimit) {
         throw new Error(`You have already reached the limit for coupon "${code}".`);
       }
@@ -163,7 +163,7 @@ export async function createOrder({
     couponCode,
     paymentMethod,
     userId,
-    userEmail: customerDetails.email,
+    userEmail: customerDetails?.email || '',
   });
 
   const orderNumber = generateOrderNumber();
@@ -239,7 +239,7 @@ export async function createOrder({
       reason: `Order ${orderNumber}`,
       referenceOrder: order._id,
       performedBy: userId || null,
-      userEmail: customerDetails.email,
+      userEmail: customerDetails?.email || '',
     });
   }
 
@@ -250,7 +250,7 @@ export async function createOrder({
       $push: {
         usedBy: {
           user: userId || null,
-          email: customerDetails.email,
+          email: customerDetails?.email || '',
           usedAt: new Date(),
           orderId: order._id,
         },

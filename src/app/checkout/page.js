@@ -390,13 +390,13 @@ export default function CheckoutPage() {
       const payload = {
         items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
         customerDetails: {
-          name: formData.name || user.name,
-          email: formData.email || user.email,
-          phone: formData.phone || user.phone || '9876543210',
+          name: formData.fullName || formData.name || user?.name || 'Valued Customer',
+          email: formData.email?.trim() || user?.email || '',
+          phone: (formData.phone || user?.phone || '').replace(/[^0-9]/g, '').slice(-10) || '9876543210',
         },
         shippingAddress: {
-          fullName: formData.fullName || formData.name || user.name,
-          phone: formData.phone || user.phone || '9876543210',
+          fullName: formData.fullName || formData.name || user?.name || 'Valued Customer',
+          phone: (formData.phone || user?.phone || '').replace(/[^0-9]/g, '').slice(-10) || '9876543210',
           addressLine1: formData.addressLine1,
           addressLine2: formData.addressLine2 || '',
           landmark: formData.landmark || '',
@@ -626,7 +626,7 @@ export default function CheckoutPage() {
                     </h2>
                     <p className="text-xs text-stone-500">
                       {user
-                        ? `Signed in as ${user.name} (${user.email})`
+                        ? `Signed in as ${user.name} (${user.phone || user.email})`
                         : 'Triven Ayurveda verified authentication required for doorstep delivery'}
                     </p>
                   </div>

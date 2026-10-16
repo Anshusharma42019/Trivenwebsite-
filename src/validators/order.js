@@ -11,7 +11,12 @@ export const checkoutSchema = z.object({
     .min(1, 'Cart cannot be empty'),
   customerDetails: z.object({
     name: z.string().min(2, 'Name is required'),
-    email: z.string().email('Valid email is required'),
+    email: z
+      .string()
+      .email('Please enter a valid email address')
+      .optional()
+      .or(z.literal(''))
+      .nullable(),
     phone: z.string().min(10, 'Valid 10-digit phone number is required'),
   }),
   shippingAddress: z.object({

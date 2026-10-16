@@ -184,6 +184,7 @@ function LoginFormContent() {
               <input
                 type="text"
                 required
+                autoComplete="username"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="Mobile number or email"
@@ -206,6 +207,7 @@ function LoginFormContent() {
             <input
               type="password"
               required
+              autoComplete={isRegistering ? "new-password" : "current-password"}
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder={isRegistering ? 'At least 6 characters' : 'Enter password'}
