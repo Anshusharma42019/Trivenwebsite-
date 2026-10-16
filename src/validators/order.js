@@ -22,9 +22,9 @@ export const checkoutSchema = z.object({
   shippingAddress: z.object({
     fullName: z.string().min(2, 'Full name is required'),
     phone: z.string().min(10, 'Phone is required'),
-    addressLine1: z.string().min(5, 'Street address is required'),
-    addressLine2: z.string().optional().default(''),
-    landmark: z.string().optional().default(''),
+    addressLine1: z.string().min(1, 'Street address is required'),
+    addressLine2: z.string().optional().or(z.literal('')).nullable().default(''),
+    landmark: z.string().optional().or(z.literal('')).nullable().default(''),
     city: z.string().min(2, 'City is required'),
     state: z.string().min(2, 'State is required'),
     pincode: z.string().regex(/^\d{6}$/, 'Please enter a valid 6-digit Indian PIN code'),

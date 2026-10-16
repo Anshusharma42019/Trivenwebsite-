@@ -275,6 +275,7 @@ export async function createOrder({
             phone: shippingAddress.phone || customerDetails.phone,
             addressLine1: shippingAddress.addressLine1,
             addressLine2: shippingAddress.addressLine2 || '',
+            landmark: shippingAddress.landmark || '',
             city: shippingAddress.city,
             state: shippingAddress.state,
             pincode: shippingAddress.pincode,

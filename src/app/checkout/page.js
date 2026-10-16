@@ -126,6 +126,35 @@ export default function CheckoutPage() {
   // Auto-populate from user if logged in
   useEffect(() => {
     if (user) {
+      // 1. If an address was already selected by ID, preserve it
+      if (selectedAddressId && user.addresses?.length > 0) {
+        const matchingAddr = user.addresses.find((a) => String(a._id) === String(selectedAddressId));
+        if (matchingAddr) {
+          setFormData((prev) => ({
+            ...prev,
+            name: user.name || prev.name,
+            email: user.email || prev.email,
+            phone: matchingAddr.phone || user.phone || prev.phone,
+            fullName: matchingAddr.fullName || user.name || prev.fullName,
+            addressLine1: matchingAddr.addressLine1,
+            addressLine2: matchingAddr.addressLine2 || '',
+            landmark: matchingAddr.landmark || '',
+            city: matchingAddr.city || prev.city || 'New Delhi',
+            state: matchingAddr.state || prev.state || 'Delhi',
+            pincode: matchingAddr.pincode || prev.pincode || '110001',
+            addressType: matchingAddr.type || 'home',
+          }));
+          setIsAddressConfirmed(true);
+          return;
+        }
+      }
+
+      // 2. If user is currently typing/adding a new address, do not overwrite with default address
+      if (isAddingNewInCheckout) {
+        return;
+      }
+
+      // 3. Otherwise pick default address or first address
       const defaultAddr = user.addresses?.find((a) => a.isDefault) || user.addresses?.[0];
       if (defaultAddr && defaultAddr.addressLine1) {
         setSelectedAddressId(defaultAddr._id);
@@ -165,7 +194,7 @@ export default function CheckoutPage() {
     }
   }, [user]);
 
-  const handleSelectAddress = (addr) => {
+  const handleSelectAddress = (addr, confirm = true) => {
     setSelectedAddressId(addr._id);
     setFormData((prev) => ({
       ...prev,
@@ -184,8 +213,10 @@ export default function CheckoutPage() {
       if (addr.city) localStorage.setItem('triven_city', addr.city);
       window.dispatchEvent(new Event('storage'));
     } catch (e) {}
-    setIsAddressConfirmed(true);
-    setIsAddingNewInCheckout(false);
+    if (confirm) {
+      setIsAddressConfirmed(true);
+      setIsAddingNewInCheckout(false);
+    }
   };
 
   // Check pincode serviceability
@@ -259,7 +290,7 @@ export default function CheckoutPage() {
     // Auto-save address to user profile if logged in
     if (user) {
       try {
-        await fetch('/api/user/addresses', {
+        const res = await fetch('/api/user/addresses', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -274,7 +305,11 @@ export default function CheckoutPage() {
             type: formData.addressType,
           }),
         });
-        if (refreshUser) refreshUser();
+        const resJson = await res.json();
+        if (res.ok && resJson.data?.address?._id) {
+          setSelectedAddressId(resJson.data.address._id);
+        }
+        if (refreshUser) await refreshUser();
       } catch (err) {
         console.error('Failed to auto-save address', err);
       }
@@ -378,7 +413,7 @@ export default function CheckoutPage() {
       return;
     }
 
-    if (!isAddressConfirmed) {
+    if (!isAddressConfirmed || !formData.addressLine1?.trim()) {
       alert('Please confirm your delivery address before placing your order.');
       return;
     }
@@ -397,12 +432,12 @@ export default function CheckoutPage() {
         shippingAddress: {
           fullName: formData.fullName || formData.name || user?.name || 'Valued Customer',
           phone: (formData.phone || user?.phone || '').replace(/[^0-9]/g, '').slice(-10) || '9876543210',
-          addressLine1: formData.addressLine1,
-          addressLine2: formData.addressLine2 || '',
-          landmark: formData.landmark || '',
-          city: formData.city,
-          state: formData.state,
-          pincode: formData.pincode,
+          addressLine1: formData.addressLine1.trim(),
+          addressLine2: formData.addressLine2?.trim() || '',
+          landmark: formData.landmark?.trim() || '',
+          city: formData.city.trim(),
+          state: formData.state.trim(),
+          pincode: formData.pincode.trim(),
           country: 'India',
           addressType: formData.addressType || 'home',
           coordinates: mapLocation?.coordinates || null,
@@ -834,6 +869,7 @@ export default function CheckoutPage() {
                               pincode: '110001',
                               addressType: 'home',
                             }));
+                            setSelectedAddressId(null);
                             setIsAddingNewInCheckout(true);
                           }}
                           className="inline-flex items-center gap-1 text-xs text-[#8C5E3C] font-bold hover:underline cursor-pointer"
@@ -845,13 +881,13 @@ export default function CheckoutPage() {
 
                       <div className="space-y-3">
                         {user.addresses.map((addr) => {
-                          const isSelected =
-                            selectedAddressId === addr._id ||
-                            formData.addressLine1 === addr.addressLine1;
+                          const isSelected = selectedAddressId
+                            ? String(selectedAddressId) === String(addr._id)
+                            : Boolean(addr.isDefault);
                           return (
                             <div
                               key={addr._id}
-                              onClick={() => handleSelectAddress(addr)}
+                              onClick={() => handleSelectAddress(addr, true)}
                               className={`p-4 rounded-xl border text-xs cursor-pointer transition-all ${
                                 isSelected
                                   ? 'border-[#C5A059] bg-amber-50/40 ring-1 ring-[#C5A059]'
@@ -863,7 +899,7 @@ export default function CheckoutPage() {
                                   type="radio"
                                   name="selectedSavedAddress"
                                   checked={isSelected}
-                                  onChange={() => handleSelectAddress(addr)}
+                                  onChange={() => handleSelectAddress(addr, true)}
                                   className="mt-0.5 text-[#18181B] focus:ring-[#C5A059]"
                                 />
                                 <div className="flex-1">
@@ -895,7 +931,7 @@ export default function CheckoutPage() {
                                         type="button"
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          handleSelectAddress(addr);
+                                          handleSelectAddress(addr, true);
                                         }}
                                         className="bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold px-6 py-2 rounded-full text-xs shadow-xs transition-colors border border-[#FCD200] cursor-pointer flex items-center gap-1.5"
                                       >
@@ -930,6 +966,7 @@ export default function CheckoutPage() {
                               pincode: '110001',
                               addressType: 'home',
                             }));
+                            setSelectedAddressId(null);
                             setIsAddingNewInCheckout(true);
                           }}
                           className="inline-flex items-center gap-1.5 text-xs text-[#8C5E3C] font-semibold hover:underline cursor-pointer"
@@ -948,7 +985,11 @@ export default function CheckoutPage() {
                           </h4>
                           <button
                             type="button"
-                            onClick={() => setIsAddingNewInCheckout(false)}
+                            onClick={() => {
+                              setIsAddingNewInCheckout(false);
+                              const restore = user.addresses?.find((a) => String(a._id) === String(selectedAddressId)) || user.addresses?.find((a) => a.isDefault) || user.addresses?.[0];
+                              if (restore) handleSelectAddress(restore, true);
+                            }}
                             className="text-xs text-stone-500 hover:text-stone-800 underline cursor-pointer"
                           >
                             Cancel / choose from saved addresses
