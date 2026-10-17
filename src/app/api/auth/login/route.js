@@ -62,11 +62,13 @@ export async function POST(request) {
     user.lastLoginAt = new Date();
     await user.save();
 
+    const normalizedRole = (user.role || 'customer').toLowerCase();
+
     const token = signToken({
       userId: user._id,
       phone: user.phone || '',
       email: user.email || '',
-      role: user.role,
+      role: normalizedRole,
     });
 
     await setSessionCookie(token);

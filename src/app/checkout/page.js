@@ -77,6 +77,7 @@ export default function CheckoutPage() {
   const [loginPassword, setLoginPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState(null);
+  const [showInlineLogin, setShowInlineLogin] = useState(false);
 
   // Address and customer state
   const [formData, setFormData] = useState({
@@ -91,6 +92,7 @@ export default function CheckoutPage() {
     state: '',
     pincode: '',
     addressType: 'home', // 'home' | 'work'
+    password: '',
   });
 
   // Map location state
@@ -408,20 +410,27 @@ export default function CheckoutPage() {
     }
   };
 
-  // Place Order handler (Amazon strict login enforcement)
+  // Place Order handler (Fast Checkout for both New and Existing Users)
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
     if (items.length === 0) return;
 
-    // Strict Amazon login requirement
-    if (!user) {
-      alert('Sign-in required: Please sign in to your Triven Ayurveda account to place this order.');
-      router.push('/login?redirect=/checkout');
+    const recipientName = (formData.fullName || formData.name || user?.name || '').trim();
+    const rawDigits = (formData.phone || user?.phone || '').replace(/[^0-9]/g, '');
+    const recipientPhone = rawDigits.length >= 10 ? rawDigits.slice(-10) : rawDigits;
+
+    if (!recipientName) {
+      alert('Please enter your full name before placing the order.');
+      return;
+    }
+
+    if (!recipientPhone || recipientPhone.length < 10) {
+      alert('Please enter a valid 10-digit mobile number for order dispatch and tracking.');
       return;
     }
 
     if (!isAddressConfirmed || !formData.addressLine1?.trim()) {
-      alert('Please confirm your delivery address before placing your order.');
+      alert('Please confirm your delivery address in Step 2 before placing your order.');
       return;
     }
 
@@ -432,13 +441,13 @@ export default function CheckoutPage() {
       const payload = {
         items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
         customerDetails: {
-          name: formData.fullName || formData.name || user?.name || 'Valued Customer',
+          name: recipientName,
           email: formData.email?.trim() || user?.email || '',
-          phone: (formData.phone || user?.phone || '').replace(/[^0-9]/g, '').slice(-10) || '9876543210',
+          phone: recipientPhone,
         },
         shippingAddress: {
-          fullName: formData.fullName || formData.name || user?.name || 'Valued Customer',
-          phone: (formData.phone || user?.phone || '').replace(/[^0-9]/g, '').slice(-10) || '9876543210',
+          fullName: recipientName,
+          phone: recipientPhone,
           addressLine1: formData.addressLine1.trim(),
           addressLine2: formData.addressLine2?.trim() || '',
           landmark: formData.landmark?.trim() || '',
@@ -451,6 +460,7 @@ export default function CheckoutPage() {
         },
         paymentMethod,
         couponCode: appliedCoupon || null,
+        password: formData.password?.trim() || null,
       };
 
       const res = await fetch('/api/orders', {
@@ -527,6 +537,11 @@ export default function CheckoutPage() {
               }
 
               clearCart();
+              if (refreshUser) {
+                try {
+                  await refreshUser();
+                } catch (e) {}
+              }
               router.push(`/orders/${createdOrder.orderNumber}`);
             } catch (vErr) {
               setOrderError(`Payment verification failed: ${vErr.message}`);
@@ -534,9 +549,9 @@ export default function CheckoutPage() {
             }
           },
           prefill: {
-            name: formData.fullName || formData.name || user.name || '',
-            email: formData.email || user.email || '',
-            contact: formData.phone || user.phone || '',
+            name: formData.fullName || formData.name || user?.name || '',
+            email: formData.email || user?.email || '',
+            contact: formData.phone || user?.phone || '',
             method: 'upi', // Direct UPI App intent
           },
           config: {
@@ -593,6 +608,11 @@ export default function CheckoutPage() {
 
       // Cash on Delivery direct confirmation
       clearCart();
+      if (refreshUser) {
+        try {
+          await refreshUser();
+        } catch (e) {}
+      }
       router.push(`/orders/${createdOrder.orderNumber}`);
     } catch (err) {
       setOrderError(err.message);
@@ -651,25 +671,31 @@ export default function CheckoutPage() {
           {/* Left Column: 3-Step Checkout Flow (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">
             
-            {/* ================= STEP 1: SIGN-IN REQUIREMENT ================= */}
+            {/* ================= STEP 1: CONTACT / CUSTOMER DETAILS ================= */}
             <div className="bg-white rounded-2xl border border-[#EBE6DD] shadow-luxury overflow-hidden">
               <div className="p-5 sm:p-6 border-b border-[#EBE6DD] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                      user ? 'bg-[#0F1D36]/10 text-[#0F1D36] border border-[#0F1D36]/25' : 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
+                      user || (formData.fullName && formData.phone?.length === 10)
+                        ? 'bg-[#0F1D36]/10 text-[#0F1D36] border border-[#0F1D36]/25'
+                        : 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
                     }`}
                   >
-                    {user ? <Check className="w-4 h-4 stroke-[2.5]" /> : '1'}
+                    {user || (formData.fullName && formData.phone?.length === 10) ? (
+                      <Check className="w-4 h-4 stroke-[2.5]" />
+                    ) : (
+                      '1'
+                    )}
                   </span>
                   <div>
                     <h2 className="font-serif font-bold text-base text-stone-900">
-                      Step 1: Sign in to your Account
+                      Step 1: Contact & Customer Details
                     </h2>
                     <p className="text-xs text-stone-500">
                       {user
                         ? `Signed in as ${user.name} (${user.phone || user.email})`
-                        : 'Triven Ayurveda verified authentication required for doorstep delivery'}
+                        : 'Enter recipient name and 10-digit mobile number for order delivery & tracking.'}
                     </p>
                   </div>
                 </div>
@@ -684,93 +710,154 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              {/* If user is NOT logged in: Show Triven Sign-In Card */}
+              {/* If user is NOT logged in: Show Fast Order Guest Details + Optional Login Toggle */}
               {!user && (
-                <div className="p-6 bg-amber-50/40 space-y-5">
-                  <div className="p-4 bg-white rounded-xl border border-amber-200 space-y-3">
-                    <div className="flex items-start gap-3">
-                      <Lock className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
-                      <div>
-                        <h3 className="font-serif font-bold text-sm text-stone-900">
-                          Sign In Required to Place Order
-                        </h3>
-                        <p className="text-xs text-stone-600 leading-relaxed mt-0.5">
-                          Triven Ayurveda requires user sign-in to safeguard verified customer identity, dispatch genuine AYUSH batch formulations, and store delivery map pins.
-                        </p>
-                      </div>
+                <div className="p-5 sm:p-6 bg-[#FCFBF9] space-y-4">
+                  {/* Quick Toggle for Returning Users */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs pb-3 border-b border-[#EBE6DD]">
+                    <div className="flex items-center gap-1.5 text-emerald-800 font-semibold">
+                      <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                      <span>Instant 1-Click Order (No password needed to place order)</span>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowInlineLogin(!showInlineLogin)}
+                      className="text-[#8C5E3C] hover:underline font-bold text-left sm:text-right"
+                    >
+                      {showInlineLogin ? '← Back to Fast Checkout' : 'Already registered? Sign In here'}
+                    </button>
+                  </div>
 
-                    {loginError && (
-                      <div className="p-2.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg flex items-center gap-2">
-                        <AlertCircle className="w-4 h-4 shrink-0" />
-                        <span>{loginError}</span>
-                      </div>
-                    )}
-
-                    {/* Quick In-Line Login Form */}
-                    <form onSubmit={handleInlineLogin} className="space-y-3 pt-1">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div>
-                          <label className="block text-stone-700 font-bold mb-1">Email or Mobile Number</label>
-                          <input
-                            type="text"
-                            required
-                            placeholder="Mobile number or email"
-                            value={loginEmail}
-                            onChange={(e) => setLoginEmail(e.target.value)}
-                            className="w-full p-2 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
-                          />
+                  {showInlineLogin ? (
+                    <div className="p-4 bg-white rounded-xl border border-amber-200 space-y-3">
+                      <h4 className="font-serif font-bold text-sm text-stone-900">
+                        Sign In with Mobile / Email & Password
+                      </h4>
+                      {loginError && (
+                        <div className="p-2.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4 shrink-0" />
+                          <span>{loginError}</span>
                         </div>
-                        <div>
-                          <label className="block text-stone-700 font-bold mb-1">Password</label>
-                          <input
-                            type="password"
-                            required
-                            placeholder="Enter password"
-                            value={loginPassword}
-                            onChange={(e) => setLoginPassword(e.target.value)}
-                            className="w-full p-2 border border-stone-300 rounded-lg outline-none focus:border-[#C5A059]"
-                          />
+                      )}
+                      <form onSubmit={handleInlineLogin} className="space-y-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                          <div>
+                            <label className="block text-stone-700 font-bold mb-1">Mobile Number or Email</label>
+                            <input
+                              type="text"
+                              required
+                              placeholder="10-digit mobile or email"
+                              value={loginEmail}
+                              onChange={(e) => setLoginEmail(e.target.value)}
+                              className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059]"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-stone-700 font-bold mb-1">Password</label>
+                            <input
+                              type="password"
+                              required
+                              placeholder="Enter password"
+                              value={loginPassword}
+                              onChange={(e) => setLoginPassword(e.target.value)}
+                              className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059]"
+                            />
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
                         <button
                           type="submit"
                           disabled={loginLoading}
-                          className="bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold px-6 py-2.5 rounded-full text-xs transition-colors flex items-center justify-center gap-2 border border-[#FCD200]"
+                          className="bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 hover:bg-[#162238] font-bold px-6 py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 min-h-[40px]"
                         >
-                          {loginLoading ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : (
-                            <>
-                              <span>Sign in & Continue to Address</span>
-                              <ChevronRight className="w-4 h-4" />
-                            </>
-                          )}
+                          {loginLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Sign In & Continue</span>}
                         </button>
+                      </form>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+                        <div>
+                          <label className="block text-stone-800 font-bold mb-1">
+                            Recipient Name (नाम) *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Ramesh Sharma"
+                            value={formData.fullName}
+                            onChange={(e) =>
+                              setFormData({ ...formData, fullName: e.target.value, name: e.target.value })
+                            }
+                            className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059] bg-white"
+                          />
+                        </div>
 
-                        <div className="text-xs text-center sm:text-right">
-                          <Link
-                            href="/login?redirect=/checkout&mode=register"
-                            className="text-[#8C5E3C] font-bold hover:underline"
-                          >
-                            New to Triven? Create account →
-                          </Link>
+                        <div>
+                          <label className="block text-stone-800 font-bold mb-1">
+                            Mobile Number (10-Digit Mobile) *
+                          </label>
+                          <div className="relative flex">
+                            <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-stone-300 bg-stone-100 text-stone-600 text-xs font-semibold select-none">
+                              +91
+                            </span>
+                            <input
+                              type="tel"
+                              required
+                              maxLength={10}
+                              inputMode="numeric"
+                              placeholder="9876543210"
+                              value={formData.phone}
+                              onChange={(e) => {
+                                const clean = e.target.value.replace(/[^0-9]/g, '').slice(0, 10);
+                                setFormData({ ...formData, phone: clean });
+                              }}
+                              className="w-full p-2.5 border border-stone-300 rounded-r-xl outline-none focus:border-[#C5A059] bg-white text-xs font-medium"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-stone-800 font-bold mb-1">
+                            Email Address (Optional)
+                          </label>
+                          <input
+                            type="email"
+                            placeholder="name@example.com (For invoice)"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059] bg-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-stone-800 font-bold mb-1 flex items-center justify-between">
+                            <span>Account Password (Optional)</span>
+                            <span className="text-[10px] text-stone-400 font-normal">Default: Mobile number</span>
+                          </label>
+                          <input
+                            type="password"
+                            placeholder="Set password (or leave blank to use phone)"
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059] bg-white"
+                          />
                         </div>
                       </div>
-                    </form>
-                  </div>
+
+                      <div className="p-3 bg-emerald-50/70 border border-emerald-200/60 rounded-xl text-[11px] text-emerald-900 flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                        <span>
+                          <strong>Order Tracking Link:</strong> Aapka account automatically is mobile number se jud jayega. Order place karne ke baad aap kabhi bhi isi mobile number se login karke dispatch & live tracking dekh sakte hain.
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
 
             {/* ================= STEP 2: DELIVERY ADDRESS & MAP PINNING ================= */}
-            <div
-              className={`bg-white rounded-2xl border border-[#EBE6DD] shadow-luxury overflow-hidden transition-all ${
-                !user ? 'opacity-60 pointer-events-none' : ''
-              }`}
-            >
+            <div className="bg-white rounded-2xl border border-[#EBE6DD] shadow-luxury overflow-hidden transition-all">
               <div className="p-5 sm:p-6 border-b border-[#EBE6DD] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
@@ -782,15 +869,15 @@ export default function CheckoutPage() {
                   </span>
                   <div>
                     <h2 className="font-serif font-bold text-base text-[#14171F]">
-                      Step 2: Select a Delivery Address
+                      Step 2: Delivery Address
                     </h2>
                     <p className="text-xs text-[#6E6761]">
-                      Confirm doorstep location & pinpoint exact house on Map
+                      Enter doorstep delivery location & PIN code
                     </p>
                   </div>
                 </div>
 
-                {isAddressConfirmed && user && (
+                {isAddressConfirmed && (
                   <button
                     onClick={() => setIsAddressConfirmed(false)}
                     className="inline-flex items-center gap-1 text-xs text-[#8C5E3C] hover:underline font-semibold"
@@ -801,23 +888,14 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              {/* Locked Notice if not logged in */}
-              {!user && (
-                <div className="p-6 text-center text-xs text-stone-500 space-y-1">
-                  <Lock className="w-5 h-5 text-stone-400 mx-auto mb-1" />
-                  <p className="font-medium text-stone-700">Address selection locked</p>
-                  <p>Please sign in in Step 1 above to view saved addresses and open the map.</p>
-                </div>
-              )}
-
-              {/* If Address is Confirmed: Show Amazon Confirmed Summary */}
-              {user && isAddressConfirmed && (
+              {/* If Address is Confirmed: Show Confirmed Summary */}
+              {isAddressConfirmed && (
                 <div className="p-6 bg-amber-50/30 space-y-3">
                   <div className="bg-white p-4 rounded-xl border border-amber-200/70 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-stone-900 text-sm">
-                          {formData.fullName || user.name}
+                          {formData.fullName || formData.name || user?.name}
                         </span>
                         <span className="text-[10px] font-bold uppercase tracking-wider bg-stone-100 px-2 py-0.5 rounded text-stone-600">
                           {formData.addressType === 'work' ? 'Office' : 'Home'}
@@ -836,7 +914,7 @@ export default function CheckoutPage() {
                       <strong className="text-stone-900 font-bold">{formData.pincode}</strong>
                     </p>
 
-                    <p className="text-xs text-stone-500">Phone: {formData.phone}</p>
+                    <p className="text-xs text-stone-500">Phone: {formData.phone || user?.phone}</p>
 
                     {/* GPS Pinned Location Pill */}
                     {mapLocation && (
@@ -852,10 +930,10 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* If Address NOT Confirmed: Show Saved Addresses or Add Address Form */}
-              {user && !isAddressConfirmed && (
+              {/* If Address NOT Confirmed: Show Saved Addresses or Address Form */}
+              {!isAddressConfirmed && (
                 <>
-                  {user.addresses && user.addresses.length > 0 && !isAddingNewInCheckout ? (
+                  {user?.addresses && user.addresses.length > 0 && !isAddingNewInCheckout ? (
                     <div className="p-6 space-y-4">
                       <div className="flex items-center justify-between pb-3 border-b border-stone-100">
                         <h3 className="font-serif font-bold text-stone-900 text-sm">
@@ -866,8 +944,8 @@ export default function CheckoutPage() {
                           onClick={() => {
                             setFormData((prev) => ({
                               ...prev,
-                              fullName: user?.name || '',
-                              phone: user?.phone || '',
+                              fullName: user?.name || prev.fullName || '',
+                              phone: user?.phone || prev.phone || '',
                               addressLine1: '',
                               addressLine2: '',
                               landmark: '',
@@ -898,8 +976,8 @@ export default function CheckoutPage() {
                               onClick={() => handleSelectAddress(addr, true)}
                               className={`p-4 rounded-xl border text-xs cursor-pointer transition-all ${
                                 isSelected
-                                  ? 'border-[#C5A059] bg-amber-50/40 ring-1 ring-[#C5A059]'
-                                  : 'border-stone-200 hover:border-stone-300 bg-white'
+                                    ? 'border-[#C5A059] bg-amber-50/40 ring-1 ring-[#C5A059]'
+                                    : 'border-stone-200 hover:border-stone-300 bg-white'
                               }`}
                             >
                               <div className="flex items-start gap-3">
@@ -913,7 +991,7 @@ export default function CheckoutPage() {
                                 <div className="flex-1">
                                   <div className="flex items-center gap-2">
                                     <span className="font-bold text-stone-900 text-sm">
-                                      {addr.fullName || user.name}
+                                      {addr.fullName || user?.name || ''}
                                     </span>
                                     <span className="text-[10px] font-bold uppercase tracking-wider bg-stone-100 px-2 py-0.5 rounded text-stone-600">
                                       {addr.type || 'home'}
@@ -964,8 +1042,8 @@ export default function CheckoutPage() {
                           onClick={() => {
                             setFormData((prev) => ({
                               ...prev,
-                              fullName: user?.name || '',
-                              phone: user?.phone || '',
+                              fullName: user?.name || prev.fullName || '',
+                              phone: user?.phone || prev.phone || '',
                               addressLine1: '',
                               addressLine2: '',
                               landmark: '',
@@ -987,7 +1065,7 @@ export default function CheckoutPage() {
                     </div>
                   ) : (
                     <form onSubmit={handleConfirmAddress} className="p-6 space-y-5">
-                      {user.addresses && user.addresses.length > 0 && (
+                      {user?.addresses && user.addresses.length > 0 && (
                         <div className="flex items-center justify-between pb-3 border-b border-stone-100">
                           <h4 className="font-serif font-bold text-stone-900 text-sm">
                             Add a new delivery address
@@ -996,7 +1074,7 @@ export default function CheckoutPage() {
                             type="button"
                             onClick={() => {
                               setIsAddingNewInCheckout(false);
-                              const restore = user.addresses?.find((a) => String(a._id) === String(selectedAddressId)) || user.addresses?.find((a) => a.isDefault) || user.addresses?.[0];
+                              const restore = user?.addresses?.find((a) => String(a._id) === String(selectedAddressId)) || user?.addresses?.find((a) => a.isDefault) || user?.addresses?.[0];
                               if (restore) handleSelectAddress(restore, true);
                             }}
                             className="text-xs text-stone-500 hover:text-stone-800 underline cursor-pointer"
@@ -1225,7 +1303,7 @@ export default function CheckoutPage() {
             {/* ================= STEP 3: PAYMENT METHOD ================= */}
             <div
               className={`bg-white rounded-2xl border border-[#EBE6DD] shadow-luxury overflow-hidden transition-all ${
-                !user || !isAddressConfirmed ? 'opacity-60 pointer-events-none' : ''
+                !isAddressConfirmed ? 'opacity-60 pointer-events-none' : ''
               }`}
             >
               <div className="p-5 sm:p-6 border-b border-[#EBE6DD] flex items-center gap-3">
@@ -1242,7 +1320,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {(!user || !isAddressConfirmed) ? (
+              {!isAddressConfirmed ? (
                 <div className="p-6 text-center text-xs text-stone-500 space-y-1">
                   <Lock className="w-5 h-5 text-stone-400 mx-auto mb-1" />
                   <p className="font-medium text-stone-700">Payment options locked</p>
@@ -1527,9 +1605,9 @@ export default function CheckoutPage() {
               <button
                 type="button"
                 onClick={handlePlaceOrder}
-                disabled={placingOrder || calculating || !user || !isAddressConfirmed}
+                disabled={placingOrder || calculating || !isAddressConfirmed}
                 className={`w-full py-3.5 px-6 rounded-2xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${
-                  !user || !isAddressConfirmed
+                  !isAddressConfirmed
                     ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
                     : 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 active:scale-98 text-[#0F1D36] border border-[#D4AF37]/50 shadow-[0_4px_20px_rgba(212,175,55,0.35)]'
                 }`}
@@ -1538,11 +1616,6 @@ export default function CheckoutPage() {
                   <>
                     <Loader2 className="w-4 h-4 animate-spin text-stone-900" />
                     <span>Placing Your Order...</span>
-                  </>
-                ) : !user ? (
-                  <>
-                    <Lock className="w-4 h-4" />
-                    <span>Sign In to Place Order</span>
                   </>
                 ) : !isAddressConfirmed ? (
                   <>

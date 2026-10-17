@@ -15,6 +15,7 @@ import {
   CheckCircle2,
   Clock,
   ChevronRight,
+  ArrowRight,
   ExternalLink,
   Loader2,
   AlertCircle,
@@ -22,12 +23,14 @@ import {
   Star,
   Sparkles,
   MapPin,
+  ShieldCheck,
+  Lock,
 } from 'lucide-react';
 import ProductImage from '@/components/store/ProductImage';
 
 export default function OrdersPage() {
   const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, login } = useAuth();
   const { addToCart } = useCart();
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -35,20 +38,71 @@ export default function OrdersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [timeFilter, setTimeFilter] = useState('3-months');
 
+  // Quick Track state for guest / unauthenticated users
+  const [trackOrderNumber, setTrackOrderNumber] = useState('');
+  const [trackPhone, setTrackPhone] = useState('');
+  const [trackLoading, setTrackLoading] = useState(false);
+  const [trackError, setTrackError] = useState(null);
+  const [trackedOrder, setTrackedOrder] = useState(null);
+
+  // In-line Login state for unauthenticated users
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState(null);
+
   useEffect(() => {
-    document.title = 'Your Orders | Triven Ayurveda';
+    document.title = 'Your Orders & Tracking | Triven Ayurveda';
   }, []);
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login');
+  const handleQuickTrack = async (e) => {
+    e.preventDefault();
+    if (!trackOrderNumber.trim() || !trackPhone.trim()) {
+      setTrackError('Please enter both Order Number and 10-digit Mobile Number.');
+      return;
     }
-  }, [user, authLoading, router]);
+    setTrackLoading(true);
+    setTrackError(null);
+    setTrackedOrder(null);
+    try {
+      const res = await fetch(
+        `/api/orders/track?orderNumber=${encodeURIComponent(trackOrderNumber.trim())}&phone=${encodeURIComponent(
+          trackPhone.trim()
+        )}`
+      );
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.error || 'No matching order found');
+      }
+      setTrackedOrder(json.data);
+    } catch (err) {
+      setTrackError(err.message);
+    } finally {
+      setTrackLoading(false);
+    }
+  };
+
+  const handleInlineOrdersLogin = async (e) => {
+    e.preventDefault();
+    setLoginLoading(true);
+    setLoginError(null);
+    try {
+      await login(loginIdentifier.trim(), loginPassword);
+    } catch (err) {
+      setLoginError(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setLoadingOrders(false);
+      return;
+    }
 
     const fetchOrders = async () => {
+      setLoadingOrders(true);
       try {
         const res = await fetch('/api/orders');
         const json = await res.json();
@@ -65,10 +119,283 @@ export default function OrdersPage() {
     fetchOrders();
   }, [user]);
 
-  if (authLoading || (!user && loadingOrders)) {
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5]">
         <Loader2 className="w-8 h-8 animate-spin text-[#C5A059]" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    const statusMap = {
+      pending: 'Order Placed (Pending)',
+      confirmed: 'Order Confirmed',
+      processing: 'Compounding & Packed',
+      shipped: 'In Transit / Dispatched',
+      delivered: 'Delivered',
+      cancelled: 'Cancelled',
+    };
+
+    return (
+      <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523]">
+        <Navbar />
+
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-1 w-full space-y-8">
+          {/* Triven Breadcrumb */}
+          <div className="flex items-center gap-1.5 text-xs text-stone-500">
+            <Link href="/" className="hover:text-[#C5A059] hover:underline">
+              Home
+            </Link>
+            <span>›</span>
+            <span className="text-stone-800 font-semibold">Track Orders</span>
+          </div>
+
+          {/* Header */}
+          <div className="text-center space-y-2 max-w-xl mx-auto">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-[#C5A059]">
+              Live Shipment & Order Tracker
+            </span>
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+              Track Your Triven Order
+            </h1>
+            <p className="text-xs text-stone-600 leading-relaxed">
+              Apne order ki live tracking dekhne ke liye apna <strong>10-digit Mobile Number</strong> aur <strong>Order Number</strong> dalein, ya apne account mein login karein.
+            </p>
+          </div>
+
+          {/* Quick Track & Login Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            {/* 1. Quick Track by Order ID */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EBE6DD] shadow-luxury space-y-4">
+              <div className="flex items-center gap-2.5 pb-3 border-b border-[#EBE6DD]">
+                <Truck className="w-5 h-5 text-[#C5A059]" />
+                <div>
+                  <h2 className="font-serif font-bold text-base text-stone-900">
+                    Quick Track by Order ID
+                  </h2>
+                  <p className="text-[11px] text-stone-500">
+                    Instant tracking without signing in
+                  </p>
+                </div>
+              </div>
+
+              {trackError && (
+                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{trackError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleQuickTrack} className="space-y-3.5 text-xs">
+                <div>
+                  <label className="block text-stone-800 font-bold mb-1">
+                    Order Number (ऑर्डर नंबर) *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. AYUR-2026-XXXXXX"
+                    value={trackOrderNumber}
+                    onChange={(e) => setTrackOrderNumber(e.target.value)}
+                    className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059] uppercase font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-stone-800 font-bold mb-1">
+                    Mobile Number (मोबाइल नंबर) *
+                  </label>
+                  <div className="relative flex">
+                    <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-stone-300 bg-stone-100 text-stone-600 text-xs font-semibold select-none">
+                      +91
+                    </span>
+                    <input
+                      type="tel"
+                      required
+                      maxLength={10}
+                      inputMode="numeric"
+                      placeholder="9876543210"
+                      value={trackPhone}
+                      onChange={(e) => setTrackPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))}
+                      className="w-full p-2.5 border border-stone-300 rounded-r-xl outline-none focus:border-[#C5A059] text-xs font-medium"
+                    />
+                  </div>
+                  <span className="text-[10px] text-stone-400 mt-1 block">
+                    Vahi mobile number dalein jo order karte waqt dala tha.
+                  </span>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={trackLoading}
+                  className="w-full min-h-[44px] bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 font-bold py-2.5 px-4 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2 active:scale-98 cursor-pointer"
+                >
+                  {trackLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin text-[#D4AF37]" />
+                  ) : (
+                    <>
+                      <span>Track Order Status</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* 2. Sign In to view all orders */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EBE6DD] shadow-luxury space-y-4">
+              <div className="flex items-center gap-2.5 pb-3 border-b border-[#EBE6DD]">
+                <Package className="w-5 h-5 text-[#C5A059]" />
+                <div>
+                  <h2 className="font-serif font-bold text-base text-stone-900">
+                    Sign In with Mobile Number
+                  </h2>
+                  <p className="text-[11px] text-stone-500">
+                    View all your past & current orders together
+                  </p>
+                </div>
+              </div>
+
+              {loginError && (
+                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{loginError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleInlineOrdersLogin} className="space-y-3.5 text-xs">
+                <div>
+                  <label className="block text-stone-800 font-bold mb-1">
+                    Mobile Number or Email *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="10-digit mobile or email"
+                    value={loginIdentifier}
+                    onChange={(e) => setLoginIdentifier(e.target.value)}
+                    className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059]"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-stone-800 font-bold">
+                      Password *
+                    </label>
+                    <span className="text-[10px] text-stone-500 font-normal">
+                      (Default: your 10-digit mobile)
+                    </span>
+                  </div>
+                  <input
+                    type="password"
+                    required
+                    placeholder="Enter password"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    className="w-full p-2.5 border border-stone-300 rounded-xl outline-none focus:border-[#C5A059]"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loginLoading}
+                  className="w-full min-h-[44px] bg-[#FFD814] hover:bg-[#F7CA00] text-stone-900 font-bold py-2.5 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 border border-[#FCD200] cursor-pointer"
+                >
+                  {loginLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin text-stone-900" />
+                  ) : (
+                    <>
+                      <span>Sign In & View All Orders</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+
+                <div className="p-3 bg-amber-50/70 border border-amber-200/60 rounded-xl text-[11px] text-stone-700 leading-relaxed">
+                  📱 <strong>Naye user hain?</strong> Agar aapne bina account ke order kiya tha, to apna 10-digit mobile number hi username aur password mein dalein.
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {/* If tracked order exists, display full details card */}
+          {trackedOrder && (
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-emerald-300 shadow-luxury space-y-6 animate-in fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-100">
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
+                    Live Order Tracking
+                  </span>
+                  <h3 className="font-serif font-bold text-lg text-stone-900">
+                    Order #{trackedOrder.orderNumber}
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Placed on {new Date(trackedOrder.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                    {statusMap[trackedOrder.status] || trackedOrder.status}
+                  </span>
+                  <Link
+                    href={`/orders/${trackedOrder.orderNumber}`}
+                    className="text-xs font-bold bg-[#0F1D36] text-[#D4AF37] px-4 py-1.5 rounded-lg hover:bg-[#162238] transition-colors"
+                  >
+                    Full Details →
+                  </Link>
+                </div>
+              </div>
+
+              {/* Items in Tracked Order */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500">
+                  Formulation Items ({trackedOrder.items?.length || 0})
+                </h4>
+                <div className="divide-y divide-stone-100 border border-stone-100 rounded-xl overflow-hidden">
+                  {trackedOrder.items?.map((item, idx) => (
+                    <div key={idx} className="p-3 sm:p-4 flex items-center justify-between gap-3 bg-stone-50/50">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-white rounded-lg border border-stone-200 overflow-hidden shrink-0 flex items-center justify-center">
+                          <ProductImage src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-xs text-stone-900">{item.name}</p>
+                          <p className="text-[11px] text-stone-500">Qty: {item.quantity} × ₹{item.unitPrice}</p>
+                        </div>
+                      </div>
+                      <span className="font-bold text-xs text-stone-900">₹{item.totalPrice}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Delivery Details */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-2 border-t border-stone-100">
+                <div>
+                  <span className="font-bold text-stone-700 block mb-1">Delivery Address:</span>
+                  <p className="text-stone-600 leading-relaxed">
+                    {trackedOrder.shippingAddress?.fullName}<br />
+                    {trackedOrder.shippingAddress?.addressLine1}, {trackedOrder.shippingAddress?.city}, {trackedOrder.shippingAddress?.state} - {trackedOrder.shippingAddress?.pincode}
+                  </p>
+                </div>
+                <div>
+                  <span className="font-bold text-stone-700 block mb-1">Total Amount & Payment:</span>
+                  <p className="text-stone-900 font-bold text-sm">₹{trackedOrder.totalAmount}</p>
+                  <p className="text-stone-500 uppercase tracking-wider text-[11px]">Method: {trackedOrder.paymentMethod} • Status: {trackedOrder.paymentStatus}</p>
+                  {trackedOrder.shipmentDetails?.trackingNumber && (
+                    <p className="text-emerald-800 font-semibold mt-1">
+                      Carrier: {trackedOrder.shipmentDetails.carrier} (AWB: {trackedOrder.shipmentDetails.trackingNumber})
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+
+        <Footer />
       </div>
     );
   }

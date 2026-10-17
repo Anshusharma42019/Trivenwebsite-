@@ -1,10 +1,11 @@
-import { getCurrentUser } from '@/lib/auth';
+import { getCurrentUser, hashPassword, signToken, setSessionCookie } from '@/lib/auth';
 import { hasPermission, PERMISSIONS } from '@/lib/permissions';
 import { checkoutSchema } from '@/validators/order';
 import { createOrder } from '@/services/orderService';
 import { createRazorpayOrder } from '@/services/paymentService';
 import { connectDB } from '@/lib/mongodb';
 import Order from '@/models/Order';
+import User from '@/models/User';
 import { successResponse, errorResponse } from '@/lib/errors';
 import { logAuditEvent } from '@/lib/logger';
 
@@ -18,12 +19,80 @@ export async function POST(request) {
       return errorResponse(msg, 400);
     }
 
-    const user = await getCurrentUser();
-    if (!user) {
-      return errorResponse('Authentication required. Please sign in to your Triven Ayurveda account to place an order.', 401);
-    }
-
     const orderData = validation.data;
+    const rawPhone = orderData.customerDetails?.phone || orderData.shippingAddress?.phone || '';
+    const cleanPhoneDigits = rawPhone.replace(/[^0-9]/g, '');
+    const cleanPhone = cleanPhoneDigits.length >= 10 ? cleanPhoneDigits.slice(-10) : cleanPhoneDigits;
+    const cleanEmail = orderData.customerDetails?.email && typeof orderData.customerDetails.email === 'string' && orderData.customerDetails.email.trim()
+      ? orderData.customerDetails.email.toLowerCase().trim()
+      : null;
+
+    let user = await getCurrentUser();
+
+    if (!user) {
+      await connectDB();
+      // Check if user already exists with this phone or email
+      const userLookup = [];
+      if (cleanPhone) {
+        userLookup.push({ phone: cleanPhone });
+        userLookup.push({ phone: rawPhone });
+      }
+      if (cleanEmail) {
+        userLookup.push({ email: cleanEmail });
+      }
+
+      let existingUser = userLookup.length > 0 ? await User.findOne({ $or: userLookup }) : null;
+
+      if (existingUser) {
+        user = existingUser;
+      } else {
+        // Auto-create customer account so they can track orders anytime by logging in!
+        // If a password was provided and is at least 6 characters, use it; otherwise default is their 10-digit mobile number
+        const passwordToUse = orderData.password && typeof orderData.password === 'string' && orderData.password.trim().length >= 6
+          ? orderData.password.trim()
+          : (cleanPhone.length >= 6 ? cleanPhone : '123456');
+
+        const hashedPassword = await hashPassword(passwordToUse);
+        const newCustomerData = {
+          name: (orderData.customerDetails?.name || orderData.shippingAddress?.fullName || 'Valued Customer').trim(),
+          password: hashedPassword,
+          role: 'customer',
+          status: 'active',
+          addresses: [
+            {
+              fullName: orderData.shippingAddress.fullName || orderData.customerDetails.name,
+              phone: cleanPhone || orderData.shippingAddress.phone,
+              addressLine1: orderData.shippingAddress.addressLine1,
+              addressLine2: orderData.shippingAddress.addressLine2 || '',
+              landmark: orderData.shippingAddress.landmark || '',
+              city: orderData.shippingAddress.city,
+              state: orderData.shippingAddress.state,
+              pincode: orderData.shippingAddress.pincode,
+              type: orderData.shippingAddress.addressType || 'home',
+              isDefault: true,
+            },
+          ],
+        };
+
+        if (cleanPhone) newCustomerData.phone = cleanPhone;
+        if (cleanEmail) newCustomerData.email = cleanEmail;
+
+        user = await User.create(newCustomerData);
+      }
+
+      // Automatically sign in the customer via session cookie so they can view and track orders immediately
+      try {
+        const token = signToken({
+          userId: user._id,
+          phone: user.phone || '',
+          email: user.email || '',
+          role: user.role || 'customer',
+        });
+        await setSessionCookie(token);
+      } catch (cookieErr) {
+        console.warn('Could not set session cookie during guest checkout:', cookieErr.message);
+      }
+    }
 
     const order = await createOrder({
       ...orderData,
@@ -105,7 +174,16 @@ export async function GET(request) {
         customerFilters.push({ 'customerDetails.email': user.email.trim() });
       }
       if (user.phone && typeof user.phone === 'string' && user.phone.trim()) {
+        const cleanDigits = user.phone.replace(/[^0-9]/g, '');
+        const tenDigit = cleanDigits.length >= 10 ? cleanDigits.slice(-10) : cleanDigits;
         customerFilters.push({ 'customerDetails.phone': user.phone.trim() });
+        customerFilters.push({ 'shippingAddress.phone': user.phone.trim() });
+        if (tenDigit) {
+          customerFilters.push({ 'customerDetails.phone': tenDigit });
+          customerFilters.push({ 'customerDetails.phone': `+91${tenDigit}` });
+          customerFilters.push({ 'shippingAddress.phone': tenDigit });
+          customerFilters.push({ 'shippingAddress.phone': `+91${tenDigit}` });
+        }
       }
       query.$or = customerFilters;
     } else {

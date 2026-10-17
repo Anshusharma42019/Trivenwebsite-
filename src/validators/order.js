@@ -40,6 +40,7 @@ export const checkoutSchema = z.object({
   }),
   paymentMethod: z.enum(['cod', 'razorpay']),
   couponCode: z.string().optional().nullable(),
+  password: z.string().optional().or(z.literal('')).nullable(),
 });
 
 export const updateOrderStatusSchema = z.object({

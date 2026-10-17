@@ -32,14 +32,14 @@ function LoginFormContent() {
   useEffect(() => {
     if (user) {
       if (redirectUrl) {
-        router.push(redirectUrl);
-      } else if (isStaff) {
-        router.push('/admin');
+        window.location.href = redirectUrl;
+      } else if (user.role && user.role !== 'customer') {
+        window.location.href = '/admin';
       } else {
-        router.push('/account');
+        window.location.href = '/account';
       }
     }
-  }, [user, isStaff, redirectUrl, router]);
+  }, [user, redirectUrl]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,15 +67,15 @@ function LoginFormContent() {
           email: cleanEmail || '',
           password: formData.password,
         });
-        router.push(redirectUrl || '/account');
+        window.location.href = redirectUrl || '/account';
       } else {
         const loggedIn = await login(formData.email.trim(), formData.password);
         if (redirectUrl) {
-          router.push(redirectUrl);
-        } else if (loggedIn.role !== 'customer') {
-          router.push('/admin');
+          window.location.href = redirectUrl;
+        } else if (loggedIn && loggedIn.role !== 'customer') {
+          window.location.href = '/admin';
         } else {
-          router.push('/account');
+          window.location.href = '/account';
         }
       }
     } catch (err) {
@@ -179,7 +179,7 @@ function LoginFormContent() {
           ) : (
             <div>
               <label className="block text-xs font-bold text-[#14171F] mb-1">
-                Email or mobile phone number *
+                Mobile phone number or email *
               </label>
               <input
                 type="text"
@@ -187,9 +187,12 @@ function LoginFormContent() {
                 autoComplete="username"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="Mobile number or email"
+                placeholder="10-digit mobile number or email"
                 className="w-full px-3 py-2 sm:py-2.5 border border-stone-300 focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] rounded-xl text-sm outline-none transition-all"
               />
+              <p className="text-[11px] text-stone-500 mt-1">
+                Tip: Enter the 10-digit mobile number you used while placing your order.
+              </p>
             </div>
           )}
 

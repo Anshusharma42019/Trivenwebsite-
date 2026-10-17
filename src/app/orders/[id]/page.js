@@ -69,13 +69,31 @@ export default async function OrderConfirmationPage({ params }) {
           </h1>
 
           <p className="text-xs text-[#6E6761] max-w-md mx-auto leading-relaxed">
-            Your classical formulation order <strong>{order.orderNumber}</strong> has been logged authoritatively in our apothecary system. A confirmation email has been dispatched to <strong>{order.customerDetails.email}</strong>.
+            Your classical formulation order <strong>{order.orderNumber}</strong> has been logged authoritatively in our apothecary system.{' '}
+            {order.customerDetails?.email ? (
+              <>A confirmation notice has been dispatched to <strong>{order.customerDetails.email}</strong>.</>
+            ) : (
+              <>Order notification is linked to your mobile number <strong>+91 {order.customerDetails?.phone}</strong>.</>
+            )}
           </p>
+
+          <div className="p-3 bg-emerald-50/80 border border-emerald-200/70 rounded-xl text-xs text-emerald-950 flex items-center justify-center gap-2 max-w-md mx-auto">
+            <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+            <span>
+              <strong>Track Anytime:</strong> Log in anytime using mobile number <strong>+91 {order.customerDetails?.phone}</strong> to view and track your order.
+            </span>
+          </div>
 
           <div className="pt-2 flex flex-wrap justify-center gap-3">
             <Link
-              href="/products"
+              href="/orders"
               className="min-h-[44px] inline-flex items-center justify-center bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40 text-xs font-bold px-6 py-2.5 rounded-xl hover:bg-[#162238] shadow-md transition-all active:scale-98"
+            >
+              View in Your Orders
+            </Link>
+            <Link
+              href="/products"
+              className="min-h-[44px] inline-flex items-center justify-center bg-white text-stone-800 border border-stone-300 text-xs font-bold px-6 py-2.5 rounded-xl hover:bg-stone-50 shadow-xs transition-all active:scale-98"
             >
               Continue Shopping
             </Link>
