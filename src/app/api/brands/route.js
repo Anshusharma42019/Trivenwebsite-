@@ -4,11 +4,23 @@ import { getCurrentUser } from '@/lib/auth';
 import { hasPermission, PERMISSIONS } from '@/lib/permissions';
 import { successResponse, errorResponse } from '@/lib/errors';
 
+let cachedBrands = null;
+let cachedBrandsTime = 0;
+const BRANDS_TTL = 120 * 1000;
+const CACHE_HEADERS = { 'Cache-Control': 'public, max-age=120, s-maxage=300, stale-while-revalidate=86400' };
+
 export async function GET() {
   try {
+    if (cachedBrands && Date.now() - cachedBrandsTime < BRANDS_TTL) {
+      return successResponse(cachedBrands, 200, 'Success', CACHE_HEADERS);
+    }
+
     await connectDB();
     const brands = await Brand.find({ isActive: true }).sort({ name: 1 }).lean();
-    return successResponse(brands);
+    cachedBrands = brands;
+    cachedBrandsTime = Date.now();
+
+    return successResponse(brands, 200, 'Success', CACHE_HEADERS);
   } catch (error) {
     return errorResponse(error.message, 500);
   }

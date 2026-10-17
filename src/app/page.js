@@ -14,21 +14,34 @@ import { connectDB } from '@/lib/mongodb';
 
 import Category from '@/models/Category';
 
+let cachedHomeCategories = null;
+let cachedHomeCategoriesTime = 0;
+const HOME_CAT_TTL = 120 * 1000;
+
+async function getCachedHomeCategories() {
+  if (cachedHomeCategories && Date.now() - cachedHomeCategoriesTime < HOME_CAT_TTL) {
+    return cachedHomeCategories;
+  }
+  const raw = await Category.find({ isActive: true }).sort({ sortOrder: 1 }).lean();
+  cachedHomeCategories = raw ? JSON.parse(JSON.stringify(raw)) : [];
+  cachedHomeCategoriesTime = Date.now();
+  return cachedHomeCategories;
+}
+
 export const revalidate = 60; // ISR cache revalidation every minute
 
 export default async function HomePage() {
   await connectDB();
 
-  // Fetch live products for deals, bestsellers, and real categories
-  const [bestsellerData, featuredData, rawCategories] = await Promise.all([
+  // Fetch live products for deals, bestsellers, and real categories with in-memory cache
+  const [bestsellerData, featuredData, categories] = await Promise.all([
     getProducts({ limit: 8, bestseller: true }),
     getProducts({ limit: 8, featured: true }),
-    Category.find({ isActive: true }).sort({ sortOrder: 1 }).lean(),
+    getCachedHomeCategories(),
   ]);
 
   const bestsellerProducts = bestsellerData?.products || [];
   const featuredProducts = featuredData?.products || [];
-  const categories = rawCategories ? JSON.parse(JSON.stringify(rawCategories)) : [];
 
   // Combine products for deals carousel
   const dealProducts = [...featuredProducts, ...bestsellerProducts].filter(

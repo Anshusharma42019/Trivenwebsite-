@@ -4,15 +4,27 @@ import { getCurrentUser } from '@/lib/auth';
 import { hasPermission, PERMISSIONS } from '@/lib/permissions';
 import { successResponse, errorResponse } from '@/lib/errors';
 
+let cachedCategories = null;
+let cachedCategoriesTime = 0;
+const CATEGORIES_CACHE_TTL = 120 * 1000; // 2 minutes
+const CACHE_HEADERS = { 'Cache-Control': 'public, max-age=120, s-maxage=300, stale-while-revalidate=86400' };
+
 export async function GET() {
   try {
+    if (cachedCategories && Date.now() - cachedCategoriesTime < CATEGORIES_CACHE_TTL) {
+      return successResponse(cachedCategories, 200, 'Success', CACHE_HEADERS);
+    }
+
     await connectDB();
     const categories = await Category.find({ isActive: true })
       .populate('parentCategory', 'name slug')
       .sort({ sortOrder: 1, name: 1 })
       .lean();
 
-    return successResponse(categories);
+    cachedCategories = categories;
+    cachedCategoriesTime = Date.now();
+
+    return successResponse(categories, 200, 'Success', CACHE_HEADERS);
   } catch (error) {
     return errorResponse(error.message, 500);
   }

@@ -52,6 +52,36 @@ export default function Navbar() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchContainerRef = useRef(null);
 
+  // Dynamic Categories from Database
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // 0ms instant load from sessionStorage cache if available
+    try {
+      const cached = sessionStorage.getItem('ayur_cached_cats');
+      if (cached) {
+        setCategories(JSON.parse(cached));
+      }
+    } catch (e) {}
+
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories');
+        const json = await res.json();
+        if (res.ok && json.data) {
+          const active = json.data.filter((c) => c.isActive !== false);
+          setCategories(active);
+          try {
+            sessionStorage.setItem('ayur_cached_cats', JSON.stringify(active));
+          } catch (e) {}
+        }
+      } catch (e) {
+        console.error('Failed to load categories in navbar', e);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   // Dropdown & Modals state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -287,11 +317,11 @@ export default function Navbar() {
                     className="bg-stone-50 hover:bg-stone-100 text-stone-800 text-xs font-medium px-3 pr-7 py-2.5 rounded-l-md border border-r-0 border-stone-300 focus:outline-none appearance-none cursor-pointer h-full"
                   >
                     <option value="">All Categories</option>
-                    <option value="herbal-supplements">Herbal Supplements</option>
-                    <option value="ayurvedic-oils">Ayurvedic Oils</option>
-                    <option value="digestive-wellness">Digestive Wellness</option>
-                    <option value="skin-and-hair">Skin & Hair</option>
-                    <option value="immunity-rasayana">Immunity Rasayana</option>
+                    {categories.map((cat) => (
+                      <option key={cat._id} value={cat.slug}>
+                        {cat.name}
+                      </option>
+                    ))}
                   </select>
                   <ChevronDown className="w-3.5 h-3.5 text-stone-500 absolute right-2 top-3.5 pointer-events-none" />
                 </div>
@@ -607,21 +637,15 @@ export default function Navbar() {
               Today's Deals
             </Link>
 
-            <Link href="/products?category=herbal-supplements" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden sm:inline-block shrink-0 whitespace-nowrap">
-              Herbal Supplements
-            </Link>
-
-            <Link href="/products?category=ayurvedic-oils" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden md:inline-block shrink-0 whitespace-nowrap">
-              Classical Oils
-            </Link>
-
-            <Link href="/products?category=digestive-wellness" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block shrink-0 whitespace-nowrap">
-              Gut Wellness
-            </Link>
-
-            <Link href="/products?category=immunity-rasayana" className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden lg:inline-block shrink-0 whitespace-nowrap">
-              Rasayanas
-            </Link>
+            {categories.slice(0, 5).map((cat) => (
+              <Link
+                key={cat._id}
+                href={`/products?category=${encodeURIComponent(cat.slug)}`}
+                className="py-1 px-2 rounded hover:bg-stone-200/60 transition-all font-medium text-stone-700 hover:text-stone-950 hidden sm:inline-block shrink-0 whitespace-nowrap"
+              >
+                {cat.name}
+              </Link>
+            ))}
 
             <Link href="/products" className="py-1 px-2 rounded hover:bg-amber-100/50 transition-all font-semibold text-[#8C5E3C] hover:text-[#5C3E28] shrink-0 whitespace-nowrap">
               Consult a Vaidya
@@ -700,41 +724,34 @@ export default function Navbar() {
                   Shop By Category
                 </h3>
                 <div className="space-y-1 font-medium text-stone-700">
-                  <Link href="/products?category=herbal-supplements" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span className="flex items-center gap-2.5">
-                      <Leaf className="w-4 h-4 text-[#C5A059]" />
-                      <span>Herbal Supplements</span>
-                    </span>
-                    <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-                  </Link>
-                  <Link href="/products?category=ayurvedic-oils" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span className="flex items-center gap-2.5">
-                      <Droplet className="w-4 h-4 text-[#C5A059]" />
-                      <span>Classical Oils & Tailas</span>
-                    </span>
-                    <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-                  </Link>
-                  <Link href="/products?category=digestive-wellness" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span className="flex items-center gap-2.5">
-                      <HeartPulse className="w-4 h-4 text-[#C5A059]" />
-                      <span>Digestive & Gut Health</span>
-                    </span>
-                    <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-                  </Link>
-                  <Link href="/products?category=skin-and-hair" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span className="flex items-center gap-2.5">
-                      <Sparkles className="w-4 h-4 text-[#C5A059]" />
-                      <span>Skin & Hair Elixirs</span>
-                    </span>
-                    <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-                  </Link>
-                  <Link href="/products?category=immunity-rasayana" onClick={() => setAllDrawerOpen(false)} className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded">
-                    <span className="flex items-center gap-2.5">
-                      <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
-                      <span>Immunity & Rasayana</span>
-                    </span>
-                    <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-                  </Link>
+                  {categories.length > 0 ? (
+                    categories.map((cat) => (
+                      <Link
+                        key={cat._id}
+                        href={`/products?category=${encodeURIComponent(cat.slug)}`}
+                        onClick={() => setAllDrawerOpen(false)}
+                        className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded"
+                      >
+                        <span className="flex items-center gap-2.5">
+                          <Leaf className="w-4 h-4 text-[#C5A059]" />
+                          <span>{cat.name}</span>
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+                      </Link>
+                    ))
+                  ) : (
+                    <Link
+                      href="/products"
+                      onClick={() => setAllDrawerOpen(false)}
+                      className="flex items-center justify-between py-2 px-2 hover:bg-stone-100 rounded"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <Leaf className="w-4 h-4 text-[#C5A059]" />
+                        <span>All Formulations</span>
+                      </span>
+                      <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+                    </Link>
+                  )}
                 </div>
               </div>
 

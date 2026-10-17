@@ -43,7 +43,9 @@ export const createStaffSchema = z.object({
   password: z.string().min(8, 'Staff passwords must be at least 8 characters'),
   phone: z.string().optional(),
   role: z.enum([
+    'super_admin',
     'admin',
+    'manager',
     'product_manager',
     'inventory_manager',
     'order_manager',

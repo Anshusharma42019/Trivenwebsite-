@@ -39,6 +39,7 @@ const UserSchema = new mongoose.Schema(
       enum: [
         'super_admin',
         'admin',
+        'manager',
         'product_manager',
         'inventory_manager',
         'order_manager',

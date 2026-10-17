@@ -117,18 +117,20 @@ export default function ProductCard({ product, rank = null, badge = null }) {
         </Link>
 
         {/* Ratings and Reviews */}
-        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-600 mb-1">
-          <div className="flex items-center text-amber-500 font-semibold gap-0.5">
-            <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
-            <span>{product.rating || 4.8}</span>
+        {product.numReviews > 0 ? (
+          <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-600 mb-2">
+            <div className="flex items-center text-amber-500 font-semibold gap-0.5">
+              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
+              <span>{Number(product.rating || 5).toFixed(1)}</span>
+            </div>
+            <span className="text-stone-400 text-[10px] sm:text-xs">({product.numReviews})</span>
           </div>
-          <span className="text-stone-400 text-[10px] sm:text-xs">({product.numReviews || 24})</span>
-        </div>
-
-        {/* Amazon Social Proof Tag */}
-        <div className="text-[10px] sm:text-[11px] text-stone-500 mb-2 truncate">
-          <span>500+ bought in past month</span>
-        </div>
+        ) : (
+          <div className="flex items-center gap-1.5 text-[10.5px] text-[#8C5E3C] font-medium mb-2">
+            <Sparkles className="w-3 h-3 text-[#C5A059] shrink-0" />
+            <span>Classical Formulations</span>
+          </div>
+        )}
 
         {/* Amazon Price Box */}
         <div className="mt-auto pt-2 border-t border-stone-100">

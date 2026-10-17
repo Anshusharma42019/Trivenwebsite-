@@ -1,4 +1,4 @@
-import { getProducts } from '@/services/productService';
+import { getProducts, clearProductCache } from '@/services/productService';
 import { getCurrentUser } from '@/lib/auth';
 import { hasPermission, PERMISSIONS } from '@/lib/permissions';
 import { productSchema } from '@/validators/product';
@@ -45,7 +45,11 @@ export async function GET(request) {
       status: status === 'all' ? null : status,
     });
 
-    return successResponse(result);
+    const cacheHeaders = {
+      'Cache-Control': 'public, max-age=60, s-maxage=120, stale-while-revalidate=600',
+    };
+
+    return successResponse(result, 200, 'Success', cacheHeaders);
   } catch (error) {
     return errorResponse(error.message, 500);
   }
@@ -105,6 +109,8 @@ export async function POST(request) {
       entityId: product._id,
       details: { name: product.name, sku: product.sku },
     });
+
+    clearProductCache();
 
     return successResponse(product, 201, 'Product created successfully.');
   } catch (error) {

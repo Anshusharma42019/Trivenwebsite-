@@ -45,6 +45,33 @@ export async function generateMetadata({ searchParams }) {
   };
 }
 
+let cachedFilterCategories = null;
+let cachedFilterCategoriesTime = 0;
+let cachedFilterBrands = null;
+let cachedFilterBrandsTime = 0;
+const FILTER_TTL = 120 * 1000;
+
+async function getCachedFilterData() {
+  const now = Date.now();
+  let catPromise = cachedFilterCategories && (now - cachedFilterCategoriesTime < FILTER_TTL)
+    ? Promise.resolve(cachedFilterCategories)
+    : Category.find({ isActive: true }).sort({ sortOrder: 1 }).lean().then(res => {
+        cachedFilterCategories = res ? JSON.parse(JSON.stringify(res)) : [];
+        cachedFilterCategoriesTime = Date.now();
+        return cachedFilterCategories;
+      });
+
+  let brandPromise = cachedFilterBrands && (now - cachedFilterBrandsTime < FILTER_TTL)
+    ? Promise.resolve(cachedFilterBrands)
+    : Brand.find({ isActive: true }).sort({ name: 1 }).lean().then(res => {
+        cachedFilterBrands = res ? JSON.parse(JSON.stringify(res)) : [];
+        cachedFilterBrandsTime = Date.now();
+        return cachedFilterBrands;
+      });
+
+  return Promise.all([catPromise, brandPromise]);
+}
+
 export default async function ProductsPage({ searchParams }) {
   await connectDB();
   const params = await searchParams;
@@ -59,7 +86,7 @@ export default async function ProductsPage({ searchParams }) {
   const bestseller = params.bestseller === 'true';
   const featured = params.featured === 'true';
 
-  const [productsData, rawCategories, rawBrands] = await Promise.all([
+  const [productsData, [categories, brands]] = await Promise.all([
     getProducts({
       page,
       limit: 16,
@@ -72,15 +99,12 @@ export default async function ProductsPage({ searchParams }) {
       bestseller,
       featured,
     }),
-    Category.find({ isActive: true }).sort({ sortOrder: 1 }).lean(),
-    Brand.find({ isActive: true }).sort({ name: 1 }).lean(),
+    getCachedFilterData(),
   ]);
 
   const products = productsData?.products || [];
   const total = productsData?.total || 0;
   const totalPages = productsData?.totalPages || 1;
-  const categories = rawCategories ? JSON.parse(JSON.stringify(rawCategories)) : [];
-  const brands = rawBrands ? JSON.parse(JSON.stringify(rawBrands)) : [];
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523]">

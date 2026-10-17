@@ -5,15 +5,30 @@ import { hasPermission, PERMISSIONS } from '@/lib/permissions';
 import { successResponse, errorResponse } from '@/lib/errors';
 import { logAuditEvent } from '@/lib/logger';
 
+let cachedBanners = null;
+let cachedBannersTime = 0;
+const BANNERS_TTL = 120 * 1000;
+const CACHE_HEADERS = { 'Cache-Control': 'public, max-age=120, s-maxage=300, stale-while-revalidate=86400' };
+
 export async function GET(request) {
   try {
-    await connectDB();
     const { searchParams } = new URL(request.url);
     const isAdmin = searchParams.get('admin') === 'true';
 
+    if (!isAdmin && cachedBanners && Date.now() - cachedBannersTime < BANNERS_TTL) {
+      return successResponse(cachedBanners, 200, 'Success', CACHE_HEADERS);
+    }
+
+    await connectDB();
     const filter = isAdmin ? {} : { isActive: true };
     const banners = await Banner.find(filter).sort({ sortOrder: 1, createdAt: -1 }).lean();
-    return successResponse(banners);
+
+    if (!isAdmin) {
+      cachedBanners = banners;
+      cachedBannersTime = Date.now();
+    }
+
+    return successResponse(banners, 200, 'Success', CACHE_HEADERS);
   } catch (error) {
     return errorResponse(error.message, 500);
   }

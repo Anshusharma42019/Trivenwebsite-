@@ -173,172 +173,10 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
     return 'general';
   }, [product]);
 
-  // CLINICAL PILES (ARSHA) Q&A DATASET
-  const pilesQAs = [
-    {
-      id: 'p1',
-      topic: 'Bleeding & Pain',
-      q: 'Will Arshohar Vati and Kashisadi Taila stop active rectal bleeding, and in how many days?',
-      a: 'Yes, rectal bleeding typically halts within 3 to 5 days of initiating regular dosage. Nagkesar (Mesua ferrea) and Lodhra contain potent natural hemostatics (Raktastambhaka) that seal inflamed anorectal capillaries. For complete mucosal recovery, continue the recommended 45 to 60-day cycle with spiced buttermilk (Takra).',
-      by: 'Dr. Sudarshan Bhatt, BAMS, MS (Ayurveda Shalya Tantra / Proctology)',
-      date: '14 October 2026',
-      helpful: 84,
-    },
-    {
-      id: 'p2',
-      topic: 'Condition Types',
-      q: 'Is this effective for both bleeding piles (Raktarsha) and dry/swollen external piles lumps (Shushkarsha)?',
-      a: 'Yes, it treats both conditions. For internal bleeding piles, Suran (Elephant Foot Yam) and Nagkesar reduce venous hypertension. For external painful lumps, sentinel piles tags, and prolapse, oral Arshohar Vati combined with topical Kashisadi Taila helps shrink the engorged hemorrhoidal mass without surgery.',
-      by: 'Vaidya K. K. Sharma (Senior Proctology Consultant)',
-      date: '2 October 2026',
-      helpful: 67,
-    },
-    {
-      id: 'p3',
-      topic: 'Diet & Pathya',
-      q: 'What dietary precautions (Pathya & Apathya) are mandatory for permanent piles and fissure relief?',
-      a: 'Pathya (Essential): Drink fresh buttermilk with roasted cumin and rock salt (Saindhava Lavana) after lunch, boiled Suran/Jimikand, ripe papaya, and 3 liters of water. Apathya (Strictly Avoid): Red chili powder, deep-fried snacks, heavy meats, alcohol, and prolonged sitting on hard chairs or straining during defecation.',
-      by: 'Triven Classical Dietetics Council',
-      date: '18 September 2026',
-      helpful: 59,
-    },
-    {
-      id: 'p4',
-      topic: 'Surgical Avoidance',
-      q: 'Can this cure Grade 1 and Grade 2 piles and help avoid surgery (Kshar Sutra or Hemorrhoidectomy)?',
-      a: 'Grade 1 and Grade 2 piles respond exceptionally well, with over 90% of patients achieving complete long-term remission without surgery. For Grade 3 piles where prolapse occurs during defecation, this regimen eliminates pain, inflammation, and size significantly. We also recommend warm water sitz baths twice daily.',
-      by: 'Dr. Harish Sharma, BAMS (Chief Vaidya)',
-      date: '28 August 2026',
-      helpful: 73,
-    },
-    {
-      id: 'p5',
-      topic: 'Fissure Care',
-      q: 'Is this safe and effective for painful anal fissures (cuts with sharp burning sensation)?',
-      a: 'Yes. Anal fissures develop when hard dry stools tear the sensitive anoderm. The Haritaki and Triphala in Arshohar Vati gently lubricate and soften stool consistency, eliminating straining, while Daruharidra (Rasont) and Kashisadi Taila promote rapid mucosal wound healing within 7 to 10 days.',
-      by: 'Vaidya Priyanshu, Ayurvedic Pharmacologist',
-      date: '11 August 2026',
-      helpful: 42,
-    },
-    {
-      id: 'p6',
-      topic: 'Safety & Pregnancy',
-      q: 'Can pregnant or lactating women use this for postpartum hemorrhoids?',
-      a: 'Topical Kashisadi Taila is safe for external lubrication and cooling relief. However, oral Arshohar Vati during active pregnancy should be evaluated by your consulting physician, as colon-contracting herbs require professional medical monitoring during gestation.',
-      by: 'Triven Clinical Advisory Board',
-      date: '25 July 2026',
-      helpful: 38,
-    },
-  ];
-
-  // CLINICAL MIGRAINE (ARDHAVABHEDAKA) Q&A DATASET
-  const migraineQAs = [
-    {
-      id: 'm1',
-      topic: 'Pain Relief',
-      q: 'How does Shirashooladi Vajra Rasa relieve one-sided pulsating migraine (Ardhavabhedaka)?',
-      a: 'In classical Ayurveda, migraine is caused by aggravated Vata-Pitta doshas constricting and dilating cranial micro-vessels (Shirah Srotas). Shirashooladi Vajra Rasa utilizes cooling Godanti Bhasma, Dashamoola, and Shuddha Guggulu to soothe hyperactive cranial nerves, normalize vascular tone, and relieve pulsating temporal pain without causing sedative drowsiness.',
-      by: 'Dr. Priyanshu Shastri, MD (Ayurveda Neuro-Medicine)',
-      date: '15 October 2026',
-      helpful: 92,
-    },
-    {
-      id: 'm2',
-      topic: 'Dosage & Nasya',
-      q: 'How should Cephagraine Nasya Drops be administered during an acute migraine attack?',
-      a: 'Lie down flat on your back with your head tilted slightly backwards. Instill 2 to 3 drops in each nostril and inhale deeply for 1 to 2 minutes while gently massaging your forehead. Classical Nasya therapy delivers volatile herbal terpenes directly through the nasal mucosa to break acute cranial congestion within 10 to 15 minutes.',
-      by: 'Vaidya Radhika Joshi, BAMS (Panchakarma Specialist)',
-      date: '4 October 2026',
-      helpful: 78,
-    },
-    {
-      id: 'm3',
-      topic: 'Preventive Regimen',
-      q: 'Will this reduce monthly migraine frequency, and can it be taken with allopathic painkillers?',
-      a: 'Yes. Unlike allopathic analgesics that only temporarily mask pain, Shirashooladi Vajra Rasa addresses the root vascular and Pitta imbalance, reducing monthly attack frequency by 70-85% over a 60-day course. If you need allopathic SOS medicine during an acute spike, keep a 60-minute gap.',
-      by: 'Dr. Sudhir Vats, BAMS (Senior Consultant)',
-      date: '22 September 2026',
-      helpful: 65,
-    },
-    {
-      id: 'm4',
-      topic: 'Aura & Nausea',
-      q: 'Does it alleviate migraine aura, nausea, and sensitivity to light (photophobia)?',
-      a: 'Yes. Migraine nausea and aura occur when hyper-acidic Pitta reflux irritates cranial nerve channels. Yashtimadhu and Triphala in the formula neutralize systemic acidity, calm gastric nausea, and protect optic nerve channels from light-induced irritation.',
-      by: 'Triven Neuro-Ayurveda Council',
-      date: '10 September 2026',
-      helpful: 51,
-    },
-    {
-      id: 'm5',
-      topic: 'Triggers & Diet',
-      q: 'What lifestyle triggers must be avoided to prevent recurring headache spikes?',
-      a: 'Avoid skipping breakfast (fasting triggers Pitta headaches), harsh afternoon sun without head cover (Suryavarta), prolonged continuous blue light screen strain without breaks, and fermented or stale leftovers. Drink coriander-seed infused water and ensure 7-8 hours of sound sleep.',
-      by: 'Triven Lifestyle & Dinacharya Desk',
-      date: '19 August 2026',
-      helpful: 44,
-    },
-    {
-      id: 'm6',
-      topic: 'Results Timeline',
-      q: 'How long is the recommended course for permanent migraine relief?',
-      a: 'For chronic migraine with a multi-year history, a continuous 60 to 90-day course is recommended. Most patients notice significant reduction in pain intensity and frequency within the first 10 days, followed by long-term remission upon completing the cycle.',
-      by: 'Dr. Harish Sharma, BAMS (Senior Vaidya)',
-      date: '3 August 2026',
-      helpful: 61,
-    },
-  ];
-
-  // GENERAL HERBAL WELLNESS Q&A DATASET
-  const generalQAs = [
-    {
-      id: 'g1',
-      topic: 'Dosage & Intake',
-      q: 'What is the recommended classical dosage and anupana (vehicle)?',
-      a: "Take 1 to 2 measures twice daily with warm cow's milk or lukewarm water after meals, or as directed by an Ayurvedic physician. Milk acts as an optimal anupana (carrier) that enhances Rasayana absorption.",
-      by: 'Dr. Harish Sharma, BAMS (Senior Vaidya)',
-      date: '12 September 2026',
-      helpful: 48,
-    },
-    {
-      id: 'g2',
-      topic: 'Safety & Precautions',
-      q: 'Is this formulation tested for heavy metals and pesticide residues?',
-      a: 'Yes, every batch undergoes strict NABL accredited laboratory chromatography testing for Lead, Cadmium, Arsenic, and Mercury, meeting WHO and AYUSH safety standards. Certificate of Analysis (COA) is enclosed with every order.',
-      by: 'Triven Quality Assurance Lab',
-      date: '28 August 2026',
-      helpful: 35,
-    },
-    {
-      id: 'g3',
-      topic: 'Safety & Precautions',
-      q: 'Can this classical formulation be taken alongside allopathic medicines?',
-      a: 'While classical herbs are 100% natural and non-reactive, we recommend maintaining an interval of 60 to 90 minutes between allopathic medicines and Ayurvedic formulations, and consulting your primary doctor.',
-      by: 'Vaidya Priyanshu, Ayurvedic Pharmacologist',
-      date: '15 July 2026',
-      helpful: 29,
-    },
-    {
-      id: 'g4',
-      topic: 'Results Timeline',
-      q: 'How long does one unit typically last for a daily wellness regimen?',
-      a: 'Based on the standard recommended dosage of 2 units daily, one pack provides a complete 30-day course. For sustained Rasayana revitalization, a 60 to 90-day cycle is traditionally prescribed.',
-      by: 'Triven Vedic Council',
-      date: '4 June 2026',
-      helpful: 19,
-    },
-  ];
-
-  // Pick dataset based on detected product condition
-  const baseQAs = useMemo(() => {
-    if (productCondition === 'piles') return pilesQAs;
-    if (productCondition === 'migraine') return migraineQAs;
-    return generalQAs;
-  }, [productCondition]);
-
+  // Dynamic customer Q&A dataset
   const allQAs = useMemo(() => {
-    return [...userQuestions, ...baseQAs];
-  }, [userQuestions, baseQAs]);
+    return userQuestions;
+  }, [userQuestions]);
 
   // Available topics for filtering
   const availableTopics = useMemo(() => {
@@ -397,6 +235,25 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
   const [reviewComment, setReviewComment] = useState('');
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewMsg, setReviewMsg] = useState(null);
+
+  // Dynamic review statistics calculated from real reviews
+  const totalReviewsCount = reviews.length;
+  const averageRating = useMemo(() => {
+    if (totalReviewsCount === 0) return product.rating || 0;
+    const sum = reviews.reduce((acc, r) => acc + (r.rating || 5), 0);
+    return Number((sum / totalReviewsCount).toFixed(1));
+  }, [reviews, totalReviewsCount, product.rating]);
+
+  const starDistribution = useMemo(() => {
+    if (totalReviewsCount === 0) {
+      return [5, 4, 3, 2, 1].map((s) => ({ star: s, pct: '0%', count: 0 }));
+    }
+    return [5, 4, 3, 2, 1].map((s) => {
+      const count = reviews.filter((r) => Math.round(r.rating) === s).length;
+      const pct = Math.round((count / totalReviewsCount) * 100);
+      return { star: s, pct: `${pct}%`, count };
+    });
+  }, [reviews, totalReviewsCount]);
 
   const discountPercent =
     product.mrp > product.sellingPrice
@@ -793,16 +650,20 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
               </div>
               <div className="grid grid-cols-3 gap-2 py-1 border-b border-stone-100">
                 <span className="text-stone-500">Net Quantity</span>
-                <span className="col-span-2 font-medium text-stone-800">{product.netQuantity || '150g'}</span>
+                <span className="col-span-2 font-medium text-stone-800">{product.netQuantity || 'Standard Pack'}</span>
               </div>
-              <div className="grid grid-cols-3 gap-2 py-1 border-b border-stone-100">
-                <span className="text-stone-500">AYUSH License</span>
-                <span className="col-span-2 font-medium text-stone-800">{product.ayushLicenseNumber || 'AYUSH-UK/L-442/2021'}</span>
-              </div>
-              <div className="grid grid-cols-3 gap-2 py-1 border-b border-stone-100">
-                <span className="text-stone-500">Batch Number</span>
-                <span className="col-span-2 font-medium text-stone-800">{product.batchNumber || 'ASH-2026-B1'}</span>
-              </div>
+              {product.ayushLicenseNumber && (
+                <div className="grid grid-cols-3 gap-2 py-1 border-b border-stone-100">
+                  <span className="text-stone-500">AYUSH License</span>
+                  <span className="col-span-2 font-medium text-stone-800">{product.ayushLicenseNumber}</span>
+                </div>
+              )}
+              {product.batchNumber && (
+                <div className="grid grid-cols-3 gap-2 py-1 border-b border-stone-100">
+                  <span className="text-stone-500">Batch Number</span>
+                  <span className="col-span-2 font-medium text-stone-800">{product.batchNumber}</span>
+                </div>
+              )}
             </div>
 
             {/* About This Item Bullets */}
@@ -1055,13 +916,13 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                 <td className="p-3 font-semibold text-stone-600 bg-stone-50/40">Customer Rating</td>
                 <td className="p-3 border-x border-stone-200 font-bold text-amber-600">
                   <span className="inline-flex items-center gap-1">
-                    <Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" /> {product.rating || 4.9} ({product.numReviews || 24})
+                    <Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" /> {averageRating > 0 ? averageRating : '–'} ({totalReviewsCount})
                   </span>
                 </td>
                 {relatedProducts.slice(0, 2).map((rel) => (
                   <td key={`rating-${rel._id}`} className="p-3 border-r border-stone-200 last:border-r-0 text-amber-600">
                     <span className="inline-flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" /> {rel.rating || 4.8} ({rel.numReviews || 18})
+                      <Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" /> {rel.rating ? Number(rel.rating).toFixed(1) : '–'} ({rel.numReviews || 0})
                     </span>
                   </td>
                 ))}
@@ -1286,16 +1147,24 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
         <div className="space-y-6 divide-y divide-stone-100">
           {filteredQAs.length === 0 ? (
             <div className="py-8 text-center text-xs text-stone-500 space-y-2">
-              <p>No questions matched your query "{qaSearch}".</p>
+              <p>
+                {qaSearch
+                  ? `No questions matched your query "${qaSearch}".`
+                  : 'No customer questions have been asked yet for this formulation.'}
+              </p>
               <button
                 type="button"
                 onClick={() => {
-                  setQaSearch('');
-                  setActiveQaTopic('All');
+                  if (qaSearch) {
+                    setQaSearch('');
+                    setActiveQaTopic('All');
+                  } else {
+                    setAskModalOpen(true);
+                  }
                 }}
                 className="text-xs font-bold text-[#8C5E3C] hover:underline"
               >
-                Clear filters to view all questions
+                {qaSearch ? 'Clear search filter' : 'Be the first to ask our Vaidyas a question'}
               </button>
             </div>
           ) : (
@@ -1352,26 +1221,29 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             <div className="flex items-center gap-3">
               <div className="flex text-amber-500">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-current" />
+                  <Star
+                    key={i}
+                    className={`w-5 h-5 ${
+                      i < Math.round(averageRating) ? 'fill-current text-amber-500' : 'text-stone-300'
+                    }`}
+                  />
                 ))}
               </div>
-              <span className="text-lg font-bold text-stone-900">{product.rating || 4.9} out of 5</span>
+              <span className="text-lg font-bold text-stone-900">
+                {averageRating > 0 ? `${averageRating} out of 5` : 'No ratings yet'}
+              </span>
             </div>
-            <p className="text-xs text-stone-500">{product.numReviews || 24} global ratings</p>
+            <p className="text-xs text-stone-500">
+              {totalReviewsCount > 0 ? `${totalReviewsCount} customer ratings` : '0 global ratings'}
+            </p>
 
             {/* Star Distribution Bars */}
             <div className="space-y-2 pt-2 text-xs">
-              {[
-                { star: 5, pct: '84%' },
-                { star: 4, pct: '12%' },
-                { star: 3, pct: '4%' },
-                { star: 2, pct: '0%' },
-                { star: 1, pct: '0%' },
-              ].map((r) => (
+              {starDistribution.map((r) => (
                 <div key={r.star} className="flex items-center gap-2">
                   <span className="w-12 text-stone-600">{r.star} star</span>
                   <div className="flex-1 bg-stone-100 h-3 rounded-full overflow-hidden border border-stone-200">
-                    <div className="bg-amber-400 h-full rounded-full" style={{ width: r.pct }} />
+                    <div className="bg-amber-400 h-full rounded-full transition-all duration-500" style={{ width: r.pct }} />
                   </div>
                   <span className="w-8 text-right text-stone-500">{r.pct}</span>
                 </div>
@@ -1497,14 +1369,12 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
 
                     {/* Review Helpful Bar */}
                     <div className="flex items-center gap-3 pt-1 text-[11px] text-stone-500 border-t border-stone-200/60">
-                      <span>14 people found this helpful</span>
-                      <span>•</span>
                       <button
-                        onClick={() => handleVoteHelpful(`rev_${i}`)}
+                        onClick={() => handleVoteHelpful(rev._id || `rev_${i}`)}
                         className="inline-flex items-center gap-1 text-stone-700 hover:text-[#8C5E3C] font-semibold border border-stone-300 rounded px-2 py-0.5 hover:bg-white transition-colors"
                       >
                         <ThumbsUp className="w-3 h-3 text-stone-500" />
-                        <span>Helpful ({14 + (helpfulVotes[`rev_${i}`] || 0)})</span>
+                        <span>Helpful ({helpfulVotes[rev._id || `rev_${i}`] || 0})</span>
                       </button>
                       <span>•</span>
                       <button className="text-stone-400 hover:text-stone-600 transition-colors">

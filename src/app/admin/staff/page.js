@@ -22,7 +22,7 @@ export default function AdminStaffPage() {
     email: '',
     password: '',
     phone: '',
-    role: 'product_manager',
+    role: 'order_manager',
   });
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState(null);
@@ -82,7 +82,7 @@ export default function AdminStaffPage() {
       if (!res.ok) throw new Error(json.error || 'Failed to onboard staff');
 
       setModalOpen(false);
-      setFormData({ name: '', email: '', password: '', phone: '', role: 'product_manager' });
+      setFormData({ name: '', email: '', password: '', phone: '', role: 'order_manager' });
       setMsg(`Staff member ${json.data.name} created successfully.`);
       setTimeout(() => setMsg(null), 4000);
       fetchStaff();
@@ -178,7 +178,7 @@ export default function AdminStaffPage() {
                     </td>
                     <td className="py-3 px-4">
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-stone-100 text-stone-800 font-mono">
-                        {s.role.replace('_', ' ')}
+                        {s.role === 'super_admin' ? 'Super Admin' : (s.role === 'admin' || s.role === 'manager') ? 'Manager' : s.role === 'order_manager' ? 'Order Manager' : s.role.replace('_', ' ')}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-stone-500 text-[11px]">
@@ -273,13 +273,9 @@ export default function AdminStaffPage() {
                   onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                   className="w-full p-2.5 rounded-xl border border-stone-300 bg-white"
                 >
-                  <option value="admin">Admin (General Administrator)</option>
-                  <option value="product_manager">Product Manager (Catalog & Ingredients)</option>
-                  <option value="inventory_manager">Inventory Manager (Stock & Batches)</option>
-                  <option value="order_manager">Order Manager (Fulfillment & Tracking)</option>
-                  <option value="customer_support">Customer Support (CRM & Queries)</option>
-                  <option value="marketing_manager">Marketing Manager (Coupons & Banners)</option>
-                  <option value="accountant">Accountant / Finance Viewer</option>
+                  <option value="super_admin">Super Admin</option>
+                  <option value="manager">Manager</option>
+                  <option value="order_manager">Order Manager</option>
                 </select>
               </div>
 

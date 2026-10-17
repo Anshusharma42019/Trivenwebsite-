@@ -1,5 +1,18 @@
 import { successResponse, errorResponse } from '@/lib/errors';
 
+const pincodeCache = new Map([
+  ['110001', { city: 'New Delhi', state: 'Delhi' }],
+  ['110002', { city: 'Central Delhi', state: 'Delhi' }],
+  ['110005', { city: 'Karol Bagh', state: 'Delhi' }],
+  ['122001', { city: 'Gurugram', state: 'Haryana' }],
+  ['201301', { city: 'Noida', state: 'Uttar Pradesh' }],
+  ['400001', { city: 'Mumbai', state: 'Maharashtra' }],
+  ['560001', { city: 'Bengaluru', state: 'Karnataka' }],
+  ['500001', { city: 'Hyderabad', state: 'Telangana' }],
+  ['600001', { city: 'Chennai', state: 'Tamil Nadu' }],
+  ['700001', { city: 'Kolkata', state: 'West Bengal' }],
+]);
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const pincode = searchParams.get('pincode');
@@ -8,13 +21,28 @@ export async function GET(request) {
     return errorResponse('Please provide a valid 6-digit Indian PIN code', 400);
   }
 
+  // 0ms instant cache lookup
+  if (pincodeCache.has(pincode)) {
+    const cached = pincodeCache.get(pincode);
+    return successResponse({
+      pincode,
+      city: cached.city,
+      state: cached.state,
+      serviceable: true,
+      codAvailable: false,
+      onlinePaymentAvailable: true,
+      estimatedDelivery: '4 - 5 business days (4 se 5 din)',
+      message: `Delivery available to ${cached.city}${cached.state ? `, ${cached.state}` : ''} in 4-5 days. Online payment available (COD not available).`,
+    });
+  }
+
   let city = 'India';
   let state = '';
 
   // 1. Try real-time Indian postal PIN code lookup with fast timeout
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
+    const timeout = setTimeout(() => controller.abort(), 800);
     const res = await fetch(`https://api.postalpincode.in/pincode/${pincode}`, {
       signal: controller.signal,
     });
@@ -57,6 +85,11 @@ export async function GET(request) {
   }
 
   const estimatedDays = '4 - 5 business days (4 se 5 din)';
+
+  // Cache resolved pincode in RAM for instant future lookups
+  if (city && city !== 'India') {
+    pincodeCache.set(pincode, { city, state });
+  }
 
   return successResponse({
     pincode,

@@ -10,8 +10,15 @@ import { successResponse, errorResponse } from '@/lib/errors';
 export async function GET() {
   try {
     const user = await getCurrentUser();
-    if (!user || (!hasPermission(user, PERMISSIONS.REPORTS_VIEW) && !hasPermission(user, PERMISSIONS.FINANCE_VIEW))) {
-      return errorResponse('Unauthorized: Missing reports access permissions.', 403);
+    if (!user) {
+      return errorResponse('Authentication required.', 401);
+    }
+
+    const canViewOrders = hasPermission(user, PERMISSIONS.ORDERS_VIEW) || user.role === 'order_manager';
+    const canViewReports = hasPermission(user, PERMISSIONS.REPORTS_VIEW) || hasPermission(user, PERMISSIONS.FINANCE_VIEW) || user.role === 'admin' || user.role === 'manager' || user.role === 'super_admin';
+
+    if (!canViewOrders && !canViewReports) {
+      return errorResponse('Unauthorized: Missing dashboard access permissions.', 403);
     }
 
     await connectDB();
@@ -126,6 +133,7 @@ export async function GET() {
       paymentMethodBreakdown: paymentMethodAgg,
       recentOrders,
       bestsellingProducts,
+      userRole: user.role,
     });
   } catch (error) {
     return errorResponse(error.message, 500);

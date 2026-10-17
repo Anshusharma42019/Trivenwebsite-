@@ -144,13 +144,20 @@ export default function AmazonDealsRow({ products = [], title = "Today's Deals i
                   </Link>
 
                   {/* Ratings */}
-                  <div className="flex items-center gap-1 text-[11px] text-stone-500 mb-1.5">
-                    <div className="flex items-center text-amber-500 font-semibold gap-0.5">
-                      <Star className="w-3 h-3 fill-current" />
-                      <span>{product.rating || 4.8}</span>
+                  {product.numReviews > 0 ? (
+                    <div className="flex items-center gap-1 text-[11px] text-stone-500 mb-1.5">
+                      <div className="flex items-center text-amber-500 font-semibold gap-0.5">
+                        <Star className="w-3 h-3 fill-current" />
+                        <span>{Number(product.rating || 5).toFixed(1)}</span>
+                      </div>
+                      <span>({product.numReviews})</span>
                     </div>
-                    <span>({product.numReviews || 18})</span>
-                  </div>
+                  ) : (
+                    <div className="flex items-center gap-1 text-[10.5px] text-[#8C5E3C] font-medium mb-1.5">
+                      <Sparkles className="w-3 h-3 text-[#C5A059] shrink-0" />
+                      <span>Pure Formulation</span>
+                    </div>
+                  )}
 
                   {/* Amazon Prime Tag */}
                   <div className="text-[10px] sm:text-[11px] flex items-center gap-1 mb-2.5 truncate">

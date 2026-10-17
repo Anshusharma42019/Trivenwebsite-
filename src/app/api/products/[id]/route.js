@@ -5,6 +5,7 @@ import Product from '@/models/Product';
 import StockMovement from '@/models/StockMovement';
 import { successResponse, errorResponse } from '@/lib/errors';
 import { logAuditEvent } from '@/lib/logger';
+import { clearProductCache } from '@/services/productService';
 
 export async function GET(request, { params }) {
   try {
@@ -111,6 +112,8 @@ export async function PUT(request, { params }) {
       },
     });
 
+    clearProductCache();
+
     return successResponse(product, 200, 'Product formulation updated successfully.');
   } catch (error) {
     return errorResponse(error.message, 500);
@@ -150,6 +153,8 @@ export async function DELETE(request, { params }) {
         deletedBy: user.email,
       },
     });
+
+    clearProductCache();
 
     return successResponse(
       null,

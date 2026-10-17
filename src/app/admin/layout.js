@@ -58,6 +58,40 @@ export default function AdminLayout({ children }) {
     }
   }, [user, loading, isBootstrapPage, router]);
 
+  // Role helpers
+  const isSuperAdmin = user?.role === 'super_admin';
+  const isOrderManager = user?.role === 'order_manager';
+  const isManager = user?.role === 'manager' || user?.role === 'admin';
+
+  // Filter navigation items by role
+  const filteredNavItems = ADMIN_NAV_ITEMS.filter((item) => {
+    // 1. Order Manager: Fulfillment Hub, Orders, and Customers
+    if (isOrderManager) {
+      return (
+        item.href === '/admin' ||
+        item.href === '/admin/orders' ||
+        item.href === '/admin/customers'
+      );
+    }
+
+    // 2. Manager: Executive Dashboard, Products & Catalog, Categories & Brands, Inventory & Stock, Orders & Fulfillment, Customers & CRM, Coupons & Promos, Banners & Marketing
+    if (isManager) {
+      return (
+        item.href === '/admin' ||
+        item.href === '/admin/products' ||
+        item.href === '/admin/categories' ||
+        item.href === '/admin/inventory' ||
+        item.href === '/admin/orders' ||
+        item.href === '/admin/customers' ||
+        item.href === '/admin/coupons' ||
+        item.href === '/admin/banners'
+      );
+    }
+
+    // 3. Super Admin: Full master access to all modules
+    return true;
+  });
+
   // Close mobile drawer on Escape and lock body scroll
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -94,11 +128,11 @@ export default function AdminLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen flex bg-stone-100 text-stone-900 font-sans">
-      {/* DESKTOP SIDEBAR */}
-      <aside className="hidden lg:flex flex-col w-64 bg-[#18181B] text-stone-200 border-r border-stone-800 shrink-0">
+    <div className="h-screen w-full flex overflow-hidden bg-stone-100 text-stone-900 font-sans">
+      {/* DESKTOP SIDEBAR - Fixed height, never scrolls with page */}
+      <aside className="hidden lg:flex flex-col w-64 h-screen bg-[#18181B] text-stone-200 border-r border-stone-800 shrink-0 select-none">
         {/* Brand header */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-stone-800">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-stone-800 shrink-0">
           <Link href="/admin" className="flex items-center gap-2.5">
             <img
               src="/logo-icon.png"
@@ -116,9 +150,9 @@ export default function AdminLayout({ children }) {
           </Link>
         </div>
 
-        {/* Navigation list */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          {ADMIN_NAV_ITEMS.map((item) => {
+        {/* Navigation list - Clean, no scrollbar */}
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {filteredNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
 
@@ -140,7 +174,7 @@ export default function AdminLayout({ children }) {
         </nav>
 
         {/* Staff footer */}
-        <div className="p-4 border-t border-stone-800 bg-stone-900/60">
+        <div className="p-4 border-t border-stone-800 bg-stone-900/60 shrink-0">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-stone-800 text-[#C5A059] border border-[#C5A059]/30 flex items-center justify-center font-bold text-xs">
@@ -173,7 +207,7 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* MAIN CONTENT AREA */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         {/* Top Bar */}
         <header className="h-16 bg-white border-b border-stone-200 flex items-center justify-between px-3 sm:px-8 shrink-0">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -185,7 +219,7 @@ export default function AdminLayout({ children }) {
               <Menu className="w-5 h-5" />
             </button>
             <span className="text-xs font-semibold uppercase tracking-wider text-stone-500 truncate max-w-[170px] sm:max-w-none">
-              Apothecary ERP • Super Admin
+              Apothecary ERP • {isSuperAdmin ? 'Super Admin' : isOrderManager ? 'Order Manager' : 'Manager'}
             </span>
           </div>
 
@@ -213,9 +247,9 @@ export default function AdminLayout({ children }) {
               onClick={() => setSidebarOpen(false)}
               aria-hidden="true"
             />
-            <div className="relative w-72 max-w-[85vw] bg-[#18181B] text-white flex flex-col z-50 shadow-2xl animate-in slide-in-from-left duration-200">
+            <div className="relative w-72 max-w-[85vw] h-full bg-[#18181B] text-white flex flex-col z-50 shadow-2xl animate-in slide-in-from-left duration-200">
               {/* Mobile Drawer Header */}
-              <div className="h-16 flex items-center justify-between px-5 border-b border-stone-800 bg-stone-900">
+              <div className="h-16 flex items-center justify-between px-5 border-b border-stone-800 bg-stone-900 shrink-0">
                 <div className="flex items-center gap-2.5">
                   <img
                     src="/logo-icon.png"
@@ -234,8 +268,8 @@ export default function AdminLayout({ children }) {
               </div>
 
               {/* Mobile Navigation List */}
-              <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto touch-scroll">
-                {ADMIN_NAV_ITEMS.map((item) => {
+              <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {filteredNavItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = pathname === item.href;
 

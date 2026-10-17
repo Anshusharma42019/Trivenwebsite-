@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 
-export function successResponse(data, status = 200, message = 'Success') {
+export function successResponse(data, status = 200, message = 'Success', headers = {}) {
   return NextResponse.json(
     {
       success: true,
       message,
       data,
     },
-    { status }
+    { status, headers }
   );
 }
 

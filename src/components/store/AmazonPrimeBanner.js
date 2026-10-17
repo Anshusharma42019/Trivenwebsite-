@@ -1,14 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Sparkles, ShieldCheck, Truck, Check, Copy } from 'lucide-react';
 
 export default function AmazonPrimeBanner() {
   const [copied, setCopied] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+
+  useEffect(() => {
+    const fetchActiveCoupon = async () => {
+      try {
+        const res = await fetch('/api/coupons');
+        const json = await res.json();
+        if (res.ok && json.data && json.data.length > 0) {
+          const active = json.data.find((c) => c.isActive !== false);
+          if (active) setCouponCode(active.code);
+        }
+      } catch (e) {
+        // Silently fallback if no network/coupons
+      }
+    };
+    fetchActiveCoupon();
+  }, []);
 
   const copyCode = () => {
-    navigator.clipboard?.writeText('VEDIC15');
+    if (!couponCode) return;
+    navigator.clipboard?.writeText(couponCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -48,20 +66,22 @@ export default function AmazonPrimeBanner() {
 
           <div className="flex flex-col xs:flex-row lg:flex-col items-stretch xs:items-center lg:items-end gap-3.5 shrink-0 w-full lg:w-auto">
             {/* Coupon Code Pill */}
-            <div className="flex items-center justify-between sm:justify-start gap-3 bg-[#0B1527] border-2 border-[#D4AF37]/60 rounded-2xl p-2.5 px-4 shadow-md w-full xs:w-auto">
-              <div className="text-left">
-                <span className="block text-[10px] text-[#EADFC9] uppercase font-bold tracking-wider">Special Coupon</span>
-                <span className="text-base font-extrabold text-[#F3E5AB] tracking-widest">VEDIC15</span>
+            {couponCode && (
+              <div className="flex items-center justify-between sm:justify-start gap-3 bg-[#0B1527] border-2 border-[#D4AF37]/60 rounded-2xl p-2.5 px-4 shadow-md w-full xs:w-auto">
+                <div className="text-left">
+                  <span className="block text-[10px] text-[#EADFC9] uppercase font-bold tracking-wider">Special Coupon</span>
+                  <span className="text-base font-extrabold text-[#F3E5AB] tracking-widest">{couponCode}</span>
+                </div>
+                <button
+                  onClick={copyCode}
+                  className="ml-2 bg-[#1B2A4A] hover:bg-[#253860] text-white p-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 border border-[#D4AF37]/40 shadow-xs active:scale-95 cursor-pointer shrink-0"
+                  aria-label="Copy Coupon"
+                >
+                  {copied ? <Check className="w-4 h-4 text-[#F3E5AB]" /> : <Copy className="w-4 h-4 text-stone-200" />}
+                  <span className="text-white font-bold">{copied ? 'Copied!' : 'Copy'}</span>
+                </button>
               </div>
-              <button
-                onClick={copyCode}
-                className="ml-2 bg-[#1B2A4A] hover:bg-[#253860] text-white p-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 border border-[#D4AF37]/40 shadow-xs active:scale-95 cursor-pointer shrink-0"
-                aria-label="Copy Coupon"
-              >
-                {copied ? <Check className="w-4 h-4 text-[#F3E5AB]" /> : <Copy className="w-4 h-4 text-stone-200" />}
-                <span className="text-white font-bold">{copied ? 'Copied!' : 'Copy'}</span>
-              </button>
-            </div>
+            )}
 
             <Link
               href="/products"
