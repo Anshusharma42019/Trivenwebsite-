@@ -659,7 +659,7 @@ export default function CheckoutPage() {
       {/* Standard Store Navbar with Mobile Bottom Bar */}
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 flex-1 w-full pb-24 md:pb-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 flex-1 w-full pb-32 lg:pb-8">
         {orderError && (
           <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
@@ -1635,6 +1635,52 @@ export default function CheckoutPage() {
                 <span>100% Genuine Samhita Guarantee • Doorstep Delivery</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile Floating Sticky Checkout Bar (<lg) */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#EBE6DD] px-4 py-2.5 pb-[max(env(safe-area-inset-bottom,0px),12px)] shadow-[0_-4px_25px_rgba(15,29,54,0.12)]">
+          <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
+            <div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-[10px] text-stone-500 uppercase font-semibold">Total:</span>
+                <span className="text-xl font-black text-[#0F1D36] font-serif">
+                  ₹{serverCalculation ? serverCalculation.totalAmount : '...'}
+                </span>
+              </div>
+              <span className="text-[10px] text-emerald-700 font-bold block flex items-center gap-1">
+                <Check className="w-3 h-3 text-emerald-700 shrink-0" />
+                <span>FREE Delivery (4-5 Days)</span>
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={handlePlaceOrder}
+              disabled={placingOrder || calculating || !isAddressConfirmed}
+              className={`min-h-[44px] px-5 sm:px-6 rounded-xl font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0 ${
+                !isAddressConfirmed
+                  ? 'bg-amber-100 text-stone-700 border border-amber-300'
+                  : 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 active:scale-95 text-[#0F1D36] shadow-[0_3px_14px_rgba(212,175,55,0.35)]'
+              }`}
+            >
+              {placingOrder ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-[#0F1D36]" />
+                  <span>Placing...</span>
+                </>
+              ) : !isAddressConfirmed ? (
+                <>
+                  <MapPin className="w-3.5 h-3.5 text-[#8C5E3C]" />
+                  <span>Confirm Address</span>
+                </>
+              ) : (
+                <>
+                  <span>Place Order</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
           </div>
         </div>
       </main>

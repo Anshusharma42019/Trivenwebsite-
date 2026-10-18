@@ -154,13 +154,13 @@ export default function ProductCard({ product, rank = null, badge = null }) {
             <span className="text-stone-400 text-[9.5px] sm:text-[10px]">• AYUSH Certified</span>
           </div>
 
-          {/* Action Buttons: Order Now + Add to Bag */}
-          <div className="space-y-1.5 mt-2">
+          {/* Action Buttons: Order Now + Add to Bag (Side-by-side compact on mobile) */}
+          <div className="flex items-center gap-1.5 mt-2">
             {/* Primary Order Now Button */}
             <button
               onClick={handleOrderNow}
               disabled={isOutOfStock || isOrdering}
-              className={`w-full py-2 px-2.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm min-h-[38px] active:scale-98 ${
+              className={`flex-1 py-2 px-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1 shadow-sm min-h-[38px] active:scale-98 ${
                 isOutOfStock
                   ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
                   : isOrdering
@@ -172,7 +172,7 @@ export default function ProductCard({ product, rank = null, badge = null }) {
               {isOrdering ? (
                 <>
                   <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0F1D36]" />
-                  <span>Proceeding...</span>
+                  <span className="hidden xxs:inline">Proceeding...</span>
                 </>
               ) : isOutOfStock ? (
                 <span>Out of Stock</span>
@@ -188,24 +188,25 @@ export default function ProductCard({ product, rank = null, badge = null }) {
             <button
               onClick={handleAdd}
               disabled={isOutOfStock || added}
-              className={`w-full py-1.5 px-2.5 rounded-xl text-[10.5px] sm:text-[11px] font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 min-h-[32px] ${
+              className={`py-2 px-2.5 rounded-xl text-[10.5px] sm:text-[11px] font-semibold transition-all duration-200 flex items-center justify-center gap-1 min-h-[38px] shrink-0 ${
                 isOutOfStock
                   ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
                   : added
                   ? 'bg-[#0F1D36] text-[#C5A059] border border-[#C5A059]'
                   : 'bg-white hover:bg-stone-50 text-stone-800 border border-stone-200 hover:border-stone-400 active:scale-98'
               }`}
+              title={isOutOfStock ? "Out of Stock" : `Add ${product.name} to Cart`}
               aria-label={isOutOfStock ? "Out of Stock" : `Add ${product.name} to Cart`}
             >
               {added ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-[#C5A059]" />
-                  <span>Added to Bag</span>
+                  <span className="hidden sm:inline">Added</span>
                 </>
               ) : (
                 <>
                   <ShoppingBag className="w-3.5 h-3.5 text-stone-600" />
-                  <span>Add to Bag</span>
+                  <span className="hidden sm:inline">Add</span>
                 </>
               )}
             </button>

@@ -451,8 +451,8 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              {/* User Account Menu (Positioned on the Far Right) */}
-              <div className="hidden xs:flex relative">
+              {/* User Account Menu (Visible across all devices including smartphones) */}
+              <div className="flex relative">
                 {user ? (
                   <div>
                     <button
@@ -469,20 +469,26 @@ export default function Navbar() {
                         </div>
                       </div>
 
-                      {/* Mobile compact luxury avatar */}
-                      <div className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full bg-[#0F1D36] text-[#D4AF37] font-serif font-bold text-xs ring-1 ring-[#D4AF37]/50 shadow-xs">
-                        {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                      {/* Mobile compact luxury avatar with user first name */}
+                      <div className="sm:hidden flex items-center gap-1 py-0.5 px-1 rounded-lg border border-stone-200/80 bg-stone-50/70 hover:bg-stone-100 transition-colors">
+                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#0F1D36] text-[#D4AF37] font-serif font-bold text-[11px] ring-1 ring-[#D4AF37]/50 shadow-xs shrink-0">
+                          {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                        <span className="text-[11px] font-bold text-stone-900 truncate max-w-[50px] leading-tight">
+                          {user.name ? user.name.split(' ')[0] : 'User'}
+                        </span>
+                        <ChevronDown className="w-3 h-3 text-stone-400 shrink-0" />
                       </div>
                     </button>
 
                     {userDropdownOpen && (
                       <div
-                        className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-stone-200 py-2 z-50 text-sm animate-in fade-in"
+                        className="absolute right-0 mt-2 w-56 max-w-[90vw] bg-white rounded-xl shadow-2xl border border-stone-200 py-2 z-50 text-sm animate-in fade-in"
                         onClick={() => setUserDropdownOpen(false)}
                       >
                         <div className="px-4 py-2 border-b border-stone-100">
                           <p className="font-semibold text-stone-900 truncate">{user.name}</p>
-                          <p className="text-xs text-stone-500 truncate">{user.email}</p>
+                          <p className="text-xs text-stone-500 truncate">{user.email || user.phone}</p>
                         </div>
 
                         {isStaff && (
@@ -521,7 +527,7 @@ export default function Navbar() {
 
                         <button
                           onClick={logout}
-                          className="w-full flex items-center gap-2.5 px-4 py-2 text-red-600 hover:bg-red-50 text-left transition-colors"
+                          className="w-full flex items-center gap-2.5 px-4 py-2 text-red-600 hover:bg-red-50 text-left transition-colors cursor-pointer"
                         >
                           <LogOut className="w-4 h-4 text-red-400" />
                           <span>Sign Out</span>
@@ -539,8 +545,9 @@ export default function Navbar() {
                       <span className="text-[10px] text-stone-500">Hello, Sign in</span>
                       <span className="font-bold text-stone-900">Account & Lists</span>
                     </div>
-                    <div className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full bg-stone-100 text-stone-700 hover:text-[#0F1D36]">
-                      <User className="w-4 h-4" />
+                    <div className="sm:hidden flex items-center gap-1 py-1 px-1.5 rounded-lg border border-stone-200/80 bg-stone-50/70 hover:bg-stone-100 text-stone-800">
+                      <User className="w-3.5 h-3.5 text-stone-700" />
+                      <span className="text-[11px] font-bold text-stone-900">Sign in</span>
                     </div>
                   </Link>
                 )}
@@ -550,19 +557,20 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Dedicated Mobile Search & Location Bar (Relative in document flow, scrolls naturally!) */}
-      <div className="md:hidden relative z-20 px-3 sm:px-4 pb-2 pt-1.5 bg-[#0F1D36] border-t border-stone-800/40 shadow-xs">
-        <div className="flex items-center justify-between gap-2 mb-1 text-[11px] text-stone-200">
-          <button
-            onClick={() => setLocationModalOpen(true)}
-            className="flex items-center gap-1.5 hover:text-[#D4AF37] transition-colors text-left py-0.5 truncate max-w-full"
-            aria-label="Choose delivery location"
-          >
-            <MapPin className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
-            <span className="truncate">Deliver to <strong>{user?.name ? (user.name.startsWith('Dr.') ? user.name.split(' ').slice(0, 2).join(' ') : user.name.split(' ')[0]) + ' - ' : ''}{currentCity} {currentPincode}</strong></span>
-            <span className="text-[#D4AF37] font-bold shrink-0">›</span>
-          </button>
-        </div>
+      {/* Dedicated Mobile Search & Location Bar (Relative in document flow, scrolls naturally, hidden in checkout) */}
+      {!pathname.startsWith('/checkout') && (
+        <div className="md:hidden relative z-20 px-3 sm:px-4 pb-2 pt-1.5 bg-[#0F1D36] border-t border-stone-800/40 shadow-xs">
+          <div className="flex items-center justify-between gap-2 mb-1 text-[11px] text-stone-200">
+            <button
+              onClick={() => setLocationModalOpen(true)}
+              className="flex items-center gap-1.5 hover:text-[#D4AF37] transition-colors text-left py-0.5 truncate max-w-full"
+              aria-label="Choose delivery location"
+            >
+              <MapPin className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+              <span className="truncate">Deliver to <strong>{user?.name ? (user.name.startsWith('Dr.') ? user.name.split(' ').slice(0, 2).join(' ') : user.name.split(' ')[0]) + ' - ' : ''}{currentCity} {currentPincode}</strong></span>
+              <span className="text-[#D4AF37] font-bold shrink-0">›</span>
+            </button>
+          </div>
 
         <form onSubmit={handleSearch} className="flex shadow-xs relative">
           <input
@@ -612,6 +620,7 @@ export default function Navbar() {
           </div>
         )}
       </div>
+      )}
 
     {/* Sub-Navigation Bar (Utility Bar with All Drawer Trigger) */}
     <div className="bg-[#FAF8F5] text-stone-700 border-b border-stone-200/80 text-xs">
@@ -965,12 +974,13 @@ export default function Navbar() {
         onLocationSelect={handleMapLocationPicked}
       />
 
-      {/* Mobile Bottom Navigation Bar */}
-      <nav
-        aria-label="Mobile Bottom Navigation"
-        className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#EBE6DD] shadow-[0_-4px_25px_rgba(15,29,54,0.06)] md:hidden pt-2 pb-[max(env(safe-area-inset-bottom,0px),12px)] transform-gpu will-change-transform"
-      >
-        <div className="grid grid-cols-5 items-center justify-around text-center px-1">
+      {/* Mobile Bottom Navigation Bar (Hidden on Product Details & Checkout for distraction-free / dedicated action bar) */}
+      {!(pathname.startsWith('/checkout') || (pathname.startsWith('/products/') && pathname !== '/products')) && (
+        <nav
+          aria-label="Mobile Bottom Navigation"
+          className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#EBE6DD] shadow-[0_-4px_25px_rgba(15,29,54,0.06)] md:hidden pt-2 pb-[max(env(safe-area-inset-bottom,0px),12px)] transform-gpu will-change-transform"
+        >
+          <div className="grid grid-cols-5 items-center justify-around text-center px-1">
           {/* 1. Home */}
           <Link
             href="/"
@@ -1008,8 +1018,8 @@ export default function Navbar() {
                 <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#D4AF37] rounded-full ring-2 ring-white" />
               )}
             </div>
-            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight ${pathname.startsWith('/account') || pathname.startsWith('/login') ? 'font-bold text-[#0F1D36]' : 'font-medium text-[#6E6761]'}`}>
-              You
+            <span className={`text-[11px] leading-tight mt-1.5 tracking-tight truncate max-w-[58px] ${pathname.startsWith('/account') || pathname.startsWith('/login') ? 'font-bold text-[#0F1D36]' : 'font-medium text-[#6E6761]'}`}>
+              {user ? (user.name ? user.name.split(' ')[0] : 'You') : 'You'}
             </span>
           </Link>
 
@@ -1071,6 +1081,7 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
+      )}
     </>
   );
 }

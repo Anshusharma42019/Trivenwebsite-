@@ -416,13 +416,13 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                   </button>
                 </div>
 
-                {/* Previous / Next Angle Arrow Overlays */}
+                {/* Previous / Next Angle Arrow Overlays (visible on mobile, hover on desktop) */}
                 {productImages.length > 1 && (
                   <>
                     <button
                       type="button"
                       onClick={handlePrevImage}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:scale-105 active:scale-95 cursor-pointer"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-md flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10 hover:scale-105 active:scale-95 cursor-pointer"
                       aria-label="Previous angle"
                     >
                       <ChevronLeft className="w-5 h-5" />
@@ -430,11 +430,23 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                     <button
                       type="button"
                       onClick={handleNextImage}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:scale-105 active:scale-95 cursor-pointer"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-md flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10 hover:scale-105 active:scale-95 cursor-pointer"
                       aria-label="Next angle"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
+
+                    {/* Mobile Image Dots */}
+                    <div className="sm:hidden absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-black/40 backdrop-blur-xs px-2 py-1 rounded-full pointer-events-none">
+                      {productImages.map((_, dotIdx) => (
+                        <span
+                          key={dotIdx}
+                          className={`w-1.5 h-1.5 rounded-full transition-all ${
+                            dotIdx === activeImageIndex ? 'w-4 bg-[#D4AF37]' : 'bg-white/60'
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </>
                 )}
 
@@ -1390,26 +1402,26 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
         </div>
       </div>
 
-      {/* Sticky Mobile Add-to-Cart Bar (<lg) */}
-      <div className="lg:hidden fixed bottom-[calc(60px+env(safe-area-inset-bottom,0px))] md:bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-2.5 z-40 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
-        <div className="min-w-0">
+      {/* Sticky Mobile Add-to-Cart & Instant Checkout Bar (<lg) */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200 px-3 sm:px-4 py-2.5 pb-[max(env(safe-area-inset-bottom,0px),12px)] flex items-center justify-between gap-2 shadow-[0_-4px_25px_rgba(15,29,54,0.12)]">
+        <div className="min-w-0 pr-1">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-base font-bold text-stone-900">₹{product.sellingPrice}</span>
+            <span className="text-base sm:text-lg font-bold text-stone-900">₹{product.sellingPrice}</span>
             {product.mrp > product.sellingPrice && (
-              <span className="text-xs text-stone-400 line-through">₹{product.mrp}</span>
+              <span className="text-[11px] text-stone-400 line-through">₹{product.mrp}</span>
             )}
           </div>
-          <span className="text-[11px] font-bold text-[#C5A059] block truncate inline-flex items-center gap-1">
-            <Check className="w-3 h-3 text-[#C5A059] shrink-0" />
-            <span>Prime • 1-Day Delivery</span>
+          <span className="text-[10px] font-bold text-emerald-700 block truncate flex items-center gap-1">
+            <Check className="w-3 h-3 text-emerald-700 shrink-0" />
+            <span>FREE Delivery (4-5 Days)</span>
           </span>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             type="button"
             onClick={() => toggleWishlist(product)}
-            className="w-10 h-10 rounded-xl border border-stone-300 flex items-center justify-center text-stone-600 hover:bg-stone-50 transition-colors"
+            className="w-10 h-10 rounded-xl border border-stone-200 flex items-center justify-center text-stone-600 hover:bg-stone-50 transition-colors"
             aria-label="Save to Wishlist"
           >
             <Heart className={`w-4 h-4 ${isInWishlist(product._id) ? 'fill-current text-red-600' : ''}`} />
@@ -1419,25 +1431,39 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
             type="button"
             onClick={handleAddToCart}
             disabled={isOutOfStock || added}
-            className={`min-h-[44px] px-5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md ${
+            className={`min-h-[42px] px-3 sm:px-3.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               isOutOfStock
-                ? 'bg-stone-200 text-stone-500 cursor-not-allowed'
+                ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
                 : added
                 ? 'bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/40'
-                : 'bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border border-[#D4AF37]/40 active:scale-95'
+                : 'bg-white hover:bg-stone-50 text-stone-800 border border-stone-300 active:scale-95'
             }`}
           >
             {added ? (
               <>
-                <Check className="w-4 h-4" />
-                <span>Added</span>
+                <Check className="w-3.5 h-3.5 text-[#C5A059]" />
+                <span className="hidden xxs:inline">Added</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-4 h-4" />
-                <span>Add to Cart</span>
+                <ShoppingBag className="w-3.5 h-3.5 text-stone-700" />
+                <span className="hidden xxs:inline">Add</span>
               </>
             )}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleBuyNow}
+            disabled={isOutOfStock}
+            className={`min-h-[42px] px-4 sm:px-5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 shadow-md ${
+              isOutOfStock
+                ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                : 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:brightness-105 active:scale-95 text-[#0F1D36] shadow-[0_3px_14px_rgba(212,175,55,0.35)]'
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 fill-[#0F1D36] text-[#0F1D36] shrink-0" />
+            <span>Order Now</span>
           </button>
         </div>
       </div>

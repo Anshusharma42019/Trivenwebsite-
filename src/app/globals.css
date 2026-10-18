@@ -62,6 +62,20 @@ img, video {
   scroll-behavior: smooth;
 }
 
+/* Hide scrollbar while preserving scroll functionality */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Remove grey tap highlights on mobile touch */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
