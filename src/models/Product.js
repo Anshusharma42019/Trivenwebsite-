@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { AYURVEDIC_DOSAGE_FORMS } from '../lib/constants.js';
 
 const ProductSchema = new mongoose.Schema(
   {
@@ -87,7 +88,7 @@ const ProductSchema = new mongoose.Schema(
     // Ayurvedic Attributes & Specs
     dosageForm: {
       type: String,
-      enum: ['Churna (Powder)', 'Vati/Gutika (Tablet)', 'Taila (Oil)', 'Avaleha (Paste)', 'Kwath/Decoction', 'Asava/Arishta', 'Capsule', 'Ghruta (Ghee)', 'Syrup', 'External/Lepa', 'Other'],
+      trim: true,
       default: 'Churna (Powder)',
     },
     netQuantity: {
@@ -185,5 +186,10 @@ ProductSchema.index({
 ProductSchema.index({ category: 1, status: 1, sellingPrice: 1 });
 ProductSchema.index({ status: 1, isFeatured: 1 });
 ProductSchema.index({ status: 1, isBestseller: 1 });
+
+// Allow fresh compilation when schema updates in dev environment
+if (mongoose.models && mongoose.models.Product) {
+  delete mongoose.models.Product;
+}
 
 export default mongoose.models.Product || mongoose.model('Product', ProductSchema);

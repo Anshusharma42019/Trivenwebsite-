@@ -21,6 +21,7 @@ import {
   ChevronRight,
   Camera,
 } from 'lucide-react';
+import { AYURVEDIC_DOSAGE_FORMS } from '@/lib/constants';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
@@ -634,13 +635,14 @@ export default function AdminProductsPage() {
                     onChange={(e) => setFormData({ ...formData, dosageForm: e.target.value })}
                     className="w-full p-2.5 rounded-xl border border-stone-300 bg-white"
                   >
-                    <option value="Churna (Powder)">Churna (Powder)</option>
-                    <option value="Vati/Gutika (Tablet)">Vati/Gutika (Tablet)</option>
-                    <option value="Taila (Oil)">Taila (Oil)</option>
-                    <option value="Avaleha (Paste)">Avaleha (Paste)</option>
-                    <option value="Capsule">Capsule</option>
-                    <option value="Syrup">Syrup</option>
-                    <option value="Other">Other</option>
+                    {AYURVEDIC_DOSAGE_FORMS.map((form) => (
+                      <option key={form} value={form}>
+                        {form}
+                      </option>
+                    ))}
+                    {formData.dosageForm && !AYURVEDIC_DOSAGE_FORMS.includes(formData.dosageForm) && (
+                      <option value={formData.dosageForm}>{formData.dosageForm}</option>
+                    )}
                   </select>
                 </div>
 

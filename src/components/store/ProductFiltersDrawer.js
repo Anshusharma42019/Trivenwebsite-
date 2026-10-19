@@ -12,6 +12,7 @@ import {
   Check,
   ChevronDown,
 } from 'lucide-react';
+import { AYURVEDIC_DOSAGE_FORMS } from '@/lib/constants';
 
 export default function ProductFiltersDrawer({
   categories = [],
@@ -280,23 +281,13 @@ export default function ProductFiltersDrawer({
         <h4 className="font-serif font-bold text-sm text-[#14171F] mb-2">
           Dosage Form
         </h4>
-        <div className="space-y-1 text-xs text-[#6E6761]">
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
-            <span>Churna (Powder)</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
-            <span>Taila (Oil Infusion)</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
-            <span>Vati / Gutika (Tablets)</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
-            <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
-            <span>Avaleha (Paste / Resin)</span>
-          </label>
+        <div className="space-y-1 text-xs text-[#6E6761] max-h-48 overflow-y-auto pr-1">
+          {AYURVEDIC_DOSAGE_FORMS.map((df) => (
+            <label key={df} className="flex items-center gap-2 cursor-pointer hover:text-[#0F1D36] py-0.5">
+              <input type="checkbox" defaultChecked className="rounded text-[#0F1D36]" />
+              <span>{df}</span>
+            </label>
+          ))}
         </div>
       </div>
     </div>

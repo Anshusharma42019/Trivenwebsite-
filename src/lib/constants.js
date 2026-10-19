@@ -37,5 +37,26 @@ export const INDIAN_STATES = [
   'West Bengal',
 ];
 
+export const AYURVEDIC_DOSAGE_FORMS = [
+  'Churna (Powder)',
+  'Vati / Gutika (Tablet)',
+  'Ghan Vati (Extract Tablet)',
+  'Kwath / Kashayam (Decoction)',
+  'Kadha (Herbal Decoction)',
+  'Avaleha / Lehyam (Paste)',
+  'Asava / Arishta (Fermented Liquid)',
+  'Arka (Distillate)',
+  'Oil',
+  'Ghrita (Medicated Ghee)',
+  'Churna Capsule',
+  'Capsule',
+  'Syrup',
+  'Vati / Tablet',
+  'Lepa (External Paste)',
+  'Malham (Ointment)',
+  'Eye / Ear Drops',
+  'Other',
+];
+
 
 
