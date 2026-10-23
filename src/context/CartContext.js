@@ -32,6 +32,21 @@ export function CartProvider({ children }) {
   }, [items, isLoaded]);
 
   const addToCart = (product, quantity = 1) => {
+    // Track Meta AddToCart event for Meta Ads
+    try {
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'AddToCart', {
+          content_name: product.name,
+          content_ids: [product._id],
+          content_type: 'product',
+          value: (product.sellingPrice || product.price || 0) * quantity,
+          currency: 'INR',
+        });
+      }
+    } catch (e) {
+      // ignore tracking errors
+    }
+
     setItems((prev) => {
       const existing = prev.find((i) => i.productId === product._id);
       if (existing) {

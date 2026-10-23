@@ -49,6 +49,23 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
   const { user } = useAuth();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
+  // Track Meta ViewContent for Meta Ads Retargeting
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.fbq && product) {
+      try {
+        window.fbq('track', 'ViewContent', {
+          content_name: product.name,
+          content_ids: [product._id],
+          content_type: 'product',
+          value: product.sellingPrice || product.price || 0,
+          currency: 'INR',
+        });
+      } catch (e) {
+        // ignore tracking errors
+      }
+    }
+  }, [product]);
+
   const productImages = useMemo(() => {
     let list = [];
     if (Array.isArray(product?.images) && product.images.length > 0) {

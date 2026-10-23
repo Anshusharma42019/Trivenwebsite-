@@ -124,7 +124,17 @@ export default function CheckoutPage() {
   useEffect(() => {
     document.title = 'Triven Ayurveda Checkout - Select Address & Payment';
     loadRazorpayScript();
-  }, []);
+
+    // Track Meta InitiateCheckout event for Ads
+    if (typeof window !== 'undefined' && window.fbq && items && items.length > 0) {
+      try {
+        window.fbq('track', 'InitiateCheckout', {
+          num_items: items.length,
+          currency: 'INR',
+        });
+      } catch (e) {}
+    }
+  }, [items]);
 
   // Auto-populate from user if logged in
   useEffect(() => {
@@ -410,6 +420,24 @@ export default function CheckoutPage() {
     }
   };
 
+  // Helper to fire Meta Pixel Purchase event for Meta Ads
+  const trackMetaPurchase = (order) => {
+    try {
+      if (typeof window !== 'undefined' && window.fbq && order) {
+        window.fbq('track', 'Purchase', {
+          value: order.totalAmount || order.payableAmount || 0,
+          currency: 'INR',
+          content_type: 'product',
+          content_ids: items.map((i) => i.productId),
+          num_items: items.length,
+          order_id: order.orderNumber,
+        });
+      }
+    } catch (e) {
+      // ignore tracking errors
+    }
+  };
+
   // Place Order handler (Fast Checkout for both New and Existing Users)
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
@@ -496,6 +524,7 @@ export default function CheckoutPage() {
           if (!verifyRes.ok) {
             throw new Error(verifyJson.error || 'Payment verification failed');
           }
+          trackMetaPurchase(createdOrder);
           clearCart();
           router.push(`/orders/${createdOrder.orderNumber}`);
           return;
@@ -536,6 +565,7 @@ export default function CheckoutPage() {
                 throw new Error(verifyJson.error || 'Payment signature verification failed.');
               }
 
+              trackMetaPurchase(createdOrder);
               clearCart();
               if (refreshUser) {
                 try {
@@ -607,6 +637,7 @@ export default function CheckoutPage() {
       }
 
       // Cash on Delivery direct confirmation
+      trackMetaPurchase(createdOrder);
       clearCart();
       if (refreshUser) {
         try {
