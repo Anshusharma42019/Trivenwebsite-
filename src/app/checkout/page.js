@@ -420,18 +420,34 @@ export default function CheckoutPage() {
     }
   };
 
-  // Helper to fire Meta Pixel Purchase event for Meta Ads
+  // Helper to fire Meta Pixel Purchase event for Meta Ads (fires ONLY on verified Order Success)
   const trackMetaPurchase = (order) => {
     try {
       if (typeof window !== 'undefined' && window.fbq && order) {
-        window.fbq('track', 'Purchase', {
-          value: order.totalAmount || order.payableAmount || 0,
-          currency: 'INR',
-          content_type: 'product',
-          content_ids: items.map((i) => i.productId),
-          num_items: items.length,
-          order_id: order.orderNumber,
-        });
+        // Dynamic variable: actual order total amount calculated authoritatively
+        const orderValue = Number(order.totalAmount || order.payableAmount || 0);
+        const orderItems = order.items && order.items.length > 0 ? order.items : items;
+
+        window.fbq(
+          'track',
+          'Purchase',
+          {
+            value: orderValue, // Dynamic Order Total Amount (no hardcoded values)
+            currency: 'INR',
+            content_type: 'product',
+            content_ids: orderItems.map((i) => String(i.productId || i.sku || i._id)),
+            contents: orderItems.map((i) => ({
+              id: String(i.productId || i.sku || i._id),
+              quantity: Number(i.quantity || 1),
+              item_price: Number(i.unitPrice || i.price || 0),
+            })),
+            num_items: orderItems.reduce((acc, i) => acc + (Number(i.quantity) || 1), 0),
+            order_id: String(order.orderNumber),
+          },
+          {
+            eventID: String(order.orderNumber), // Matches backend CAPI for 100% deduplication
+          }
+        );
       }
     } catch (e) {
       // ignore tracking errors

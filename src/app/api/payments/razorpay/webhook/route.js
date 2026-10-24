@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/mongodb';
 import Order from '@/models/Order';
 import { logAuditEvent } from '@/lib/logger';
 import { NextResponse } from 'next/server';
+import { sendMetaPurchaseCAPI } from '@/services/metaPixelService';
 
 export async function POST(request) {
   try {
@@ -47,6 +48,16 @@ export async function POST(request) {
           note: `Webhook verified payment capture. ID: ${razorpayPaymentId}`,
         });
         await order.save();
+
+        // Trigger Meta Pixel Backend Purchase Event
+        try {
+          await sendMetaPurchaseCAPI(order, {
+            ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '',
+            userAgent: request.headers.get('user-agent') || '',
+          });
+        } catch (metaErr) {
+          console.error('Meta Webhook tracking error:', metaErr.message);
+        }
 
         await logAuditEvent({
           userId: order.user || null,

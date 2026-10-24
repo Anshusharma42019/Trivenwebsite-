@@ -128,6 +128,15 @@ const OrderSchema = new mongoose.Schema(
       paidAt: Date,
       failureReason: String,
     },
+    // Meta (Facebook) Ads Conversion Tracking
+    metaPurchaseTracked: {
+      type: Boolean,
+      default: false,
+    },
+    metaPurchaseTrackedAt: {
+      type: Date,
+      default: null,
+    },
     // Logistics & Shipping
     shipmentDetails: {
       carrier: { type: String, default: 'Standard Express' },

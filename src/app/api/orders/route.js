@@ -8,6 +8,7 @@ import Order from '@/models/Order';
 import User from '@/models/User';
 import { successResponse, errorResponse } from '@/lib/errors';
 import { logAuditEvent } from '@/lib/logger';
+import { sendMetaPurchaseCAPI } from '@/services/metaPixelService';
 
 export async function POST(request) {
   try {
@@ -134,6 +135,18 @@ export async function POST(request) {
         paymentMethod: order.paymentMethod,
       },
     });
+
+    // For Cash on Delivery orders, order is confirmed immediately on backend
+    if (order.paymentMethod === 'cod') {
+      try {
+        await sendMetaPurchaseCAPI(order, {
+          ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '',
+          userAgent: request.headers.get('user-agent') || '',
+        });
+      } catch (metaErr) {
+        console.error('Meta COD Purchase tracking error:', metaErr.message);
+      }
+    }
 
     return successResponse(
       {

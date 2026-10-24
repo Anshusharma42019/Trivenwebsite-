@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/mongodb';
 import Order from '@/models/Order';
 import { successResponse, errorResponse } from '@/lib/errors';
 import { logAuditEvent } from '@/lib/logger';
+import { sendMetaPurchaseCAPI } from '@/services/metaPixelService';
 
 export async function POST(request) {
   try {
@@ -47,6 +48,16 @@ export async function POST(request) {
     });
 
     await order.save();
+
+    // Trigger Meta Pixel Backend Purchase Event (fires only on confirmed real payment with dynamic total amount)
+    try {
+      await sendMetaPurchaseCAPI(order, {
+        ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '',
+        userAgent: request.headers.get('user-agent') || '',
+      });
+    } catch (metaErr) {
+      console.error('Meta Purchase tracking error:', metaErr.message);
+    }
 
     await logAuditEvent({
       userId: order.user || null,
