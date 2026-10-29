@@ -269,6 +269,28 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Top High-Conversion Announcement Strip */}
+      <div className="bg-[#0F1D36] text-[#FAF8F5] text-[11px] sm:text-xs py-1.5 px-3 border-b border-[#D4AF37]/30 select-none">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 overflow-hidden truncate">
+            <span className="inline-flex items-center gap-1 bg-[#D4AF37]/25 text-[#D4AF37] px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider shrink-0 uppercase">
+              <Sparkles className="w-3 h-3" />
+              <span>COD AVAILABLE</span>
+            </span>
+            <span className="truncate font-medium text-stone-200">
+              🌿 <strong>Cash on Delivery (COD) उपलब्ध है</strong> • पूरे भारत में 4-5 दिन में मुफ़्त होम डिलीवरी (Free Pan-India Delivery)
+            </span>
+          </div>
+          <Link
+            href="/order-now"
+            className="hidden sm:inline-flex items-center gap-1.5 bg-[#D4AF37] hover:bg-[#F3E5AB] text-[#0F1D36] font-bold text-[11px] px-3 py-0.5 rounded-full transition-all shrink-0 shadow-xs"
+          >
+            <span>झटपट COD आर्डर</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+      </div>
+
       {/* Slim Luxury Navigation Bar (Sticky across all devices) */}
       <header className="sticky top-0 z-30 shadow-xs bg-white/95 backdrop-blur-md text-stone-900 border-b border-stone-200/80">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -656,8 +678,9 @@ export default function Navbar() {
               </Link>
             ))}
 
-            <Link href="/products" className="py-1 px-2 rounded hover:bg-amber-100/50 transition-all font-semibold text-[#8C5E3C] hover:text-[#5C3E28] shrink-0 whitespace-nowrap">
-              Consult a Vaidya
+            <Link href="/order-now" className="py-1 px-2.5 rounded-full bg-[#0F1D36] text-[#D4AF37] border border-[#D4AF37]/50 hover:bg-[#162238] transition-all font-bold text-xs shrink-0 whitespace-nowrap flex items-center gap-1 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span>COD आर्डर / मुफ़्त परामर्श</span>
             </Link>
           </div>
 

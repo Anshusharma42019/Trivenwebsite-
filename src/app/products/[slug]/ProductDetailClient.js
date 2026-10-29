@@ -42,6 +42,8 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import ProductImage from '@/components/store/ProductImage';
+import QuickCODForm from '@/components/store/QuickCODForm';
+import ProductInlineCallbackForm from '@/components/store/ProductInlineCallbackForm';
 
 export default function ProductDetailClient({ product, initialReviews = [], relatedProducts = [] }) {
   const router = useRouter();
@@ -99,6 +101,7 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
   const [zoomCoords, setZoomCoords] = useState({ x: 50, y: 50 });
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
+  const [isQuickCODModalOpen, setIsQuickCODModalOpen] = useState(false);
 
   const handleShare = async () => {
     if (typeof window === 'undefined') return;
@@ -804,6 +807,16 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                   <span>Order Now • Instant Checkout</span>
                 </button>
 
+                {/* 1-Click Quick COD Order Button (Name, Number, Bimari) */}
+                <button
+                  type="button"
+                  onClick={() => setIsQuickCODModalOpen(true)}
+                  className="w-full min-h-[44px] py-2.5 px-4 rounded-xl text-xs font-bold bg-[#0F1D36] hover:bg-[#162238] text-[#D4AF37] border-2 border-[#D4AF37]/60 transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                >
+                  <Banknote className="w-4 h-4 text-emerald-400" />
+                  <span>झटपट COD आर्डर (सिर्फ नाम व नंबर)</span>
+                </button>
+
                 {/* Amazon 'Add to Wish List' Button */}
                 <button
                   onClick={() => toggleWishlist(product)}
@@ -833,15 +846,23 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
                 <div className="pt-1.5 space-y-1">
                   <div className="text-emerald-700 font-semibold flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Online Payment & Delivery Available (4-5 Days)</span>
+                    <span>Cash on Delivery (COD) Available • Pay at Doorstep</span>
                   </div>
-                  <div className="text-stone-500 text-[10px] flex items-center gap-1.5">
-                    <AlertCircle className="w-3.5 h-3.5 text-stone-500 shrink-0" />
-                    <span>COD Not Available • Secure Prepaid (UPI, Cards, GPay, PhonePe)</span>
+                  <div className="text-stone-600 text-[10px] flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-stone-500 shrink-0" />
+                    <span>Pan-India Free Delivery (4-5 Days) • Online UPI / Cards also accepted</span>
                   </div>
                 </div>
               </div>
 
+            </div>
+
+            {/* Direct High-Converting 2-Field Callback Form Directly Under Product Buy Box */}
+            <div className="mt-4">
+              <ProductInlineCallbackForm
+                product={product}
+                productCondition={productCondition}
+              />
             </div>
           </div>
 
@@ -1567,6 +1588,38 @@ export default function ProductDetailClient({ product, initialReviews = [], rela
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* 1-Click Quick COD Order Modal */}
+      {isQuickCODModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs animate-in fade-in">
+          <div
+            className="fixed inset-0"
+            onClick={() => setIsQuickCODModalOpen(false)}
+          />
+          <div className="relative z-10 w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <button
+              onClick={() => setIsQuickCODModalOpen(false)}
+              className="absolute right-4 top-4 z-20 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center transition-colors cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <QuickCODForm
+              productName={product.name}
+              initialDisease={
+                productCondition === 'piles'
+                  ? 'बवासीर / Piles (मस्सा)'
+                  : productCondition === 'migraine'
+                  ? 'माइग्रेन / Migraine (सिरदर्द)'
+                  : ''
+              }
+              source="product_quick_order_modal"
+              compact={true}
+              onSuccess={() => {}}
+            />
+          </div>
         </div>
       )}
     </div>

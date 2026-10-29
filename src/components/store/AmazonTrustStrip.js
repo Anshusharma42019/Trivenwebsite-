@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShieldCheck, Truck, Award, RefreshCw, CheckCircle2, Sparkles } from 'lucide-react';
+import { ShieldCheck, Truck, Award, RefreshCw, CheckCircle2, Sparkles, Banknote } from 'lucide-react';
 
 export default function AmazonTrustStrip() {
   return (
@@ -47,10 +47,10 @@ export default function AmazonTrustStrip() {
 
           <div className="flex flex-col items-center group">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0F1D36] to-[#1B2A4A] text-[#C5A059] border border-[#C5A059]/40 shadow-sm flex items-center justify-center mb-2.5 sm:mb-3 group-hover:scale-108 group-hover:border-[#C5A059] transition-all duration-300">
-              <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 text-[#C5A059]" />
+              <Banknote className="w-5 h-5 sm:w-6 sm:h-6 text-[#C5A059]" />
             </div>
-            <h4 className="text-xs sm:text-sm font-bold text-stone-900 font-serif">100% Secure Online Payment</h4>
-            <p className="text-[10px] sm:text-[11px] text-stone-500 mt-0.5 sm:mt-1 leading-relaxed">Fast instant payment via UPI, Google Pay, PhonePe & Cards</p>
+            <h4 className="text-xs sm:text-sm font-bold text-stone-900 font-serif">Cash on Delivery (COD) Available</h4>
+            <p className="text-[10px] sm:text-[11px] text-stone-500 mt-0.5 sm:mt-1 leading-relaxed">Pay cash at your doorstep or pay online via UPI, PhonePe, GPay & Cards</p>
           </div>
         </div>
       </div>

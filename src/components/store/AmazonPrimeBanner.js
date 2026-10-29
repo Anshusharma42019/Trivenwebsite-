@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sparkles, ShieldCheck, Truck, Check, Copy } from 'lucide-react';
+import { Sparkles, ShieldCheck, Truck, Check, Copy, Banknote } from 'lucide-react';
 
 export default function AmazonPrimeBanner() {
   const [copied, setCopied] = useState(false);
@@ -58,8 +58,12 @@ export default function AmazonPrimeBanner() {
                 <span className="text-white font-semibold">Delivery in 4-5 Days (4 se 5 Din)</span>
               </div>
               <div className="flex items-center gap-2 font-medium bg-[#0B1527]/80 text-white px-3.5 py-1.5 rounded-lg border border-[#D4AF37]/35 shadow-xs">
+                <Banknote className="w-4 h-4 text-[#F3E5AB] shrink-0" />
+                <span className="text-white font-semibold">Cash on Delivery (COD) Available</span>
+              </div>
+              <div className="flex items-center gap-2 font-medium bg-[#0B1527]/80 text-white px-3.5 py-1.5 rounded-lg border border-[#D4AF37]/35 shadow-xs">
                 <ShieldCheck className="w-4 h-4 text-[#F3E5AB] shrink-0" />
-                <span className="text-white font-semibold">Zero Minimum Order for Prime</span>
+                <span className="text-white font-semibold">100% Genuine Samhita Guarantee</span>
               </div>
             </div>
           </div>

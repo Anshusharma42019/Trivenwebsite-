@@ -16,7 +16,7 @@ const StoreSettingsSchema = new mongoose.Schema(
     },
     supportPhone: {
       type: String,
-      default: '+91 98765 43210',
+      default: '+91 73095 23829',
     },
     address: {
       type: String,
@@ -40,7 +40,7 @@ const StoreSettingsSchema = new mongoose.Schema(
     },
     codEnabled: {
       type: Boolean,
-      default: false, // Cash on delivery disabled by default
+      default: true, // Cash on delivery enabled by default
     },
     codFee: {
       type: Number,

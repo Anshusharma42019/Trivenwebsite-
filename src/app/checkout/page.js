@@ -1423,29 +1423,39 @@ export default function CheckoutPage() {
                       </div>
                     </label>
 
-                    {/* COD (NOT AVAILABLE) */}
-                    <div className="flex items-start gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/70 opacity-75 cursor-not-allowed">
+                    {/* COD (AVAILABLE) */}
+                    <label
+                      className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+                        paymentMethod === 'cod'
+                          ? 'border-[#0F1D36] bg-amber-50/50 shadow-xs ring-2 ring-[#0F1D36]'
+                          : 'border-stone-200 hover:bg-stone-50'
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="paymentMethod"
                         value="cod"
-                        disabled
-                        checked={false}
-                        className="mt-1 cursor-not-allowed"
+                        checked={paymentMethod === 'cod'}
+                        onChange={() => setPaymentMethod('cod')}
+                        className="mt-1 accent-[#0F1D36]"
                       />
                       <div>
-                        <div className="flex items-center gap-2 font-bold text-xs text-stone-600">
-                          <Banknote className="w-4 h-4 text-stone-400" />
+                        <div className="flex items-center gap-2 font-bold text-xs text-stone-900">
+                          <Banknote className="w-4 h-4 text-emerald-600" />
                           <span>Cash on Delivery (COD)</span>
-                          <span className="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 border border-red-200">
-                            Not Available
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                            Available • Pay at Doorstep
                           </span>
                         </div>
-                        <p className="text-[11px] text-stone-500 mt-1">
-                          Cash on Delivery is currently unavailable. Please select Online Payment above to place your order with free delivery.
+                        <p className="text-[11px] text-stone-600 mt-1">
+                          Pay in cash or UPI directly when the courier arrives at your doorstep. No advance payment required.
                         </p>
+                        <div className="mt-2 text-[10px] text-emerald-800 font-semibold flex items-center gap-1">
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Zero extra COD charges • 100% Free Pan-India Delivery</span>
+                        </div>
                       </div>
-                    </div>
+                    </label>
                   </div>
                 </div>
               )}
@@ -1671,7 +1681,9 @@ export default function CheckoutPage() {
                   </>
                 ) : (
                   <>
-                    <span>Place Your Order</span>
+                    <span>
+                      {paymentMethod === 'cod' ? 'Place Cash on Delivery Order' : 'Pay Online via UPI / Cards'}
+                    </span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
@@ -1723,7 +1735,7 @@ export default function CheckoutPage() {
                 </>
               ) : (
                 <>
-                  <span>Place Order</span>
+                  <span>{paymentMethod === 'cod' ? 'Confirm COD Order' : 'Pay Online'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}

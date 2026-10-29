@@ -23,6 +23,7 @@ import {
   Search,
   Loader2,
   Image as ImageIcon,
+  PhoneCall,
 } from 'lucide-react';
 
 const ADMIN_NAV_ITEMS = [
@@ -31,6 +32,7 @@ const ADMIN_NAV_ITEMS = [
   { href: '/admin/categories', label: 'Categories & Brands', icon: Layers },
   { href: '/admin/inventory', label: 'Inventory & Stock', icon: Boxes },
   { href: '/admin/orders', label: 'Orders & Fulfillment', icon: ShoppingCart },
+  { href: '/admin/leads', label: 'COD Leads & Inquiries', icon: PhoneCall },
   { href: '/admin/customers', label: 'Customers & CRM', icon: Users },
   { href: '/admin/coupons', label: 'Coupons & Promos', icon: TicketPercent },
   { href: '/admin/banners', label: 'Banners & Marketing', icon: ImageIcon },
@@ -65,16 +67,17 @@ export default function AdminLayout({ children }) {
 
   // Filter navigation items by role
   const filteredNavItems = ADMIN_NAV_ITEMS.filter((item) => {
-    // 1. Order Manager: Fulfillment Hub, Orders, and Customers
+    // 1. Order Manager: Fulfillment Hub, Orders, Leads, and Customers
     if (isOrderManager) {
       return (
         item.href === '/admin' ||
         item.href === '/admin/orders' ||
+        item.href === '/admin/leads' ||
         item.href === '/admin/customers'
       );
     }
 
-    // 2. Manager: Executive Dashboard, Products & Catalog, Categories & Brands, Inventory & Stock, Orders & Fulfillment, Customers & CRM, Coupons & Promos, Banners & Marketing
+    // 2. Manager: Executive Dashboard, Products & Catalog, Categories & Brands, Inventory & Stock, Orders & Fulfillment, Leads, Customers & CRM, Coupons & Promos, Banners & Marketing
     if (isManager) {
       return (
         item.href === '/admin' ||
@@ -82,6 +85,7 @@ export default function AdminLayout({ children }) {
         item.href === '/admin/categories' ||
         item.href === '/admin/inventory' ||
         item.href === '/admin/orders' ||
+        item.href === '/admin/leads' ||
         item.href === '/admin/customers' ||
         item.href === '/admin/coupons' ||
         item.href === '/admin/banners'

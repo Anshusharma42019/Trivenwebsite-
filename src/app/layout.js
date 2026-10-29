@@ -4,6 +4,8 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
+import FloatingQuickOrderButton from '@/components/store/FloatingQuickOrderButton';
+import ExitIntentModal from '@/components/store/ExitIntentModal';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,12 +30,14 @@ const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || '92114067762916
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] font-sans antialiased selection:bg-[#C5A059]/25 selection:text-[#0F1D36] pb-20 md:pb-0">
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
+      <body suppressHydrationWarning className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2C2523] font-sans antialiased selection:bg-[#C5A059]/25 selection:text-[#0F1D36] pb-20 md:pb-0">
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>
               {children}
+              <FloatingQuickOrderButton />
+              <ExitIntentModal />
             </WishlistProvider>
           </CartProvider>
         </AuthProvider>

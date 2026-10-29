@@ -6,6 +6,7 @@ import AmazonMultiCardGrid from '@/components/store/AmazonMultiCardGrid';
 import AmazonDealsRow from '@/components/store/AmazonDealsRow';
 import AmazonCategoryPills from '@/components/store/AmazonCategoryPills';
 import AmazonPrimeBanner from '@/components/store/AmazonPrimeBanner';
+import HomeQuickCODSection from '@/components/store/HomeQuickCODSection';
 import AmazonBestSellersGrid from '@/components/store/AmazonBestSellersGrid';
 import AmazonFourColumnGrid2 from '@/components/store/AmazonFourColumnGrid2';
 import AmazonTrustStrip from '@/components/store/AmazonTrustStrip';
@@ -71,6 +72,9 @@ export default async function HomePage() {
 
         {/* 5. Amazon-Style Circular 'Shop by Ayurvedic Health Need' Category Showcase */}
         <AmazonCategoryPills categories={categories} />
+
+        {/* 5.5 High-Converting COD Quick Order & Bimari Consultation Form Section */}
+        <HomeQuickCODSection />
 
         {/* 6. Amazon-Style Vedic Prime & Festival Promotional Strip */}
         <AmazonPrimeBanner />
